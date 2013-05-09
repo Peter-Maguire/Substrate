@@ -12,8 +12,7 @@ public class TileGrass extends Tile{
 	 */
 	private static final long serialVersionUID = 679389482939848986L;
 
-	public TileGrass(ScreenGame screenGame) {
-		super(screenGame);
+	public TileGrass() {
 		sprite = 7;
 	}
 

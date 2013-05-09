@@ -50,7 +50,7 @@ public class ScreenGame extends Screen {
 
 				tiles.put(
 						new Rectangle(x, y, 16 * Game.SCALE, 16 * Game.SCALE),
-						new TileGrass(this));
+						new TileGrass()); //TODO:FIX
 				
 				int rnd = rand.nextInt(10);
 				if(rnd == 5)
@@ -207,8 +207,7 @@ public class ScreenGame extends Screen {
 	public void mouseReleased(MouseEvent e) {
 		tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
 				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
-				.getButton() == MouseEvent.BUTTON1 ? new TileWall(this,
-				TileWall.WALL_VERTICAL) : new TileGrass(this));
+				.getButton() == MouseEvent.BUTTON1 ? new TileWall(TileWall.WALL_VERTICAL) : new TileGrass()); //TODO: FIX
 	}
 
 	@Override

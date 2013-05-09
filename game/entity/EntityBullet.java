@@ -49,7 +49,7 @@ public class EntityBullet extends Entity{
 		{
 			if(t instanceof TileWall)
 			{
-				game.setTileAt(x, y, new TileRubble(game));
+				game.setTileAt(x, y, new TileRubble());
 			}
 			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
 			this.forRemoval = true;

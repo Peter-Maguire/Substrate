@@ -5,7 +5,6 @@ import java.awt.event.KeyEvent;
 import game.Controls;
 import game.screen.Screen;
 import game.screen.ScreenGame;
-import game.screen.ScreenMultiplayer;
 
 public class Player extends Entity {
 

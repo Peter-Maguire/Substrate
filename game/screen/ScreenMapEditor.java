@@ -8,7 +8,6 @@ import game.SpriteSheet;
 import game.entity.Entity;
 import game.entity.EntityAmmo;
 import game.entity.EntityBullet;
-import game.entity.EntityTank;
 import game.entity.Player;
 import game.tile.Tile;
 import game.tile.TileGrass;
@@ -51,44 +50,14 @@ public class ScreenMapEditor extends Screen {
 	public void init() {
 		Game.log("Initializing...");
 		tileList.put("Remover", null);
-		tileList.put("Wire", new TileWire(null, 0, 0, 0));
-		tileList.put("Grass", new TileGrass(null));
-		tileList.put("Paving", new TilePaving(null));
-		tileList.put("Rubble", new TileRubble(null));
-		tileList.put("Water", new TileWater(null));
-		tileList.put("Horizontal Wall", new TileWall(null,
-				TileWall.WALL_HORIZONTAL));
-		tileList.put("Vertical Wall",
-				new TileWall(null, TileWall.WALL_VERTICAL));
-		tileList.put("Horizontal Left", new TileWall(null,
-				TileWall.WALL_HORIZONTAL_LEFT));
-		tileList.put("Horizontal Right", new TileWall(null,
-				TileWall.WALL_HORIZONTAL_RIGHT));
-		tileList.put("Vertical Bottom", new TileWall(null,
-				TileWall.WALL_VERTICAL_BOTTOM));
-		tileList.put("Vertical Top", new TileWall(null,
-				TileWall.WALL_VERTICAL_TOP));
-		tileList.put("Bottom Corner Left", new TileWall(null,
-				TileWall.BOTTOM_CORNER_LEFT));
-		tileList.put("Bottom Corner Right", new TileWall(null,
-				TileWall.BOTTOM_CORNER_RIGHT));
-		tileList.put("Damaged Vertical Top", new TileWall(null,
-				TileWall.WALL_VERTICAL_DAMAGED_TOP));
-		tileList.put("Top Corner Left", new TileWall(null,
-				TileWall.TOP_CORNER_LEFT));
-		tileList.put("Top Corner Right", new TileWall(null,
-				TileWall.TOP_CORNER_RIGHT));
-		tileList.put("Bottom Corner Left", new TileWall(null,
-				TileWall.BOTTOM_CORNER_LEFT));
-		tileList.put("Bottom Corner Right", new TileWall(null,
-				TileWall.BOTTOM_CORNER_RIGHT));
+
 
 		entityList.put("Ammo Box", new EntityAmmo(null, 0, 0));
 		entityList.put("Player", new Player(null));
 		entityList.put("Bullet t1", new EntityBullet(null, 2, 1, 0, 0));
 		entityList.put("Bullet t2", new EntityBullet(null, 3, 2, 0, 0));
 		entityList.put("Bullet t3", new EntityBullet(null, 4, 3, 0, 0));
-		entityList.put("Tank", new EntityTank(null));
+		
 
 		int tileCnt = 0, y = 0, x = 0;
 

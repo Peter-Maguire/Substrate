@@ -29,8 +29,7 @@ public class TileWall extends Tile{
 	int x, y;
 	
 	
-	public TileWall(ScreenGame game, int typ) {
-		super(game);
+	public TileWall(int typ) {
 		this.x = x;
 		this.y = y;
 		sprite = typ;

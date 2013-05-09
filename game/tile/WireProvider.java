@@ -9,8 +9,7 @@ public class WireProvider extends Tile{
 	
 	public boolean powered = false;
 	public int blockMask = 0, x, y;
-	public WireProvider(ScreenGame game, int blockmask, int x, int y) {
-		super(game);
+	public WireProvider(int blockmask, int x, int y) {
 		this.blockMask = blockMask;
 		this.x = x;
 		this.y = y;

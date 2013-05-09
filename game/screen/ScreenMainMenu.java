@@ -105,7 +105,7 @@ public class ScreenMainMenu extends Screen {
 			case 2:
 				{
 					try{
-					game.setScreen(new ScreenMultiplayer(w, h, sheet, g,"80.193.196.105", 25565));
+					//game.setScreen(new ScreenMultiplayer(w, h, sheet, g,"80.193.196.105", 25565));
 					}catch(Exception e)
 					{
 						game.setScreen(new ScreenConnectionFailiure(w, h, sheet));
