@@ -17,7 +17,7 @@ public class WireProvider extends Tile{
 	
 	public void emitSignal(int direction)
 	{
-		Tile t = null;
+	/*	Tile t = null;
 		switch(direction)
 		{
 		case Player.EAST:
@@ -33,7 +33,7 @@ public class WireProvider extends Tile{
 			  t = game.getTileAt(x-Game.SIZE, y);
 			  break;
 		}
-		System.out.println(t+" tile");
+		System.out.println(t+" tile");*/
 	
 	}
 	

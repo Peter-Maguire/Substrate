@@ -50,7 +50,11 @@ public class ScreenMapEditor extends Screen {
 	public void init() {
 		Game.log("Initializing...");
 		tileList.put("Remover", null);
-
+		for(int i = 0; i < Tile.tiles.length; i++)
+		{
+			tileList.put("", Tile.tiles[i]);
+		}
+		System.out.println(tileList);
 
 		entityList.put("Ammo Box", new EntityAmmo(null, 0, 0));
 		entityList.put("Player", new Player(null));
@@ -148,6 +152,7 @@ public class ScreenMapEditor extends Screen {
 
 	public void drawTileUI(Graphics g) {
 		game.getFontRenderer().drawString("Tiles", w - 164, 72, 2);
+		Game.log("Tiles: "+tileList.size());
 
 		int tileCnt = 0, y = 0, x = 0;
 

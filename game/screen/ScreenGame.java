@@ -27,7 +27,7 @@ public class ScreenGame extends Screen {
 	private static final int SEQ_END = 9000;
 	public Player player = new Player(this);
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	private HashMap<Rectangle, Integer> tiles = new HashMap<Rectangle, Integer>();
 
 	int velx = 0, vely = 0, w, h;
 	public int xScroll = 0;
@@ -50,7 +50,7 @@ public class ScreenGame extends Screen {
 
 				tiles.put(
 						new Rectangle(x, y, 16 * Game.SCALE, 16 * Game.SCALE),
-						new TileGrass()); //TODO:FIX
+						1); //TODO:FIX
 				
 				int rnd = rand.nextInt(10);
 				if(rnd == 5)
@@ -86,10 +86,10 @@ public class ScreenGame extends Screen {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
 				16 * game.SCALE);
-		return tiles.get(rec);
+		return Tile.tiles[tiles.get(rec)];
 	}
 	
-	public void setTileAt(int x, int y, Tile tile)
+	public void setTileAt(int x, int y, int tile)
 	{
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
@@ -115,7 +115,7 @@ public class ScreenGame extends Screen {
 		
 		for (int i = 0; i < tiles.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
-			Tile tile = tiles.get(rec);
+			Tile tile = Tile.tiles[tiles.get(rec)];	
 			tile.tick();
 			// g.drawRect(rec.x, rec.y, rec.width, rec.height);
 			g.drawImage(game.sheet.getImage(tile.sprite), rec.x - xScroll,
@@ -207,7 +207,7 @@ public class ScreenGame extends Screen {
 	public void mouseReleased(MouseEvent e) {
 		tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
 				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
-				.getButton() == MouseEvent.BUTTON1 ? new TileWall(TileWall.WALL_VERTICAL) : new TileGrass()); //TODO: FIX
+				.getButton() == MouseEvent.BUTTON1 ? 11 : 1); //TODO: FIX
 	}
 
 	@Override

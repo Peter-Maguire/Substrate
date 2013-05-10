@@ -1,11 +1,13 @@
 package game;
 
 import game.console.ConsoleWindow;
+import game.console.ThreadConsole;
 import game.screen.Dialogue;
 import game.screen.Screen;
 import game.screen.ScreenLoading;
 import game.screen.ScreenMainMenu;
 import game.sound.SoundManager;
+import game.tile.Tile;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
@@ -29,7 +31,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Untitled";
+	public static String TITLE = "Substrate";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE *  32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -43,6 +45,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	private Screen currentScreen;
 	private Dialogue currentDialogue;
 	private static ConsoleWindow console = null;
+	private Tile tileinit;
 
 	public Controls controls = new Controls();
 	private int tps = 0, fps = 0;
@@ -57,6 +60,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		addKeyListener(this);
 		addFocusListener(this);
 		addMouseListener(this);
+		
 
 	}
 
@@ -85,7 +89,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		try {
 			gameLoop();
 		} catch (Exception e) {
-			console.log(e.getStackTrace().toString());
+			e.printStackTrace();
+			console.log(e.getMessage());
 			String[] crashDump = {currentScreen.toString(), Integer.toString(fps), Integer.toString(tps), e.getMessage()};
 			setScreen(new ScreenLoading(WIDTH, HEIGHT, null, crashDump));
 			render();
@@ -105,10 +110,16 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	@SuppressWarnings("unchecked")
 	public void init() {
-
+		ThreadConsole tc = new ThreadConsole();
+		Thread consoleThread = new Thread(tc);
+		consoleThread.run();
+		console = tc.console;
+		log("Loading...");
+		
 		File f = new File("settings.dat");
 		if(!f.exists())
 		{  
+			log("Settings file does not exist!");
 			SETTINGS.put("Sound", "OFF");
 			SETTINGS.put("Debug", "ON");
 			SETTINGS.put("Music", "OFF");
@@ -118,17 +129,17 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			FileSaver.save(SETTINGS, "settings.dat");
 		}else
 		{
+			log("Found settings.dat, loading...");
 			SETTINGS = (HashMap<String, String>) FileSaver.load("settings.dat");
 		}
 		settings = new Options(SETTINGS);
-		console = new ConsoleWindow();
+
+
+		tileinit = new Tile();
 		
-		if(settings.getSetting("Debug") == "ON")
-		{
-			
-		}
+
 		
-		log("Loading...");
+		
 		try {
 			sheet = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/icons.png")));
@@ -138,7 +149,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		} catch (Exception e) {
 			log("Sheet loading failed!");
-			e.printStackTrace();
+			throw new RuntimeException("Sheet loading failed!");
 		}
 
 		

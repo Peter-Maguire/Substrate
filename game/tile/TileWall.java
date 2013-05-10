@@ -40,13 +40,7 @@ public class TileWall extends Tile{
 	@Override
 	public void tick()
 	{
-		if(game.getTileAt(x, y-16*Game.SCALE) == this)
-		{
-			sprite = WALL_VERTICAL;
-		}else
-		{
-			sprite = 16;
-		}
+		
 	}
 
 }

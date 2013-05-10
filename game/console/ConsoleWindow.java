@@ -6,7 +6,7 @@ import game.console.command.Command;
 import java.awt.BorderLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,16 +21,16 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 	private JTextField cmdbar;
 	private JButton cmdSubmit;
 	
-	private ArrayList<Command>commandRegistry = new ArrayList<Command>();
+	private HashMap<String, Command>commandRegistry = new HashMap<String, Command>();
 	
 	
 	public ConsoleWindow()
 	{
-		this.addKeyListener(this);
 		this.setTitle(Game.TITLE+" console.");
 		this.setVisible(true);
 		this.setResizable(true);
-		this.setSize(Game.WIDTH, Game.HEIGHT);
+		this.setFocusable(true);
+		this.addKeyListener(this);
 
 		
 		console = new JTextArea();
@@ -59,21 +59,31 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 	
 	public void command(String[] cmd)
 	{
-		
+		if(commandRegistry.get(cmd[0]) == null)
+		{
+			log("Unknown Command '"+cmd[0]+"'!");
+		}else
+		{
+			Command command = commandRegistry.get(cmd[0]);
+			command.executeCommand(cmd);
+		}
 	}
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		if(arg0.getKeyCode() == KeyEvent.VK_ENTER && cmdbar.getText() != null)
-		{
-			command(cmdbar.getText().split(" "));
-		}
+	
 		
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
+		System.out.println("Key released");
+		if(arg0.getKeyCode() == KeyEvent.VK_ENTER && cmdbar.getText() != null)
+		{
+			command(cmdbar.getText().split(" "));
+			cmdbar.setText("");
+			
+		}
 		
 	}
 
@@ -82,5 +92,8 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		// TODO Auto-generated method stub
 		
 	}
+
+
+
 	
 }
