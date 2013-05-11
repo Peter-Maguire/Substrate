@@ -17,11 +17,17 @@ public class FileSaver {
 	
 		try{
 			Game.log("Saving file "+path);
-			new File(path).mkdir();
+			
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(file);
-		}catch(Exception e)
+		}
+		catch(FileNotFoundException e)
+		{
+			new File(path).mkdir();
+			save(file, path);
+		}
+		catch(Exception e)
 		{
 			e.printStackTrace();
 		}

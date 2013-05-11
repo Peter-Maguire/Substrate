@@ -240,7 +240,7 @@ public class ScreenMapEditor extends Screen {
 				if (tiles.get(rec) == null) {
 					tiles.put(rec, Tile.tiles[16]);
 				} else {
-					g.drawImage(sheet.getImage(tiles.get(rec).sprite), x, y,
+					g.drawImage(sheet.getImage(tiles.get(rec).sprite == 23 ? 78 : tiles.get(rec).sprite), x, y,
 							32, 32, game);
 				}
 

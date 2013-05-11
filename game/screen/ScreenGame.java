@@ -2,6 +2,7 @@ package game.screen;
 
 import game.Controls;
 import game.Game;
+import game.Map;
 import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
@@ -27,7 +28,7 @@ public class ScreenGame extends Screen {
 	private static final int SEQ_END = 9000;
 	public Player player = new Player(this);
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private HashMap<Rectangle, Integer> tiles = new HashMap<Rectangle, Integer>();
+	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 
 	int velx = 0, vely = 0, w, h;
 	public int xScroll = 0;
@@ -36,31 +37,22 @@ public class ScreenGame extends Screen {
 
 
 
-	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g, String mapfile) {
+	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g, Map mapfile) {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
 		
 		Random rand = new Random();
 		
+		
+		entities = mapfile.entities;
+		tiles = mapfile.tiles;
+		if(!mapfile.entities.contains(player))
 		entities.add(player);
+		
 
-		for (int x = 0; x < w ; x += 16 * Game.SCALE) {
-			for (int y = 0; y < h ; y += 16 * Game.SCALE) {
-
-				tiles.put(
-						new Rectangle(x, y, 16 * Game.SCALE, 16 * Game.SCALE),
-						1); //TODO:FIX
-				
-				int rnd = rand.nextInt(10);
-				if(rnd == 5)
-				{
-					spawnEntity(new EntityAmmo(this, x, y));
-				}
-				
-
-			}
-		}
+		
+		
 
 	}
 	
@@ -86,7 +78,7 @@ public class ScreenGame extends Screen {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
 				16 * game.SCALE);
-		return Tile.tiles[tiles.get(rec)];
+		return tiles.get(rec);
 	}
 	
 	public void setTileAt(int x, int y, int tile)
@@ -94,7 +86,8 @@ public class ScreenGame extends Screen {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
 				16 * game.SCALE);
-		tiles.put(rec, tile);
+		
+		tiles.put(rec, Tile.tiles[tile]);
 	}
 	public Entity getEntityInBox(Rectangle rec)
 	{
@@ -115,7 +108,7 @@ public class ScreenGame extends Screen {
 		
 		for (int i = 0; i < tiles.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
-			Tile tile = Tile.tiles[tiles.get(rec)];	
+			Tile tile = tiles.get(rec);	
 			tile.tick();
 			// g.drawRect(rec.x, rec.y, rec.width, rec.height);
 			g.drawImage(game.sheet.getImage(tile.sprite), rec.x - xScroll,
@@ -142,7 +135,7 @@ public class ScreenGame extends Screen {
 
 		}
 		
-		g.setColor(new Color(0, 0, 0, 142));
+		g.setColor(new Color(155, 155, 155, 142));
 		g.fillRect(0, h-74, w, h);
 		
 		if(player.getHealth() > 0)
@@ -207,7 +200,7 @@ public class ScreenGame extends Screen {
 	public void mouseReleased(MouseEvent e) {
 		tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
 				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
-				.getButton() == MouseEvent.BUTTON1 ? 11 : 1); //TODO: FIX
+				.getButton() == MouseEvent.BUTTON1 ? Tile.tiles[11] : Tile.tiles[1]); //TODO: FIX
 	}
 
 	@Override
