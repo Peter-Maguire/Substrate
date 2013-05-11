@@ -14,3 +14,5 @@ Tile ID list:
 12  - WALL_VERTICAL_BOTTOM 
 13  - WALL_VERTICAL_DAMAGED_TOP 
 14  - WALL_VERTICAL_TOP 
+15 - Water
+16 - No Tile (Stops null tiles causing problems)

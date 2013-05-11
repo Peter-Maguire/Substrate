@@ -103,17 +103,33 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		gameRunning = false;
 		System.exit(ABORT);
 	}
+	public void shutdown()
+	{
+		log("Saving files...");
+		FileSaver.save(SETTINGS, "settings.dat");
+		FileSaver.save(controls.keyMap, "keymap.dat");
+		this.strategy.dispose();
+		g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		log("Copyright UnacceptableUse 2013");
+		log("Shutting down game, peace.");
+		try {
+			Thread.sleep(1000L);
+		} catch (InterruptedException e){}
+		System.exit(0);
+		
+	}
 
 	public Font getFontRenderer() {
 		return font;
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	public void init() {
-		ThreadConsole tc = new ThreadConsole();
+		/*ThreadConsole tc = new ThreadConsole();
 		Thread consoleThread = new Thread(tc);
 		consoleThread.run();
-		console = tc.console;
+		console = tc.console;*/
 		log("Loading...");
 		
 		File f = new File("settings.dat");
@@ -178,6 +194,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		if(console != null)
 		{
 			console.log(s);
+		}else
+		{
+			System.out.println(s);
 		}
 	}
 
@@ -218,6 +237,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			}
 
 		}
+		System.err.println("Game stopped :(");
+		shutdown();
 	}
 
 	public void tick() {

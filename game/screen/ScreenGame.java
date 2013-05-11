@@ -36,7 +36,7 @@ public class ScreenGame extends Screen {
 
 
 
-	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g) {
+	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g, String mapfile) {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;

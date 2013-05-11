@@ -1,9 +1,9 @@
 package game;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -14,15 +14,18 @@ public class FileSaver {
 	{
 		FileOutputStream fos;
 		ObjectOutputStream oos;
-		try {
+	
+		try{
 			Game.log("Saving file "+path);
+			new File(path).mkdir();
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(file);
-
-		} catch (Exception e) {
+		}catch(Exception e)
+		{
 			e.printStackTrace();
 		}
+	
 		Game.log("Done!");
 		
 	}
@@ -40,6 +43,12 @@ public class FileSaver {
 			return null;
 		}
 	
+	}
+	public static String getCleanPath() {
+	    ClassLoader classLoader = FileSaver.class.getClassLoader();
+	    File classpathRoot = new File(classLoader.getResource("").getPath());
+
+	    return classpathRoot.getPath();
 	}
 		
 

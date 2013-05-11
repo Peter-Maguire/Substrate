@@ -29,7 +29,9 @@ public class Tile implements Serializable{
 		    new TileWall(TileWall.WALL_VERTICAL),
 		    new TileWall(TileWall.WALL_VERTICAL_BOTTOM),
 		    new TileWall(TileWall.WALL_VERTICAL_DAMAGED_TOP),
-		 new TileWall(TileWall.WALL_VERTICAL_TOP)
+		 new TileWall(TileWall.WALL_VERTICAL_TOP),
+		   new TileWater(),
+		   new TileNoTile(),
 
 			};
 

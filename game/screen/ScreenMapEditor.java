@@ -10,18 +10,13 @@ import game.entity.EntityAmmo;
 import game.entity.EntityBullet;
 import game.entity.Player;
 import game.tile.Tile;
-import game.tile.TileGrass;
-import game.tile.TilePaving;
-import game.tile.TileRubble;
-import game.tile.TileWall;
-import game.tile.TileWater;
-import game.tile.TileWire;
 import game.tile.WireProvider;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +35,8 @@ public class ScreenMapEditor extends Screen {
 	private String name = "Test map 1", desc = "Test map desc", version = "v9001";
 
 	private Tile currentTile = null;
+	private boolean isSaving = false;
+	private String saveNameString = "";
 
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
@@ -49,12 +46,13 @@ public class ScreenMapEditor extends Screen {
 
 	public void init() {
 		Game.log("Initializing...");
-		tileList.put("Remover", null);
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
-			tileList.put("", Tile.tiles[i]);
+			if(i != 16)
+			{
+				tileList.put("Tile"+i, Tile.tiles[i]);
+			}
 		}
-		System.out.println(tileList);
 
 		entityList.put("Ammo Box", new EntityAmmo(null, 0, 0));
 		entityList.put("Player", new Player(null));
@@ -88,6 +86,13 @@ public class ScreenMapEditor extends Screen {
 		
 		Game.log("Done!");
 	}
+	
+	private void saveMap(String mapname, String mapdesc, String version, HashMap<Rectangle, Tile>tiles, ArrayList<Entity>entities)
+	{
+		Map map = new Map(mapname, mapdesc, version, tiles, entities);
+		FileSaver.save(map, FileSaver.getCleanPath()+"\\maps\\"+mapname+".smf");
+		
+	}
 
 	public void render(Graphics g) {
 		drawMap(g);
@@ -106,32 +111,42 @@ public class ScreenMapEditor extends Screen {
 				String action = buttons.get(rec);
 				postAction(action);
 				break;
+			}else
+			{
+				if (e.getButton() == 1) {
+					tiles.put(
+							new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
+									MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32),
+							currentTile instanceof WireProvider ? currentTile : currentTile);
+				}
 			}
 		}
 
-		if (e.getButton() == 1) {
-			tiles.put(
-					new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
-							MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32),
-					currentTile instanceof WireProvider ? currentTile : currentTile);
-		}
+		
 
 	}
 
 	public void postAction(String action) {
 		if(action == "SAVE")
 		{
-			Game.log("Creating map object...");
-			Map map = new Map(name, desc, version, tiles, entities);
-			Game.log("Saving...");
-			FileSaver.save(map, name+".smf");
-			Game.log("Done!");
+			isSaving = true;
 		}else
 		{
 			currentTile = tileList.get(action);
 		}
 		
 		
+	}
+	
+	private void drawSaveNameMenu(Graphics g)
+	{
+		int startX = (Game.WIDTH/2)-300, startY = (Game.HEIGHT/2)-100;
+		g.setColor(new Color(0,0,0,155));
+		g.fillRect(startX, startY, 500, 150);
+		game.getFontRenderer().drawString("Save level", startX, startY+2, 1);
+		game.getFontRenderer().drawString("Name: "+saveNameString, startX+20, startY+28, 2);
+		g.setColor(Color.orange);
+		g.drawRect(startX+105, startY+23, 300, 32);
 	}
 
 	public void drawUI(Graphics g) {
@@ -152,7 +167,6 @@ public class ScreenMapEditor extends Screen {
 
 	public void drawTileUI(Graphics g) {
 		game.getFontRenderer().drawString("Tiles", w - 164, 72, 2);
-		Game.log("Tiles: "+tileList.size());
 
 		int tileCnt = 0, y = 0, x = 0;
 
@@ -213,6 +227,8 @@ public class ScreenMapEditor extends Screen {
 		g.drawImage(sheet.getImage(117), 607 + Game.SIZE * 2 / 2, 112
 				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32,
 				game);
+		if(isSaving)
+		drawSaveNameMenu(g);
 	}
 
 	public void drawMap(Graphics g) {
@@ -222,7 +238,7 @@ public class ScreenMapEditor extends Screen {
 				Rectangle rec = new Rectangle(x, y, 16 * Game.SCALE,
 						16 * Game.SCALE);
 				if (tiles.get(rec) == null) {
-					g.drawImage(sheet.getImage(78), x, y, 32, 32, game);
+					tiles.put(rec, Tile.tiles[16]);
 				} else {
 					g.drawImage(sheet.getImage(tiles.get(rec).sprite), x, y,
 							32, 32, game);
@@ -230,6 +246,34 @@ public class ScreenMapEditor extends Screen {
 
 			}
 		}
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent arg0)
+	{
+		
+		if(isSaving)
+		{
+			if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
+			{
+				Game.log("Saving map...");
+				saveMap(saveNameString, "No map description", "1", tiles, entities);
+				saveNameString="";
+				isSaving = false;
+			}else
+			{
+				if(KeyEvent.getKeyText(arg0.getKeyCode()) == "Backspace")
+				{
+					saveNameString=saveNameString.substring(0, saveNameString.length() - 1);
+				}else	
+				{
+					String key = String.valueOf(arg0.getKeyChar());			
+					saveNameString=saveNameString+key;	
+				}
+			}
+
+		}
+	
 	}
 
 }

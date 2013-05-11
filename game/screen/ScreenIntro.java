@@ -21,12 +21,10 @@ public class ScreenIntro extends Screen{
 	{
 		if(game.settings.getSetting("HasDoneIntro") == "ON")
 		{
-			game.setScreen(new ScreenGame(w, h, sheet, g));
+			game.setScreen(new ScreenLoadMap(w, h, sheet));
 		}else
 		{
-			
-		
-			
+	
 		this.g = g;
 		if(page == 1){
 		game.getFontRenderer().drawString("Welcome to "+Game.TITLE+"!", 10, 30, 2);
@@ -70,7 +68,7 @@ public class ScreenIntro extends Screen{
 		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_FIRE)) {
 			if(page == ttl){
 				game.settings.setSetting("HasDoneIntro", "ON");
-				game.setScreen(new ScreenGame(w, h, sheet, g));
+				game.setScreen(new ScreenLoadMap(w, h, sheet));
 				
 			}else
 			{
