@@ -72,6 +72,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		container.add(game, BorderLayout.CENTER);
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		container.pack();
+		container.setIgnoreRepaint(false);
 		container.setResizable(true);
 		container.setVisible(true);
 		game.start();
@@ -224,6 +225,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			{
 				frames++;
 				render();
+				//repaint();
+				revalidate();
 			}
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000) {
@@ -288,6 +291,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public void mouseClicked(MouseEvent e) {
 	
 	}
+	
+
 
 	@Override
 	public void mouseEntered(MouseEvent e) {

@@ -1,20 +1,22 @@
 package game.screen;
 
-import game.Controls;
 import game.SpriteSheet;
-import game.sound.SoundManager;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class ScreenMainMenu extends Screen {
 
-	int selectedMenu = 1;
+
 	private Graphics g;
 	
 	public ScreenMainMenu(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
-
+		addButton("Singleplayer", new Rectangle(290, 116, 232, 25));
+		addButton("Map editor", new Rectangle(290, 148, 232, 25));
+		addButton("Options", new Rectangle(290, 180, 232, 25));
+		addButton("Exit", new Rectangle(290, 212, 232, 25));
 	}
 
 	@Override
@@ -22,44 +24,13 @@ public class ScreenMainMenu extends Screen {
 
 		this.drawBackgroundScreen();
 	this.g = g;
-		game.getFontRenderer().drawCenteredString(game.TITLE + "    ", 36, 3);
-		game.getFontRenderer().drawCenteredString("Main Menu", 70, 2);
+		game.getFontRenderer().drawCenteredString(game.TITLE + "        ", 36, 3);
 
-		if (selectedMenu == 1) {
-			game.getFontRenderer().drawCenteredString(">Singleplayer<", 8 * 15, 2);
-		} else {
-			game.getFontRenderer().drawCenteredString("Singleplayer", 8 * 15, 2);
-		}
-
-		if (selectedMenu == 2) {
-			game.getFontRenderer().drawCenteredString(">:(<",
-					(8 * 10) * 2, 2);
-		} else {
-			game.getFontRenderer().drawCenteredString("", (8 * 10) * 2,
-					2);
-		}
-		if (selectedMenu == 3) {
-			game.getFontRenderer().drawCenteredString(">Map Editor<",
-					(8 * 12) * 2, 2);
-		} else {
-			game.getFontRenderer().drawCenteredString("Map Editor", (8 * 12) * 2,
-					2);
-		}
-		if (selectedMenu == 4) {
-			game.getFontRenderer().drawCenteredString(">Options<",
-					(8 * 14) * 2, 2);
-		} else {
-			game.getFontRenderer().drawCenteredString("Options", (8 * 14) * 2,
-					2);
-		}
-		if (selectedMenu == 5) {
-			game.getFontRenderer().drawCenteredString(">Quit<",
-					(8 * 16) * 2, 2);
-		} else {
-			game.getFontRenderer().drawCenteredString("Quit", (8 * 16) * 2,
-					2);
-		}
-
+		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game);
+		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game);
+		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game);
+		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game);
+		
 
 	}
 
@@ -69,73 +40,32 @@ public class ScreenMainMenu extends Screen {
 
 
 		
-		if (selectedMenu <= 0) {
-			selectedMenu = 5;
-		}
-		if (selectedMenu >= 6) {
-			selectedMenu = 1;
+	
+	}
+	
+	@Override
+	public void postAction(String action)
+	{
+		switch(action)
+		{
+		case "Singleplayer":
+			game.setScreen(new ScreenIntro(w, h, sheet));
+			break;
+		case "Map editor":
+			game.setScreen(new ScreenMapEditor(w,h,sheet));
+			break;
+		case "Options":
+			game.setScreen(new ScreenOptions(w,h,sheet));
+			break;
+		case "Exit":
+			game.shutdown();
+			break;
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		boolean keyUp = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP);
-		boolean keyDown = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN);
-		boolean keyEnter = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_ENTER);
-
-
-		if (keyUp) {
-			selectedMenu--;
-			game.soundman.playSound("select.wav");
-		}
-		if (keyDown) {
-			selectedMenu++;
-			game.soundman.playSound("select.wav");
-		}
-
-
-		if (keyEnter) {
-			switch (selectedMenu) {
-			case 1:
-				{
-					game.setScreen(new ScreenIntro(w, h, sheet));
-					return;
-				}
-				
-			case 2:
-				{
-					try{
-					//game.setScreen(new ScreenMultiplayer(w, h, sheet, g,"80.193.196.105", 25565));
-					}catch(Exception e)
-					{
-						game.setScreen(new ScreenConnectionFailiure(w, h, sheet));
-					}
-						return;		
-				}
-			
-				
-			case 3: 
-				{
-					game.setScreen(new ScreenMapEditor(w, h, sheet));	
-					break;
-					
-				}
-				
-			case 4:
-			{
-				game.setScreen(new ScreenOptions(w, h, sheet));
-				return;
-			}
-			
-			case 5:
-			{
-				game.gameRunning = false;
-				return;
-			}
-
-
-			}
-		}
+	
 	}
 
 }
