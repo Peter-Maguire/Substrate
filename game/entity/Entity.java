@@ -30,11 +30,11 @@ public class Entity {
 		this.x = x;
 		this.y = y;
 	}
-	
-	public void render(Graphics g)
-	{
 
-		g.drawImage(game.game.sheet.getImage(sprite), x, y, 16 * Game.SCALE, 16 * Game.SCALE, game.game);
+	public void render(Graphics g) {
+
+		g.drawImage(game.game.sheet.getImage(sprite), x, y, 16 * Game.SCALE,
+				16 * Game.SCALE, game.game);
 	}
 
 	/**
@@ -47,27 +47,81 @@ public class Entity {
 	 * @return If the movement is successful
 	 */
 	public boolean tryMoveEntity(int x, int y) {
-		
-		if(x == 0 && y == 0)return false;
-		if((this.x+x)-Game.SCALE == Game.WIDTH || (this.y+y)-Game.SCALE == Game.HEIGHT)return false;
-		
-		Tile tile; 
-		tile = game.getTileAt(this.x+x-15, this.y+y-15);
-		
-		
-		if(tile == null)return false;
-		
-		if(tile.isPassable()) {
 
-			setPos(x + this.x, y + this.y);
-			return true;
-		}else
-		{
-			
+		if (x == 0 && y == 0)
 			return false;
+		if ((this.x + x) - Game.SCALE == Game.WIDTH
+				|| (this.y + y) - Game.SCALE == Game.HEIGHT)
+			return false;
+
+		Tile tile;
+		if (x == -1) { // If entity is moving backwards
+			tile = game.getTileAt(this.x + x - 15, this.y);
+
+			if (tile == null)
+				return false;
+
+			if (tile.isPassable()) {
+
+				setPos(x + this.x, y + this.y);
+				return true;
+			} else {
+
+				return false;
+			}
 		}
 
-		
+		if (x == 1) // If entity is moving forwards
+		{
+			tile = game.getTileAt(this.x + x + 15, this.y);
+
+			if (tile == null)
+				return false;
+
+			if (tile.isPassable()) {
+
+				setPos(x + this.x, y + this.y);
+				return true;
+			} else {
+
+				return false;
+			}
+		}
+		if (y == -1) { // If entity is moving up
+			tile = game.getTileAt(this.x + x, this.y - 15);
+
+			if (tile == null)
+				return false;
+
+			if (tile.isPassable()) {
+
+				setPos(x + this.x, y + this.y);
+				return true;
+			} else {
+
+				return false;
+			}
+		}
+
+		if (y == 1) // If entity is moving down
+		{
+			tile = game.getTileAt(this.x + x, this.y + 15);
+
+			if (tile == null)
+				return false;
+
+			if (tile.isPassable()) {
+
+				setPos(x + this.x, y + this.y);
+				return true;
+			} else {
+
+				return false;
+			}
+		}
+
+		return true;
+
 	}
 
 }

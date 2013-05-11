@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ScreenLoadMap extends Screen{
-
-	
 	private String mapName = "-", mapDesc = "-", mapVersion = "-";
 	private ArrayList<Map> maps = new ArrayList<Map>();
 	private HashMap<Rectangle, Integer>buttons = new HashMap<Rectangle, Integer>();
@@ -25,16 +23,12 @@ public class ScreenLoadMap extends Screen{
 	private Graphics g;
 	public ScreenLoadMap(int width, int height,Graphics g, SpriteSheet sheet) {
 		super(width, height, sheet);
-		this.g = g;
-		
+		this.g = g;	
 	}
-	
 	@Override
 	public void render(Graphics g)
-	{
-		
-		drawBackgroundScreen();
-		
+	{		
+		drawBackgroundScreen();	
 		game.getFontRenderer().drawString("Select map to load", 32, 32, 2);
 		g.setColor(new Color(0,0,0,155));
 		g.fillRect(32, 52, 300, Game.HEIGHT-128);
@@ -46,8 +40,6 @@ public class ScreenLoadMap extends Screen{
 		g.setColor(Color.green);
 		g.drawRect(430, 451, 301, 52);
 		game.getFontRenderer().drawString(">SELECT<", 514, 469, 2);
-		
-		
 
 		g.setColor(Color.black);
 		g.drawRect(379, 31, 401, 305);
@@ -57,10 +49,7 @@ public class ScreenLoadMap extends Screen{
 		game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
 		if(maps.size() == 0)
 		getMaps();
-		
-		
-		
-		
+
 		int i = 1;
 		for(Map m : maps)
 		{	
@@ -71,6 +60,7 @@ public class ScreenLoadMap extends Screen{
 			game.getFontRenderer().drawString(m.name, 41, 8+(60*i), 2);
 			i++;			
 		}
+		try{
 		mapName = maps.get(selectedMap-1).name;
 		mapDesc = maps.get(selectedMap-1).desc;
 		mapVersion = maps.get(selectedMap-1).version;
@@ -80,17 +70,17 @@ public class ScreenLoadMap extends Screen{
 			Tile tile = tiles.get(rec);	
 			g.drawImage(game.sheet.getImage(tile.sprite), 380+rec.x/2 ,
 					32+rec.y/2 , 16, 16, game);
-
 		}
-		
-		
-
-		
-	
-	
-
-	}
-	
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			game.getFontRenderer().drawCenteredString("Error loading maps. Uh oh...", 10, 2);
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e1) {}
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
+		}
+	}	
 	private void getMaps()
 	{
 		buttons.put(new Rectangle(431, 452, 300, 52), -1);
@@ -98,25 +88,20 @@ public class ScreenLoadMap extends Screen{
 		int j = 0;
 		for(String s : files)
 		{
-		
 			File tf = new File(s);
 			if(tf.getName().contains(".smf"))
 			{
 				j++;
 				maps.add((Map)FileSaver.load(FileSaver.getCleanPath()+"\\maps\\"+s));
-				buttons.put( new Rectangle(41, 4+(60*j), 280, 49), j);
-				
+				buttons.put( new Rectangle(41, 4+(60*j), 280, 49), j);			
 			}
 		}
-	}
-	
+	}	
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
 		Point m = new Point(e.getX(), e.getY());
-
 		for (int i = 0; i < buttons.keySet().size(); i++) {
-
 			Rectangle rec = (Rectangle) buttons.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				if(buttons.get(rec) == -1)
@@ -127,9 +112,7 @@ public class ScreenLoadMap extends Screen{
 					selectedMap = buttons.get(rec);
 				}
 				break;
-			
 			}
 		}
 	}
-
 }

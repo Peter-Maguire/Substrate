@@ -89,11 +89,11 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		try {
 			gameLoop();
 		} catch (Exception e) {
-			e.printStackTrace();
-			console.log(e.getMessage());
+			e.printStackTrace();	
 			String[] crashDump = {currentScreen.toString(), Integer.toString(fps), Integer.toString(tps), e.getMessage()};
 			setScreen(new ScreenLoading(WIDTH, HEIGHT, null, crashDump));
 			render();
+			
 		}
 		requestFocus();
 

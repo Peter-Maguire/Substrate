@@ -31,8 +31,9 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private HashMap<String, Rectangle> specialPoints = new HashMap<String, Rectangle>();
-	
-	private String name = "Test map 1", desc = "Test map desc", version = "v9001";
+
+	private String name = "Test map 1", desc = "Test map desc",
+			version = "v9001";
 
 	private Tile currentTile = null;
 	private boolean isSaving = false;
@@ -46,11 +47,9 @@ public class ScreenMapEditor extends Screen {
 
 	public void init() {
 		Game.log("Initializing...");
-		for(int i = 0; i < Tile.tiles.length; i++)
-		{
-			if(i != 16)
-			{
-				tileList.put("Tile"+i, Tile.tiles[i]);
+		for (int i = 0; i < Tile.tiles.length; i++) {
+			if (i != 16) {
+				tileList.put("Tile" + i, Tile.tiles[i]);
 			}
 		}
 
@@ -59,7 +58,6 @@ public class ScreenMapEditor extends Screen {
 		entityList.put("Bullet t1", new EntityBullet(null, 2, 1, 0, 0));
 		entityList.put("Bullet t2", new EntityBullet(null, 3, 2, 0, 0));
 		entityList.put("Bullet t3", new EntityBullet(null, 4, 3, 0, 0));
-		
 
 		int tileCnt = 0, y = 0, x = 0;
 
@@ -80,18 +78,18 @@ public class ScreenMapEditor extends Screen {
 					96 + (y * Game.SIZE) / 2, 32, 32), name);
 
 		}
-		
-		buttons.put(new Rectangle(607 + Game.SIZE * 2 / 2, 112
-				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32), "SAVE");
-		
+
+		buttons.put(
+				new Rectangle(607 + Game.SIZE * 2 / 2, 112 + tileList.size()
+						* 32 / 2 + (1 * Game.SIZE) / 2, 32, 32), "SAVE");
 		Game.log("Done!");
 	}
-	
-	private void saveMap(String mapname, String mapdesc, String version, HashMap<Rectangle, Tile>tiles, ArrayList<Entity>entities)
-	{
+
+	private void saveMap(String mapname, String mapdesc, String version,
+			HashMap<Rectangle, Tile> tiles, ArrayList<Entity> entities) {
 		Map map = new Map(mapname, mapdesc, version, tiles, entities);
-		FileSaver.save(map, FileSaver.getCleanPath()+"\\maps\\"+mapname+".smf");
-		
+		FileSaver.save(map, FileSaver.getCleanPath() + "\\maps\\" + mapname
+				+ ".smf");
 	}
 
 	public void render(Graphics g) {
@@ -101,69 +99,58 @@ public class ScreenMapEditor extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-
 		Point m = new Point(e.getX(), e.getY());
-
 		for (int i = 0; i < buttons.keySet().size(); i++) {
-
 			Rectangle rec = (Rectangle) buttons.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				String action = buttons.get(rec);
 				postAction(action);
 				break;
-			}else
-			{
+			} else {
 				if (e.getButton() == 1) {
 					tiles.put(
-							new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
-									MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32),
-							currentTile instanceof WireProvider ? currentTile : currentTile);
+							new Rectangle(MathHelper.round(e.getX(),
+									16 * Game.SCALE), MathHelper.round(
+									e.getY(), 16 * Game.SCALE), 32, 32),
+							currentTile instanceof WireProvider ? currentTile
+									: currentTile);
 				}
 			}
 		}
-
-		
-
 	}
 
 	public void postAction(String action) {
-		if(action == "SAVE")
-		{
+		if (action == "SAVE") {
 			isSaving = true;
-		}else
-		{
+		} else {
 			currentTile = tileList.get(action);
 		}
-		
-		
+
 	}
-	
-	private void drawSaveNameMenu(Graphics g)
-	{
-		int startX = (Game.WIDTH/2)-300, startY = (Game.HEIGHT/2)-100;
-		g.setColor(new Color(0,0,0,155));
+
+	private void drawSaveNameMenu(Graphics g) {
+		int startX = (Game.WIDTH / 2) - 300, startY = (Game.HEIGHT / 2) - 100;
+		g.setColor(new Color(0, 0, 0, 155));
 		g.fillRect(startX, startY, 500, 150);
-		game.getFontRenderer().drawString("Save level", startX, startY+2, 1);
-		game.getFontRenderer().drawString("Name: "+saveNameString, startX+20, startY+28, 2);
+		game.getFontRenderer().drawString("Save level", startX, startY + 2, 1);
+		game.getFontRenderer().drawString("Name: " + saveNameString,
+				startX + 20, startY + 28, 2);
 		g.setColor(Color.orange);
-		g.drawRect(startX+105, startY+23, 300, 32);
+		g.drawRect(startX + 105, startY + 23, 300, 32);
 	}
 
 	public void drawUI(Graphics g) {
 		g.setColor(new Color(0, 0, 0, 155));
 		g.fillRect(w - 164, 0, w, h);
 		game.getFontRenderer().drawString("Map Editor", w - 164, 10, 2);
-		
+
 		drawTileUI(g);
-		
+
 		drawEntityUI(g);
-		
+
 		drawMenuUI(g);
 
-		
-
 	}
-	
 
 	public void drawTileUI(Graphics g) {
 		game.getFontRenderer().drawString("Tiles", w - 164, 72, 2);
@@ -190,9 +177,8 @@ public class ScreenMapEditor extends Screen {
 						31, 31);
 		}
 	}
-	
-	public void drawEntityUI(Graphics g)
-	{
+
+	public void drawEntityUI(Graphics g) {
 		game.getFontRenderer().drawString("Entities", w - 164,
 				12 + tileList.size() * 32 / 2, 2);
 
@@ -214,21 +200,21 @@ public class ScreenMapEditor extends Screen {
 					game);
 		}
 	}
-	
-	public void drawMenuUI(Graphics g)
-	{
-		game.getFontRenderer().drawString("Menu", w - 164,
-				(12 + tileList.size() * 32 / 2) + (12 + entityList.size() * 32 / 2), 2);
-		
+
+	public void drawMenuUI(Graphics g) {
+		game.getFontRenderer().drawString(
+				"Menu",
+				w - 164,
+				(12 + tileList.size() * 32 / 2)
+						+ (12 + entityList.size() * 32 / 2), 2);
+
 		g.drawImage(sheet.getImage(116), 607 + Game.SIZE * 1 / 2, 112
-				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32,
-				game);
-		
+				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32, game);
+
 		g.drawImage(sheet.getImage(117), 607 + Game.SIZE * 2 / 2, 112
-				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32,
-				game);
-		if(isSaving)
-		drawSaveNameMenu(g);
+				+ tileList.size() * 32 / 2 + (1 * Game.SIZE) / 2, 32, 32, game);
+		if (isSaving)
+			drawSaveNameMenu(g);
 	}
 
 	public void drawMap(Graphics g) {
@@ -240,40 +226,38 @@ public class ScreenMapEditor extends Screen {
 				if (tiles.get(rec) == null) {
 					tiles.put(rec, Tile.tiles[16]);
 				} else {
-					g.drawImage(sheet.getImage(tiles.get(rec).sprite == 23 ? 78 : tiles.get(rec).sprite), x, y,
-							32, 32, game);
+					g.drawImage(sheet.getImage(tiles.get(rec).sprite == 23 ? 78
+							: tiles.get(rec).sprite), x, y, 32, 32, game);
 				}
 
 			}
 		}
 	}
-	
+
 	@Override
-	public void keyReleased(KeyEvent arg0)
-	{
-		
-		if(isSaving)
-		{
-			if(arg0.getKeyCode() == KeyEvent.VK_ENTER)
-			{
+	public void keyReleased(KeyEvent arg0) {
+		if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
+		}
+		if (isSaving) {
+			if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 				Game.log("Saving map...");
-				saveMap(saveNameString, "No map description", "1", tiles, entities);
-				saveNameString="";
+				saveMap(saveNameString, "No map description", "1", tiles,
+						entities);
+				saveNameString = "";
 				isSaving = false;
-			}else
-			{
-				if(KeyEvent.getKeyText(arg0.getKeyCode()) == "Backspace")
-				{
-					saveNameString=saveNameString.substring(0, saveNameString.length() - 1);
-				}else	
-				{
-					String key = String.valueOf(arg0.getKeyChar());			
-					saveNameString=saveNameString+key;	
+			} else {
+				if (KeyEvent.getKeyText(arg0.getKeyCode()) == "Backspace") {
+					saveNameString = saveNameString.substring(0,
+							saveNameString.length() - 1);
+				} else {
+					String key = String.valueOf(arg0.getKeyChar());
+					saveNameString = saveNameString + key;
 				}
 			}
 
 		}
-	
+
 	}
 
 }
