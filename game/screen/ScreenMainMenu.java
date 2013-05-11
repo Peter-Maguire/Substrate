@@ -55,7 +55,7 @@ public class ScreenMainMenu extends Screen {
 			game.setScreen(new ScreenMapEditor(w,h,sheet));
 			break;
 		case "Options":
-			game.setScreen(new ScreenOptions(w,h,sheet));
+			game.setScreen(new ScreenOptions(w,h,sheet, game.SETTINGS));
 			break;
 		case "Exit":
 			game.shutdown();

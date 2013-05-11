@@ -34,52 +34,7 @@ public class ScreenControls extends Screen{
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 
-		boolean keyUp = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP);
-		boolean keyDown = arg0.getKeyCode() ==game.controls.getKey(Controls.CONTROL_DOWN);
-		boolean keyLeft = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT);
-		boolean keyRight = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT);
-		boolean keyEnter = arg0.getKeyCode() == game.controls.getKey(Controls.CONTROL_ENTER);
 
-		if (keyUp) {
-			
-			game.soundman.playSound("select.wav");
-		}
-		if (keyDown) {
-			
-			game.soundman.playSound("select.wav");
-		}
-		
-		
-
-		if (keyEnter) {
-			switch (selectedMenu) {
-			case 1: {
-				
-				return;
-			}
-
-			case 2: {
-				
-				return;
-			}
-
-			case 3: {
-				
-				return;
-			}
-
-			case 5: {
-			  
-				return;
-			}
-
-			case 6: {
-				game.setScreen(new ScreenOptions(w, h, sheet));
-				return;
-			}
-
-			}
-		}
 
 	}
 
