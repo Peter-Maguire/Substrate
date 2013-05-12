@@ -5,11 +5,13 @@ import game.screen.ScreenGame;
 import game.tile.Tile;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class Entity {
 
 	public int sprite = 1;
-	private ScreenGame game;
+	protected ScreenGame game;
 
 	public int x = 59, y = 50;
 	public boolean forRemoval = false;
@@ -47,7 +49,6 @@ public class Entity {
 	 * @return If the movement is successful
 	 */
 	public boolean tryMoveEntity(int x, int y) {
-
 		if (x == 0 && y == 0)
 			return false;
 		if ((this.x + x) - Game.SCALE == Game.WIDTH
@@ -119,9 +120,16 @@ public class Entity {
 				return false;
 			}
 		}
+		
 
-		return true;
 
+		return false;
+
+	}
+	
+	public void onCollideWithPlayer(int x, int y)
+	{
+		
 	}
 
 }

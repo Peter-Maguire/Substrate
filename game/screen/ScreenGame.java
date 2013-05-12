@@ -6,11 +6,9 @@ import game.Map;
 import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
-import game.entity.EntityAmmo;
+import game.entity.EntityBox;
 import game.entity.Player;
 import game.tile.Tile;
-import game.tile.TileGrass;
-import game.tile.TileWall;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -99,6 +97,18 @@ public class ScreenGame extends Screen {
 				}
 		}
 		return null;
+	}
+	public ArrayList<Entity> getEntitiesInBox(Rectangle rec)
+	{
+		ArrayList<Entity>ents = new ArrayList<Entity>();
+		for(Entity ent : entities)
+		{
+			if(rec.contains(new Point(ent.x, ent.y)))
+				{
+					ents.add(ent);		
+				}
+		}
+		return ents;
 	}
 
 	@Override
@@ -198,10 +208,11 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
+		entities.add(new EntityBox(this, e.getX(), e.getY()));
+		/*tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
 				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
 				.getButton() == MouseEvent.BUTTON1 ? Tile.tiles[11] : Tile.tiles[1]); //TODO: FIX
-	}
+*/	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {

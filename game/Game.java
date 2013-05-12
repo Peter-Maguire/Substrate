@@ -149,7 +149,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			log("Found settings.dat, loading...");
 			SETTINGS = (HashMap<String, String>) FileSaver.load("settings.dat");
 		}
+		
 		settings = new Options(SETTINGS);
+		SETTINGS.put("Debug", "ON");
 
 
 		tileinit = new Tile();
