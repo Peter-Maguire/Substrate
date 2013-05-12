@@ -45,6 +45,11 @@ public class Screen {
 	{
 		bttn.put(bounds, action);
 	}
+	
+	public HashMap<Rectangle, String>getButtons()
+	{
+		return bttn;
+	}
 
 	public void tick() {
 		
