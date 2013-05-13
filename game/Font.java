@@ -35,8 +35,6 @@ public class Font {
 			for (int j = 0; j < cols; j++) {
 				chars[(i * cols) + j] = fontsheet.getSubimage(j * 8,
 						i * 8, 8, 8);
-				
-				;
 			}
 		}
 		
@@ -58,7 +56,7 @@ public class Font {
 			{
 				if(font.toCharArray()[j] == text.toUpperCase().toCharArray()[i])
 				{
-					g.drawImage(chars[j], x+(i*size*8), y, 8*size, 8*size, game);
+					g.drawImage(ScreenTools.recolourImage(chars[j], Color.white), x+(i*size*8), y, 8*size, 8*size, game);
 				}
 				
 			}

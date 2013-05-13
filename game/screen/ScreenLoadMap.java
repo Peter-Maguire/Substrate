@@ -49,9 +49,8 @@ public class ScreenLoadMap extends Screen{
 		
 		if(maps.size() == 0)
 		{
-			game.getFontRenderer().drawString("No maps", 422, 355, 2);
-			game.getFontRenderer().drawString("Create some or download at", 372, 375, 2);
-			game.getFontRenderer().drawString("http://fightthetoast.co.uk", 372, 395, 2);
+			game.getFontRenderer().drawString("No maps", 122, 255, 2, new Color(155,5,5));
+
 		}else{
 		
 			game.getFontRenderer().drawString(mapName, 422, 355, 2);
