@@ -25,15 +25,15 @@ public class ScreenMainMenu extends Screen {
 
 	@Override
 	public void render(Graphics g) {
-		this.drawBackgroundScreen();
+		//this.drawAnimatedBackground(); //DRAWING ANIMATED BACKGROUND BREAKS THE EVERYTHING
 	this.g = g;
 		game.getFontRenderer().drawCenteredString(game.TITLE + "        ", 36, 3);
 
 		
-		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game);
-		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game);
-		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game);
-		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game);
+		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(255,255,255,155), Color.white);
+		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game, new Color(255,255,255,155), Color.white);
+		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game, new Color(255,255,255,155), Color.white);
+		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game, new Color(255,255,255,155), Color.white);
 		
 		PointerInfo a = MouseInfo.getPointerInfo();
 		Point m = new Point(a.getLocation().x-20, a.getLocation().y-20);

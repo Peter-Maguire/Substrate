@@ -1,16 +1,16 @@
 package game.screen;
 
 import game.Game;
-import game.MathHelper;
 import game.SpriteSheet;
-import game.tile.WireProvider;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -21,9 +21,13 @@ public class Screen {
 	Random rand = new Random();
 
 	public Game game;
+	
 
 	boolean shouldDrawIGui = false;
 	private HashMap<Rectangle, String>bttn = new HashMap<Rectangle, String>();
+	private ArrayList<Integer[]> animlines = new ArrayList<Integer[]>();
+	private int makeCooldown = 0;
+	
 
 	public Screen(int width, int height, SpriteSheet sheet) {
 		this.sheet = sheet;
@@ -39,6 +43,45 @@ public class Screen {
 
 			}
 		}
+	}
+	
+	public void drawAnimatedBackground()
+	{
+		makeCooldown--;
+		while(animlines.size() < 40 || makeCooldown == 0)
+		{
+			game.g.setColor(Color.black);
+			game.g.fillRect(0,0,Game.WIDTH, Game.HEIGHT);
+			
+			Integer[] lines = {0, rand.nextInt(10), rand.nextInt(Game.HEIGHT)};
+			animlines.add(lines);
+			
+		}
+		for(int i = 0; i < animlines.size(); i++)
+		{
+			Integer[] lines = animlines.get(i);
+			game.g.setColor(Color.white);
+			game.g.fillRect((Game.WIDTH-lines[1])-lines[0], lines[2], lines[1], 2);
+			lines[0]++;
+			if((Game.WIDTH-lines[1])-lines[0] > Game.WIDTH)
+			{
+				animlines.remove(i);
+			}else
+			{
+				animlines.set(i, lines);
+			}
+			
+			
+		}	
+		
+		
+		if(makeCooldown <= 0)
+		{
+			makeCooldown = 60;
+		}
+		
+
+
 	}
 	
 	public void addButton(String action, Rectangle bounds)
@@ -88,7 +131,8 @@ public class Screen {
 	}
 
 	public void keyPressed(KeyEvent arg0) {
-		
+		if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
 
 	}
 
