@@ -1,7 +1,6 @@
 package game;
 
 import game.console.ConsoleWindow;
-import game.console.ThreadConsole;
 import game.screen.Dialogue;
 import game.screen.Screen;
 import game.screen.ScreenLoading;
@@ -12,6 +11,7 @@ import game.tile.Tile;
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -21,7 +21,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
-import java.nio.file.FileSystem;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -46,6 +45,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	private Dialogue currentDialogue;
 	private static ConsoleWindow console = null;
 	private Tile tileinit;
+	private static JFrame container;
 
 	public Controls controls = new Controls();
 	private int tps = 0, fps = 0;
@@ -66,7 +66,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public static void main(String[] args) {
 		Game game = new Game();
-		JFrame container = new JFrame(TITLE);
+		container = new JFrame(TITLE);
 		container.setVisible(true);
 		container.setFocusable(true);
 		container.add(game, BorderLayout.CENTER);
@@ -84,8 +84,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public synchronized void start() {
 
-		createBufferStrategy(2);
-		strategy = getBufferStrategy();
+	
 
 		try {
 			gameLoop();
@@ -106,10 +105,10 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 	public void shutdown()
 	{
+		gameRunning = false;
 		log("Saving files...");
 		FileSaver.save(SETTINGS, "settings.dat");
 		FileSaver.save(controls.keyMap, "keymap.dat");
-		this.strategy.dispose();
 		g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
 		log("Copyright UnacceptableUse 2013");
 		log("Shutting down game, peace.");
@@ -124,9 +123,12 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		return font;
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	public void init() {
+
+		createBufferStrategy(2);
+		strategy = getBufferStrategy();
+		
 		/*ThreadConsole tc = new ThreadConsole();
 		Thread consoleThread = new Thread(tc);
 		consoleThread.run();
@@ -152,13 +154,18 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		
 		settings = new Options(SETTINGS);
 		SETTINGS.put("Debug", "ON");
-
-
+		
+		f = new File(FileSaver.getCleanPath()+"\\maps\\");
+		if(!f.exists())
+		{
+			log("Creating directory "+f.getAbsolutePath());
+			f.mkdirs();
+		}else
+		{
+			log("Map folder already exists");
+		}
 		tileinit = new Tile();
-		
 
-		
-		
 		try {
 			sheet = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/icons.png")));
@@ -169,14 +176,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		} catch (Exception e) {
 			log("Sheet loading failed!");
 			throw new RuntimeException("Sheet loading failed!");
-		}
-
-		
-
-
-		
-		
-		
+		}	
 		f = new File("keymap.dat");
 		if(!f.exists())
 		{  
@@ -227,7 +227,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			{
 				frames++;
 				render();
-				//repaint();
 				revalidate();
 			}
 
@@ -248,6 +247,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public void tick() {
 		currentScreen.tick();
+	
+		
 
 	}
 
@@ -255,16 +256,15 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		currentScreen = screen;
 		currentScreen.init(this);
 	}
+	
+
 
 	public void render() {
-		
+	
 		g = (Graphics2D) strategy.getDrawGraphics();
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH * 2, HEIGHT * 2);
-
-
 		currentScreen.render(g);
-
 		if (settings.getSetting("Debug") == "ON")
 			font.drawString(tps + " Ticks, " + fps + " fps", 1, 1, 2);
 		if(settings.getSetting("Cheats") == "ON")

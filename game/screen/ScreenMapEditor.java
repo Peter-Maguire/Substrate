@@ -14,7 +14,9 @@ import game.tile.WireProvider;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -95,6 +97,12 @@ public class ScreenMapEditor extends Screen {
 	public void render(Graphics g) {
 		drawMap(g);
 		drawUI(g);
+		g.setColor(Color.CYAN);
+		PointerInfo pi = MouseInfo.getPointerInfo();
+		g.drawRect(MathHelper.round(pi.getLocation().x,
+				16 * Game.SCALE), MathHelper.round(
+				pi.getLocation().y, 16 * Game.SCALE), 32, 32);
+
 	}
 
 	@Override
@@ -140,6 +148,7 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	public void drawUI(Graphics g) {
+		
 		g.setColor(new Color(0, 0, 0, 155));
 		g.fillRect(w - 164, 0, w, h);
 		game.getFontRenderer().drawString("Map Editor", w - 164, 10, 2);
@@ -149,6 +158,8 @@ public class ScreenMapEditor extends Screen {
 		drawEntityUI(g);
 
 		drawMenuUI(g);
+		
+		
 
 	}
 
