@@ -1,8 +1,10 @@
 package game;
 
+import game.screen.ScreenTools;
+
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.beans.Encoder;
 
 public class Font {
 
@@ -57,6 +59,23 @@ public class Font {
 				if(font.toCharArray()[j] == text.toUpperCase().toCharArray()[i])
 				{
 					g.drawImage(chars[j], x+(i*size*8), y, 8*size, 8*size, game);
+				}
+				
+			}
+			
+		}
+		
+	}
+	public void drawString(String text, int x, int y, int size, Color colour)
+	{
+		
+		for(int i = 0; i < text.length(); i++)
+		{
+			for(int j = 0; j < font.length(); j++)
+			{
+				if(font.toCharArray()[j] == text.toUpperCase().toCharArray()[i])
+				{
+					g.drawImage(ScreenTools.recolourImage(chars[j], colour), x+(i*size*8), y, 8*size, 8*size, game);
 				}
 				
 			}
