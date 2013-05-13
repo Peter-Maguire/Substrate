@@ -20,7 +20,16 @@ public class EntityBox extends Entity{
 	@Override
 	public void onCollideWithPlayer(int x, int y)
 	{
-		tryMoveEntity(1, 0);
+		if(x >= this.x)
+			tryMoveEntity(-1,0);
+		if(x <= this.x)
+			tryMoveEntity(1,0);
+		if(y >= this.y)
+			tryMoveEntity(0,-1);
+		if(y <= this.y)
+			tryMoveEntity(0,1);
+
+		
 	
 	}
 	

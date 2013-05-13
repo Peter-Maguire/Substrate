@@ -49,6 +49,12 @@ public class Entity {
 	 * @return If the movement is successful
 	 */
 	public boolean tryMoveEntity(int x, int y) {
+
+		
+		
+		
+
+		
 		if (x == 0 && y == 0)
 			return false;
 		if ((this.x + x) - Game.SCALE == Game.WIDTH
@@ -57,6 +63,21 @@ public class Entity {
 
 		Tile tile;
 		if (x == -1) { // If entity is moving backwards
+			if(this instanceof Player){
+				ArrayList<Entity>eib = game.getEntitiesInBox(new Rectangle(this.x + x - 15, this.y, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(this.x, this.y);
+						return false;
+					}
+				}
+					
+								
+			}}
 			tile = game.getTileAt(this.x + x - 15, this.y);
 
 			if (tile == null)
@@ -74,6 +95,20 @@ public class Entity {
 
 		if (x == 1) // If entity is moving forwards
 		{
+			if(this instanceof Player){
+				ArrayList<Entity>eib = game.getEntitiesInBox(new Rectangle(this.x + x + 15, this.y, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(this.x, this.y);
+					}
+				}
+					
+								
+			}}
 			tile = game.getTileAt(this.x + x + 15, this.y);
 
 			if (tile == null)
@@ -89,6 +124,20 @@ public class Entity {
 			}
 		}
 		if (y == -1) { // If entity is moving up
+			if(this instanceof Player){
+				ArrayList<Entity>eib = game.getEntitiesInBox(new Rectangle(this.x + x, this.y - 15, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(this.x, this.y);
+					}
+				}
+					
+								
+			}}
 			tile = game.getTileAt(this.x + x, this.y - 15);
 
 			if (tile == null)
@@ -106,6 +155,20 @@ public class Entity {
 
 		if (y == 1) // If entity is moving down
 		{
+			if(this instanceof Player){
+				ArrayList<Entity>eib = game.getEntitiesInBox(new Rectangle(this.x + x, this.y + 15, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(this.x, this.y);
+					}
+				}
+					
+								
+			}}
 			tile = game.getTileAt(this.x + x, this.y + 15);
 
 			if (tile == null)

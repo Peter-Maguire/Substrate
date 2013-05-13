@@ -24,6 +24,7 @@ public class ScreenLoadMap extends Screen{
 	public ScreenLoadMap(int width, int height,Graphics g, SpriteSheet sheet) {
 		super(width, height, sheet);
 		this.g = g;	
+		getMaps();
 	}
 	@Override
 	public void render(Graphics g)
@@ -44,42 +45,43 @@ public class ScreenLoadMap extends Screen{
 		g.setColor(Color.black);
 		g.drawRect(379, 31, 401, 305);
 		
-		game.getFontRenderer().drawString(mapName, 422, 355, 2);
-		game.getFontRenderer().drawString(mapVersion, 712, 355, 1);
-		game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
+		
+		
 		if(maps.size() == 0)
-		getMaps();
-
-		int i = 1;
-		for(Map m : maps)
-		{	
-			g.setColor(new Color(255,255,255,155));
-			g.fillRect(41, 4+(60*i), 280, 49);
-			g.setColor(selectedMap == i ? Color.orange : Color.white);
-			g.drawRect(40, 3+(60*i), 281,50);
-			game.getFontRenderer().drawString(m.name, 41, 8+(60*i), 2);
-			i++;			
-		}
-		try{
-		mapName = maps.get(selectedMap-1).name;
-		mapDesc = maps.get(selectedMap-1).desc;
-		mapVersion = maps.get(selectedMap-1).version;
-		HashMap<Rectangle, Tile> tiles = maps.get(selectedMap-1).tiles;
-		for (int d = 0; d < tiles.keySet().size(); d++) {
-			Rectangle rec = (Rectangle) tiles.keySet().toArray()[d];
-			Tile tile = tiles.get(rec);	
-			g.drawImage(game.sheet.getImage(tile.sprite), 380+rec.x/2 ,
-					32+rec.y/2 , 16, 16, game);
-		}
-		}catch(Exception e)
 		{
-			e.printStackTrace();
-			game.getFontRenderer().drawCenteredString("Error loading maps. Uh oh...", 10, 2);
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e1) {}
-			game.setScreen(new ScreenMainMenu(w, h, sheet));
+			game.getFontRenderer().drawString("No maps", 422, 355, 2);
+			game.getFontRenderer().drawString("Create some or download at", 372, 375, 2);
+			game.getFontRenderer().drawString("http://fightthetoast.co.uk", 372, 395, 2);
+		}else{
+		
+			game.getFontRenderer().drawString(mapName, 422, 355, 2);
+			game.getFontRenderer().drawString(mapVersion, 712, 355, 1);
+			game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
+			int i = 1;
+			for(Map m : maps)
+			{	
+				g.setColor(new Color(255,255,255,155));
+				g.fillRect(41, 4+(60*i), 280, 49);
+				g.setColor(selectedMap == i ? Color.orange : Color.white);
+				g.drawRect(40, 3+(60*i), 281,50);
+				game.getFontRenderer().drawString(m.name, 41, 8+(60*i), 2);
+				i++;			
+			}
+		
+			mapName = maps.get(selectedMap-1).name;
+			mapDesc = maps.get(selectedMap-1).desc;
+			mapVersion = maps.get(selectedMap-1).version;
+			HashMap<Rectangle, Tile> tiles = maps.get(selectedMap-1).tiles;
+			for (int d = 0; d < tiles.keySet().size(); d++) {
+				Rectangle rec = (Rectangle) tiles.keySet().toArray()[d];
+				Tile tile = tiles.get(rec);	
+				g.drawImage(game.sheet.getImage(tile.sprite), 380+rec.x/2 ,
+						32+rec.y/2 , 16, 16, game);
+			}
+
 		}
+
+		
 	}	
 	private void getMaps()
 	{

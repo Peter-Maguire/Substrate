@@ -32,6 +32,7 @@ public class ScreenGame extends Screen {
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
+	private Graphics g;
 
 
 
@@ -39,6 +40,7 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
+		this.g = g;
 		
 		Random rand = new Random();
 		
@@ -63,10 +65,6 @@ public class ScreenGame extends Screen {
 	@Override
 	public void tick() {
 		player.tryMoveEntity(velx, vely);
-		if(player.x-xScroll >= Game.WIDTH-64)
-		{
-			xScroll++;
-		}
 
 	}
 
@@ -105,7 +103,7 @@ public class ScreenGame extends Screen {
 		{
 			if(rec.contains(new Point(ent.x, ent.y)))
 				{
-					ents.add(ent);		
+					ents.add(ent);	
 				}
 		}
 		return ents;
@@ -179,6 +177,7 @@ public class ScreenGame extends Screen {
 				
 			
 		}
+
 		
 
 	}

@@ -25,7 +25,6 @@ public class ScreenMainMenu extends Screen {
 
 	@Override
 	public void render(Graphics g) {
-
 		this.drawBackgroundScreen();
 	this.g = g;
 		game.getFontRenderer().drawCenteredString(game.TITLE + "        ", 36, 3);
@@ -37,7 +36,7 @@ public class ScreenMainMenu extends Screen {
 		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game);
 		
 		PointerInfo a = MouseInfo.getPointerInfo();
-		Point m = a.getLocation();
+		Point m = new Point(a.getLocation().x-20, a.getLocation().y-20);
 		for (int i = 0; i < getButtons().keySet().size(); i++) {
 			Rectangle rec = (Rectangle) getButtons().keySet().toArray()[i];
 			if (rec.contains(m)) {
