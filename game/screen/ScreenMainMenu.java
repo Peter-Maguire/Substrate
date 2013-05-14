@@ -36,7 +36,7 @@ public class ScreenMainMenu extends Screen {
 		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game, new Color(255,255,255,155), Color.white);
 		
 		PointerInfo a = MouseInfo.getPointerInfo();
-		Point m = new Point(a.getLocation().x-20, a.getLocation().y-20);
+		Point m = new Point(a.getLocation().x-20, a.getLocation().y);
 		for (int i = 0; i < getButtons().keySet().size(); i++) {
 			Rectangle rec = (Rectangle) getButtons().keySet().toArray()[i];
 			if (rec.contains(m)) {
