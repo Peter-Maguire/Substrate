@@ -21,6 +21,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -30,7 +34,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate";
+	public static String TITLE = "Substrate", VERSION = "Unreleased";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -141,14 +145,15 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("Volume", "100");
 			SETTINGS.put("Cheats", "OFF");
 			SETTINGS.put("HasDoneIntro", "OFF");
+			SETTINGS.put("GatherStats", "ON");
 			FileSaver.save(SETTINGS, "settings.dat");
 		} else {
 			log("Found settings.dat, loading...");
 			SETTINGS = (HashMap<String, String>) FileSaver.load("settings.dat");
+			
 		}
 
 		settings = new Options(SETTINGS);
-		SETTINGS.put("Debug", "ON");
 
 		f = new File(FileSaver.getCleanPath() + "\\maps\\");
 		if (!f.exists()) {
@@ -177,8 +182,30 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		}
 
 		soundman = new SoundManager(this);
-
+		
+		if(SETTINGS.get("GatherStats") == "ON")
+		{
+			try {
+				HttpURLConnection statcon = (HttpURLConnection) new URL("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"-"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version")).openConnection();
+				if(statcon.getContent().toString().contains("OK"))
+				{
+					log("Stats sent, all is well!");
+				}else
+				{
+					log(statcon.getContent().toString());
+				}
+			} catch (MalformedURLException e) {}
+			catch (IOException e) {
+				log("Unable to send stats.");
+				e.printStackTrace();
+			}
+		}else
+		{
+			log("Not sending stats, opted out");
+			System.out.println(SETTINGS.get("GatherStats"));
+		}
 		setScreen(new ScreenMainMenu(WIDTH, HEIGHT, sheet));
+		
 		log("Loaded!");
 	}
 
