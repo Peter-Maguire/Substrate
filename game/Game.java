@@ -46,9 +46,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public Options settings;
 	public SoundManager soundman;
 	private Screen currentScreen;
-	private Dialogue currentDialogue;
 	private static ConsoleWindow console = null;
-	private Tile tileinit;
 	private static JFrame container;
 
 	public Controls controls = new Controls();
@@ -146,6 +144,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("Cheats", "OFF");
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
+			SETTINGS.put("MapPreviews", "ON");
 			FileSaver.save(SETTINGS, "settings.dat");
 		} else {
 			log("Found settings.dat, loading...");
@@ -160,7 +159,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			log("Creating directory " + f.getAbsolutePath());
 			f.mkdirs();
 		}
-		tileinit = new Tile();
+		
 
 		try {
 			sheet = new SpriteSheet(ImageIO.read(Game.class

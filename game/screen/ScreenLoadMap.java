@@ -38,7 +38,7 @@ public class ScreenLoadMap extends Screen{
 		
 		g.setColor(new Color(0,0,0,155));
 		g.fillRect(431, 452, 300, 52);
-		g.setColor(Color.green);
+		g.setColor(maps.size() != 0 ? Color.green : Color.red);
 		g.drawRect(430, 451, 301, 52);
 		game.getFontRenderer().drawString(">SELECT<", 514, 469, 2);
 
