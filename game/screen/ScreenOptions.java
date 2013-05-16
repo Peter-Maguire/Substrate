@@ -12,17 +12,33 @@ import java.util.HashMap;
 public class ScreenOptions extends Screen {
 
 
-	private String sound = "OFF", music = "ON", debug = "OFF";
+	private String sound = "OFF", music = "ON", debug = "OFF", gatherStats = "ON", mpMapPrev="ON", showTutorial = "OFF", showConsole = "OFF";
 	private int volume = 10;
 	public ScreenOptions(int width, int height, SpriteSheet sheet, HashMap<String, String> options) {
 		super(width, height, sheet);
+		
+
+	
 
 		addButton("toggleSound", new Rectangle(550, 194, 90, 30));
 		addButton("toggleDebug", new Rectangle(550, 110, 90, 30));
 		addButton("toggleMusic", new Rectangle(550, 152, 90, 30));
-		
+		addButton("toggleStats", new Rectangle(550, 287,90, 30));
+		addButton("toggleMapPrev", new Rectangle(550, 327,90, 30));
+		addButton("toggleTutorial", new Rectangle(550, 367,90, 30));
+		addButton("toggleConsole", new Rectangle(550, 407,90, 30));
+			
 		addButton("increaseSound", new Rectangle(702, 238, 25, 30));
 		addButton("decreaseSound", new Rectangle(473, 238, 25, 30));
+		
+		addButton("launchStats", new Rectangle(642, 287,25, 28));
+		
+		addButton("save", new Rectangle(292, 547,95, 28));
+		addButton("cancel", new Rectangle(392, 547,120, 28));
+		
+
+		
+		
 
 	}
 
@@ -43,6 +59,15 @@ public class ScreenOptions extends Screen {
 	public void init(Game game) {
 		super.init(game);
 		
+		HashMap<String, String> settings = game.settings.getSettings();
+		sound = settings.get("Sound");
+		music = settings.get("Music");
+		debug = settings.get("Debug");
+		volume = Integer.parseInt(settings.get("Volume"));
+		gatherStats = settings.get("GatherStats");
+		mpMapPrev = settings.get("MapPreviews");
+		showTutorial = settings.get("HasDoneIntro");
+		showConsole = settings.get("Cheats");
 	}
 	
 	@Override
@@ -60,18 +85,61 @@ public class ScreenOptions extends Screen {
 		}
 		if(action == "toggleSound")
 		{	
-			sound = sound == "ON" ? "OFF" : "ON";
+			sound =sound.contains("ON") ? "OFF" : "ON";
 			return;
 		}
 		if(action == "toggleMusic")
 		{	
-			music = music == "ON" ? "OFF" : "ON";
+			music = music.contains("ON") ? "OFF" : "ON";
 			return;
 		}
 		if(action == "toggleDebug")
 		{	
-			debug = debug == "ON" ? "OFF" : "ON";
+			debug = debug.contains("ON") ? "OFF" : "ON";
 			return;
+		}
+		
+		if(action == "toggleConsole")
+		{	
+			showConsole= showConsole.contains("ON") ? "OFF" : "ON";
+			return;
+		}
+		if(action == "toggleTutorial")
+		{	
+			showTutorial = showTutorial.contains("ON") ? "OFF" : "ON";
+			return;
+		}
+		if(action == "toggleStats")
+		{	
+			gatherStats = gatherStats.contains("ON") ? "OFF" : "ON";
+			return;
+		}
+		if(action == "toggleMapPrev")
+		{	
+			mpMapPrev = mpMapPrev.contains("ON") ? "OFF" : "ON";
+			return;
+		}
+		if(action == "launchStats")
+		{
+			game.setScreen(null); //FIXME: Need a stats screen up in here
+			return;
+		}
+		if(action == "save")
+		{
+			game.settings.setSetting("Sound", sound);
+			game.settings.setSetting("Debug", debug);
+			game.settings.setSetting("Music", music);
+			game.settings.setSetting("Volume", volume+"");
+			game.settings.setSetting("Sound", sound);
+			game.settings.setSetting("GatherStats", gatherStats);
+			game.settings.setSetting("MapPreviews", mpMapPrev);
+			game.settings.setSetting("Cheats", showConsole);
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
+			
+		}
+		if(action == "cancel")
+		{
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
 		}
 	}
 
@@ -98,18 +166,27 @@ public class ScreenOptions extends Screen {
 		game.getFontRenderer().drawString("Gather stats", 100, 287, 2);
 		game.getFontRenderer().drawString("Should the game gather", 300, 287, 1);
 		game.getFontRenderer().drawString("anonymous statistics?", 300, 297, 1);
+		ScreenTools.drawOnOffButton(550, 287,90, 30, gatherStats, g, game);	
+		ScreenTools.drawButton(642, 287,25, 28, "? ", g, game);	
 		
 		game.getFontRenderer().drawString("Map previews", 100, 327, 2);
-		game.getFontRenderer().drawString("Show map previews in the", 300, 327, 1);
-		game.getFontRenderer().drawString("multiplayer menu?", 300, 337, 1);
+		game.getFontRenderer().drawString("Multiplayer map previews", 300, 327, 1);
+		game.getFontRenderer().drawString("at the cost of RAM usage.", 300, 337, 1);
+		ScreenTools.drawOnOffButton(550, 327,90, 30, mpMapPrev, g, game);	
 		
 		game.getFontRenderer().drawString("Show tutorial", 100, 367, 2);
 		game.getFontRenderer().drawString("Watch the tutorial again", 310, 367, 1);
 		game.getFontRenderer().drawString("turns off after 1 use.", 310, 377, 1);
+		ScreenTools.drawOnOffButton(550, 367,90, 30, showTutorial, g, game);	
 		
 		game.getFontRenderer().drawString("Show console", 100, 407, 2);
 		game.getFontRenderer().drawString("Display developer console", 310, 407, 1);
 		game.getFontRenderer().drawString("for commands and things.", 310, 417, 1);
+		ScreenTools.drawOnOffButton(550, 407,90, 30, showConsole, g, game);	
+		
+		
+		ScreenTools.drawButton(292, 547,95, 28, "Save", g, game);	
+		ScreenTools.drawButton(392, 547,120, 28, "Cancel", g, game);
 		
 		
 		
