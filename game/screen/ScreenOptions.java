@@ -1,5 +1,6 @@
 package game.screen;
 
+import game.FileSaver;
 import game.Game;
 import game.SpriteSheet;
 
@@ -134,6 +135,7 @@ public class ScreenOptions extends Screen {
 			game.settings.setSetting("GatherStats", gatherStats);
 			game.settings.setSetting("MapPreviews", mpMapPrev);
 			game.settings.setSetting("Cheats", showConsole);
+			FileSaver.savePropertiesFile(game.settings.getSettings(), FileSaver.getCleanPath()+"\\settings.txt");
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
 			
 		}

@@ -1,14 +1,68 @@
 package game;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.HashMap;
 
 public class FileSaver {
 
+	
+	public static void savePropertiesFile(HashMap<String, String> props, String path)
+	{
+		PrintWriter out;
+		try
+		{
+			Game.log("Saving property file "+path);
+			 out = new PrintWriter(path);
+			 out.println("#"+Game.TITLE+" Property File. ");
+				for (int i = 0; i < props.keySet().size(); i++) {
+			
+					String property =  props.keySet().toArray()[i]+"";
+					String value = props.get(property);
+					out.println(property+": "+value);
+				}
+				out.checkError();
+				out.close();
+		}catch(Exception e)
+		{
+			Game.log("File saving did an uh oh at:");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static HashMap<String, String> readPropertiesFile(String path)
+	{
+		HashMap<String, String> props = new HashMap<String, String>();
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(path));
+			String line;
+			while ((line = br.readLine()) != null) {
+			  if(!line.startsWith("#"))
+			  {	  
+				  String[] properties = line.split(": ");
+				  props.put(properties[0], properties[1]);
+			  }
+			}
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return props;
+	}
 	
 	public static void save(Object file, String path)
 	{
