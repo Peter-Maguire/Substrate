@@ -134,7 +134,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		 */
 		log("Loading...");
 
-		File f = new File("settings.dat");
+		File f = new File(FileSaver.getCleanPath()+"\\settings.txt");
 		if (!f.exists()) {
 			log("Settings file does not exist!");
 			SETTINGS.put("Sound", "OFF");
@@ -145,12 +145,13 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
 			SETTINGS.put("MapPreviews", "ON");
-			FileSaver.save(SETTINGS, "settings.dat");
+			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+"\\settings.txt");
 		} else {
 			log("Found settings.dat, loading...");
-			SETTINGS = (HashMap<String, String>) FileSaver.load("settings.dat");
-			
+			SETTINGS = (HashMap<String, String>) FileSaver.readPropertiesFile(FileSaver.getCleanPath()+"\\settings.txt");		
 		}
+		
+		
 
 		settings = new Options(SETTINGS);
 
