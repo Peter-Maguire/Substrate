@@ -1,8 +1,11 @@
 package game.entity;
 
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import game.Controls;
+import game.Game;
 import game.screen.Screen;
 import game.screen.ScreenGame;
 
@@ -19,6 +22,76 @@ public class Player extends Entity {
 		this.sprite = 45;
 
 	}
+	
+	@Override
+	public boolean tryMoveEntity(int x, int y)
+	{
+		
+		
+		if(x == 1) // Player is moving forwards 
+		{
+				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 10 , this.y+y - 20, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(x, 0);
+						return false;
+					}
+				}				
+			}
+		}
+		if(x == -1) // Player is moving backwards
+		{
+				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 20, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(x, 0);
+						return false;
+					}
+				}				
+			}
+		}
+		if(y == 1) // Player is moving up 
+		{
+				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 5, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(0, y);
+						return false;
+					}
+				}				
+			}
+		}
+		if(y == -1) // Player is moving down
+		{
+				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 25, Game.SIZE, Game.SIZE));
+			if(eib.size() > 1)
+			{
+				for(Entity e : eib)
+				{
+					if(e instanceof Player == false)
+					{
+						e.onCollideWithPlayer(0, y);
+						return false;
+					}
+				}				
+			}
+		}
+		super.tryMoveEntity(x, y);
+		return false;
+		}
+	
 
 	@Override
 	public void tick() {
@@ -60,7 +133,6 @@ public class Player extends Entity {
 			texAnim++;
 		}
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_FIRE)) {
-			System.out.println(ammocooldown);
 			if(ammo != 0 && ammocooldown == 0)
 			{
 				((ScreenGame) game).spawnEntity(new EntityBullet((ScreenGame) game, 0, getOrientation(), x, y));

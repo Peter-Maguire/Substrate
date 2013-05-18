@@ -1,8 +1,13 @@
 package game.entity;
 
+import game.Game;
 import game.screen.ScreenGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public class EntityBox extends Entity{
+	
 
 	public EntityBox(ScreenGame game, int x, int y) {
 		super(game);
@@ -18,19 +23,19 @@ public class EntityBox extends Entity{
 	}
 	
 	@Override
+	public boolean tryMoveEntity(int x, int y)
+	{
+		super.tryMoveEntity(x, y);
+		
+		return false;
+	}
+	
+
+	
+	@Override
 	public void onCollideWithPlayer(int x, int y)
 	{
-		if(x >= this.x)
-			tryMoveEntity(-1,0);
-		if(x <= this.x)
-			tryMoveEntity(1,0);
-		if(y >= this.y)
-			tryMoveEntity(0,-1);
-		if(y <= this.y)
-			tryMoveEntity(0,1);
-
-		
-	
+		tryMoveEntity(x, y);	
 	}
 	
 	
