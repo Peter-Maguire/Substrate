@@ -101,7 +101,7 @@ public class ScreenGame extends Screen {
 		ArrayList<Entity>ents = new ArrayList<Entity>();
 		for(Entity ent : entities)
 		{
-			if(rec.contains(new Point(ent.x, ent.y)))
+			if(rec.contains(new Rectangle(ent.x, ent.y, 32, 32)))
 				{
 					ents.add(ent);	
 				}
@@ -174,11 +174,8 @@ public class ScreenGame extends Screen {
 					g.drawImage(sheet.getImage(72),32+(16*player.getAmmo()), h-39,32,32, game); 
 					game.getFontRenderer().drawString(""+player.ammocooldown/60, 32+(16*player.getAmmo()),h-32, 1);
 				}
-				
-			
-		}
 
-		
+		}
 
 	}
 
