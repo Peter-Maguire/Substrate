@@ -5,12 +5,11 @@ import java.awt.image.BufferedImage;
 
 public class SpriteSheet {
 
-	private static final int SPRITE_SIZE = 16;
 
 	BufferedImage sheet;
 	private BufferedImage[] imagecache;
 
-	public SpriteSheet(BufferedImage sheet) {
+	public SpriteSheet(BufferedImage sheet, int SPRITE_SIZE) {
 		this.sheet = sheet;
 		int rows = sheet.getWidth() / SPRITE_SIZE;
 		int cols = sheet.getHeight() / SPRITE_SIZE;

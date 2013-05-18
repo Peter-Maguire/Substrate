@@ -25,7 +25,7 @@ public class EntityExplosion extends Entity{
 	public void tick()
 	{
 		animstage ++;
-		if(animstage == 120)this.forRemoval = true;
+		if(animstage == 256)this.forRemoval = true;
 
 	}
 	
@@ -35,7 +35,7 @@ public class EntityExplosion extends Entity{
 		int scale = size*16;
 	
 		
-		g.drawImage(game.game.sheet.getImage(animstage%20 <= 5 ? 65 : 64), x, y-animstage/5, scale, scale, game.game);
+		g.drawImage(game.game.sheetExplosions.getImage(animstage), x+20, y+5, scale, scale, game.game);
 
 
 
