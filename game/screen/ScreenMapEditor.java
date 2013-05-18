@@ -63,7 +63,7 @@ public class ScreenMapEditor extends Screen {
 		g.setColor(new Color(255,255,255,155));
 		g.fillRect(0, 500, Game.WIDTH, 100);
 		drawSelectionGrid(10, 520, 7,"Tile", g);
-		drawSelectionGrid(104, 520, 12,"Tool", g);
+		drawSelectionGrid(104, 520, 28,"Tool", g);
 		
 
 	}
