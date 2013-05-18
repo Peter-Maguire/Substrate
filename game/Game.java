@@ -40,7 +40,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public BufferStrategy strategy;
 
-	public SpriteSheet sheet, sheetExplosions;
+	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities;
 	private Font font;
 	public Graphics2D g;
 	public Options settings;
@@ -163,13 +163,19 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		
 
 		try {
+			log("Loading spritesheets...");
 			sheet = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/icons.png")), 16);
+			sheetTiles = new SpriteSheet(ImageIO.read(Game.class
+					.getResource("/res/tiles.png")), 32);
+			sheetEntities = new SpriteSheet(ImageIO.read(Game.class
+					.getResource("/res/objects.png")), 32);
 			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/explosion.png")), 32);
 			font = new Font(ImageIO.read(Game.class
 					.getResource("/res/font.png")), strategy.getDrawGraphics(),
 					this);
+			log("Done!");
 		} catch (Exception e) {
 			log("Sheet loading failed!");
 			throw new RuntimeException("Sheet loading failed!");

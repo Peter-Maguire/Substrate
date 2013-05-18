@@ -4,6 +4,7 @@ public class TileNoTile extends Tile{
 
 	public TileNoTile()
 	{
-		this.sprite = 23;
+		this.sprite = 47;
 	}
+
 }

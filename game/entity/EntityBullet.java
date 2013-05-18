@@ -22,7 +22,7 @@ public class EntityBullet extends Entity{
 		this.x = x;
 		this.y = y;
 		
-		sprite = 48 + rotation * (type+1);
+		sprite = 4 + rotation;
 		
 	}
 	
@@ -51,7 +51,34 @@ public class EntityBullet extends Entity{
 		{
 			if(t instanceof TileWall)
 			{
-				game.setTileAt(x, y, 3);
+				switch(t.sprite)
+				{
+				case TileWall.TOP_CORNER_LEFT:
+					game.setTileAt(x, y, 19);
+					break;
+				case TileWall.TOP_CORNER_RIGHT:
+					game.setTileAt(x, y, 20);
+					break;
+				case TileWall.WALL_VERTICAL:
+					game.setTileAt(x, y, 3);
+					break;
+				case TileWall.WALL_VERTICAL_TOP:
+					game.setTileAt(x, y, 17);
+					break;
+				case TileWall.WALL_VERTICAL_BOTTOM:
+					game.setTileAt(x, y, 18);
+					break;
+				case TileWall.BOTTOM_CORNER_LEFT:
+					game.setTileAt(x, y, 21);
+					break;
+				case TileWall.BOTTOM_CORNER_RIGHT:
+					game.setTileAt(x, y, 22);
+					break;
+				default:
+					game.setTileAt(x, y, 3);
+					break;
+				}
+				
 			}
 			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
 			this.forRemoval = true;

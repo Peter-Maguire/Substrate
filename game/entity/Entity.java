@@ -35,7 +35,7 @@ public class Entity {
 
 	public void render(Graphics g) {
 
-		g.drawImage(game.game.sheet.getImage(sprite), x, y, 16 * Game.SCALE,
+		g.drawImage(game.game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,
 				16 * Game.SCALE, game.game);
 	}
 

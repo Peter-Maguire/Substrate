@@ -13,13 +13,13 @@ public class Player extends Entity {
 
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 	Screen game;
-	private int texAnim = 0, orientation = 0, health = 20, ammo = 5;
-	public int ammocooldown = 256;
+	private int orientation = 0, health = 20, ammo = 5;
+	public int ammocooldown = 0;
 
 	public Player(Screen game) {
 		super((ScreenGame) game);
 		this.game =  game;
-		this.sprite = 45;
+		this.sprite = 0;
 
 	}
 	
@@ -107,30 +107,31 @@ public class Player extends Entity {
 		{
 			ammocooldown = 0;
 		}
+
 		
 
 	}
 
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_UP)) {
-			sprite = 45;
+			sprite = 1;
 			setOrientation(NORTH);
-			texAnim++;
+
 		}
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_DOWN)) {
-			sprite = 44;
+			sprite = 0;
 			setOrientation(SOUTH);
-			texAnim++;
+
 		}
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_LEFT)) {
-			sprite = 47;
+			sprite = 3 ;
 			setOrientation(WEST);
-			texAnim++;
+
 		}
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_RIGHT)) {
-			sprite = 46;
+			sprite = 2;
 			setOrientation(EAST);
-			texAnim++;
+
 		}
 		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_FIRE)) {
 			if(ammo != 0 && ammocooldown == 0)
@@ -142,6 +143,7 @@ public class Player extends Entity {
 			
 			
 		}
+	
 	}
 
 	public void keyReleased(KeyEvent e) {

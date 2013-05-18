@@ -13,7 +13,7 @@ public class TileGrass extends Tile{
 	private static final long serialVersionUID = 679389482939848986L;
 
 	public TileGrass() {
-		sprite = 7;
+		this.sprite = 0;
 	}
 
 	boolean canPassThrough = true;
@@ -21,7 +21,6 @@ public class TileGrass extends Tile{
 	@Override
 	public void tick()
 	{
-		
 		
 	}
 	

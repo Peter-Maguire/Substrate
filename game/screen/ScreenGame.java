@@ -18,12 +18,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 
 public class ScreenGame extends Screen {
 
 	
-	private static final int SEQ_END = 9000;
 	public Player player = new Player(this);
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
@@ -32,7 +30,6 @@ public class ScreenGame extends Screen {
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
-	private Graphics g;
 
 
 
@@ -40,11 +37,7 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
-		this.g = g;
-		
-		Random rand = new Random();
-		
-		
+
 		entities = mapfile.entities;
 		tiles = mapfile.tiles;
 		if(!mapfile.entities.contains(player))
@@ -72,16 +65,16 @@ public class ScreenGame extends Screen {
 
 	public Tile getTileAt(int x, int y) {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
-				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
-				16 * game.SCALE);
+				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
+				16 * Game.SCALE);
 		return tiles.get(rec);
 	}
 	
 	public void setTileAt(int x, int y, int tile)
 	{
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
-				MathHelper.round(y, 16 * Game.SCALE), 16 * game.SCALE,
-				16 * game.SCALE);
+				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
+				16 * Game.SCALE);
 		
 		tiles.put(rec, Tile.tiles[tile]);
 	}
@@ -118,8 +111,7 @@ public class ScreenGame extends Screen {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
 			Tile tile = tiles.get(rec);	
 			tile.tick();
-			// g.drawRect(rec.x, rec.y, rec.width, rec.height);
-			g.drawImage(game.sheet.getImage(tile.sprite), rec.x - xScroll,
+			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x - xScroll,
 					rec.y - yScroll, rec.width, rec.height, game);
 
 		}
