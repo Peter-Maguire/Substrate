@@ -2,8 +2,10 @@ package game.entity;
 
 import game.screen.ScreenGame;
 import game.tile.Tile;
-import game.tile.TileRubble;
 import game.tile.TileWall;
+import game.tile.TileWater;
+
+import java.awt.Rectangle;
 
 public class EntityBullet extends Entity{
 
@@ -45,7 +47,7 @@ public class EntityBullet extends Entity{
 		return;
 		}
 		Tile t = game.getTileAt(x, y);
-		if(!t.isPassable())
+		if(!t.isPassable() && t instanceof TileWater == false)
 		{
 			if(t instanceof TileWall)
 			{
@@ -53,6 +55,13 @@ public class EntityBullet extends Entity{
 			}
 			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
 			this.forRemoval = true;
+		}
+		Entity e = game.getEntityInBox(new Rectangle( x, y, 32, 32));
+		if(e instanceof EntityBox)
+		{
+			this.forRemoval = true;
+			e.forRemoval = true;
+			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
 		}
 	}
 
