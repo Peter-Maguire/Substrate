@@ -33,27 +33,9 @@ public class ScreenMainMenu extends Screen {
 		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game, new Color(255,255,255,155), Color.white);
-		ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game, new Color(255,255,255,155), Color.white);
+		ScreenTools.drawButton(290, 212, 232, 25, "Crash :)", g, game, new Color(255,255,255,155), Color.white);
 		
-		PointerInfo a = MouseInfo.getPointerInfo();
-		Point m = new Point(a.getLocation().x-20, a.getLocation().y);
-		for (int i = 0; i < getButtons().keySet().size(); i++) {
-			Rectangle rec = (Rectangle) getButtons().keySet().toArray()[i];
-			if (rec.contains(m)) {
-				String action = getButtons().get(rec);
-				if(action == "Singleplayer")
-				ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(0,0,0,155), Color.blue);
-				if(action == "Map editor")
-				ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game, new Color(0,0,0,155), Color.blue);
-				if(action == "Options")
-				ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game, new Color(0,0,0,155), Color.blue);
-				if(action == "Exit")
-				ScreenTools.drawButton(290, 212, 232, 25, "Exit", g, game, new Color(0,0,0,155), Color.blue);
-				break;
 		
-				
-			}
-		}
 
 		
 

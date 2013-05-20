@@ -48,7 +48,7 @@ public class ScreenMapEditor extends Screen {
 	
 	private void drawSelectionGrid(int x, int y, int texpos,String text, Graphics g)
 	{
-		g.drawImage(sheet.getImage(texpos), x, y,64,64, game);
+		g.drawImage(game.sheetTiles.getImage(texpos), x, y,64,64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x+32, y, 32, 32, game);
 		g.drawImage(sheet.getImage(30), x, y+32, 32, 32, game);

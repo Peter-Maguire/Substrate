@@ -2,8 +2,10 @@ package game.console;
 
 import game.Game;
 import game.console.command.Command;
+import game.console.command.CommandHelp;
 
 import java.awt.BorderLayout;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.HashMap;
@@ -20,17 +22,19 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 	private JTextArea console;
 	private JTextField cmdbar;
 	private JButton cmdSubmit;
+	private Game game;
 	
 	private HashMap<String, Command>commandRegistry = new HashMap<String, Command>();
 	
 	
-	public ConsoleWindow()
+	public ConsoleWindow(Game game)
 	{
+		this.game = game;
+		init();
 		this.setTitle(Game.TITLE+" console.");
 		this.setVisible(true);
 		this.setResizable(true);
 		this.setFocusable(true);
-		this.addKeyListener(this);
 
 		
 		console = new JTextArea();
@@ -42,6 +46,26 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		cScroll.getViewport().add(console);
 		
 		cmdbar = new JTextField();
+		 cmdbar.addKeyListener(new KeyAdapter() {
+	            public void keyReleased(KeyEvent e) {
+	            	if(e.getKeyCode() == KeyEvent.VK_ENTER)
+	            	{
+		                JTextField textField = (JTextField) e.getSource();
+		                String text = ((JTextField) (e.getSource())).getText();
+		                command(text.split(" "));
+		                textField.setText("");
+	            	}  
+	            }
+
+	            public void keyTyped(KeyEvent e) {
+	                // TODO: Do something for the keyTyped event
+	            }
+
+	            public void keyPressed(KeyEvent e) {
+	                // TODO: Do something for the keyPressed event
+	            }
+	        });
+
 		
 		cmdSubmit = new JButton("Enter");
 		
@@ -50,6 +74,16 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		//add(cmdSubmit);
 		validate();
 		
+	}
+	
+	private void init()
+	{
+		registerCommand("help", new CommandHelp(game));
+	}
+	
+	public void registerCommand(String var, Command command)
+	{
+		commandRegistry.put(var, command);
 	}
 	
 	public void log(String s)
@@ -77,14 +111,7 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		System.out.println("Key released");
-		if(arg0.getKeyCode() == KeyEvent.VK_ENTER && cmdbar.getText() != null)
-		{
-			command(cmdbar.getText().split(" "));
-			cmdbar.setText("");
-			
-		}
-		
+	
 	}
 
 	@Override

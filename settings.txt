@@ -1,9 +1,9 @@
 #Substrate Property File. 
-Cheats: ON
-GatherStats: ON
-MapPreviews: ON
+GatherStats: OFF
+Cheats: OFF
+MapPreviews: OFF
 Volume: 100
-Sound: OFF
 Music: OFF
+Sound: OFF
 Debug: ON
-HasDoneIntro: OFF
+HasDoneIntro: ON

@@ -4,9 +4,10 @@ import game.Game;
 
 public class CommandHelp extends Command{
 
-	
-	
-	
+	public CommandHelp(Game game) {
+		super(game);
+	}
+
 	@Override
 	public void executeCommand(String[] args) {
 		

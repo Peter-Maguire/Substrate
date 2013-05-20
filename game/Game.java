@@ -1,17 +1,15 @@
 package game;
 
 import game.console.ConsoleWindow;
-import game.screen.Dialogue;
 import game.screen.Screen;
+import game.screen.ScreenCrash;
 import game.screen.ScreenLoading;
 import game.screen.ScreenMainMenu;
 import game.sound.SoundManager;
-import game.tile.Tile;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -20,6 +18,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -45,7 +44,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public Graphics2D g;
 	public Options settings;
 	public SoundManager soundman;
-	private Screen currentScreen;
+	public Screen currentScreen;
 	private static ConsoleWindow console = null;
 	private static JFrame container;
 
@@ -74,7 +73,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		container.pack();
 		container.setIgnoreRepaint(false);
-		container.setResizable(true);
+		container.setResizable(false);
 		container.setVisible(true);
 		game.start();
 
@@ -89,7 +88,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			String[] crashDump = { currentScreen.toString(),
 					Integer.toString(fps), Integer.toString(tps),
 					e.getMessage() };
-			setScreen(new ScreenLoading(WIDTH, HEIGHT, null, crashDump));
+			setScreen(new ScreenCrash(WIDTH, HEIGHT, null, crashDump));
 			render();
 
 		}
@@ -103,7 +102,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 
 	public void shutdown() {
-		gameRunning = false;
+		/*gameRunning = false;
 		log("Saving files...");
 		FileSaver.save(SETTINGS, "settings.dat");
 		FileSaver.save(controls.keyMap, "keymap.dat");
@@ -113,8 +112,12 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		try {
 			Thread.sleep(1000L);
 		} catch (InterruptedException e) {
-		}
-		System.exit(0);
+		}*/
+		log("Crashing game...");
+		gameRunning = false;
+		throw new RuntimeException("Manually triggered crash");
+		//System.exit(0);
+		
 
 	}
 
@@ -127,12 +130,17 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
-
-		/*
-		 * ThreadConsole tc = new ThreadConsole(); Thread consoleThread = new
-		 * Thread(tc); consoleThread.run(); console = tc.console;
-		 */
+ 
 		log("Loading...");
+		
+		try {
+			font = new Font(ImageIO.read(Game.class
+					.getResource("/res/font.png")), strategy.getDrawGraphics(),
+					this);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		File f = new File(FileSaver.getCleanPath()+"\\settings.txt");
 		if (!f.exists()) {
@@ -154,6 +162,11 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		
 
 		settings = new Options(SETTINGS);
+		
+		setScreen(new ScreenLoading(Game.WIDTH, Game.HEIGHT, sheet));
+		render();
+		
+			console = new ConsoleWindow(this);
 
 		f = new File(FileSaver.getCleanPath() + "\\maps\\");
 		if (!f.exists()) {
@@ -172,9 +185,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 					.getResource("/res/objects.png")), 32);
 			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/explosion.png")), 32);
-			font = new Font(ImageIO.read(Game.class
-					.getResource("/res/font.png")), strategy.getDrawGraphics(),
-					this);
 			log("Done!");
 		} catch (Exception e) {
 			log("Sheet loading failed!");
