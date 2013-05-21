@@ -6,11 +6,13 @@ import game.screen.ScreenCrash;
 import game.screen.ScreenLoading;
 import game.screen.ScreenMainMenu;
 import game.sound.SoundManager;
+import game.tile.Tile;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -102,7 +104,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 
 	public void shutdown() {
-		/*gameRunning = false;
+		gameRunning = false;
 		log("Saving files...");
 		FileSaver.save(SETTINGS, "settings.dat");
 		FileSaver.save(controls.keyMap, "keymap.dat");
@@ -112,11 +114,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		try {
 			Thread.sleep(1000L);
 		} catch (InterruptedException e) {
-		}*/
-		log("Crashing game...");
-		gameRunning = false;
-		throw new RuntimeException("Manually triggered crash");
-		//System.exit(0);
+		}
+		System.exit(0);
 		
 
 	}
@@ -156,7 +155,19 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+"\\settings.txt");
 		} else {
 			log("Found settings.dat, loading...");
-			SETTINGS = (HashMap<String, String>) FileSaver.readPropertiesFile(FileSaver.getCleanPath()+"\\settings.txt");		
+			SETTINGS = (HashMap<String, String>) FileSaver.readPropertiesFile(FileSaver.getCleanPath()+"\\settings.txt");
+			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
+				String setting = (String) SETTINGS.keySet().toArray()[i];
+				String value = SETTINGS.get(setting);
+				if(value != "ON" && value.contains("ON"))
+				{
+					SETTINGS.put(setting, "ON");
+				}else
+				if(value != "OFF" && value.contains("OFF"))
+				{
+					SETTINGS.put(setting, "OFF");
+				}
+			}
 		}
 		
 		

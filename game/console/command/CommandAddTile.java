@@ -20,19 +20,13 @@ public class CommandAddTile extends Command{
 		}
 		if(game.currentScreen instanceof ScreenGame)
 		{
-			String tileType = args[1];
-			int x = Integer.parseInt(args[2]);
-			int y = Integer.parseInt(args[3]);
+			int tileType = Integer.parseInt(args[3]);
+			int x = Integer.parseInt(args[1]);
+			int y = Integer.parseInt(args[2]);
 			ScreenGame gameScreen = (ScreenGame)game.currentScreen;
 			
-			for(int i = 0; i < Tile.tiles.length; i++)
-			{
-				if(Tile.tiles[i] instanceof  tileType)
-				{
-					
-				}
-			}
-			gameScreen.setTileAt(x, y, );
+			gameScreen.setTileAt(x, y, tileType);
+			
 		}else
 		{
 			Game.log("You are not currently in a game!");
