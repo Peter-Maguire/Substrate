@@ -20,11 +20,11 @@ public class ScreenLoadMap extends Screen{
 	private ArrayList<Map> maps = new ArrayList<Map>();
 	private HashMap<Rectangle, Integer>buttons = new HashMap<Rectangle, Integer>();
 	private int selectedMap = 1;
+	private boolean hasLoadedMap = false;
 	private Graphics g;
 	public ScreenLoadMap(int width, int height,Graphics g, SpriteSheet sheet) {
 		super(width, height, sheet);
 		this.g = g;	
-		getMaps();
 	}
 	@Override
 	public void render(Graphics g)
@@ -49,7 +49,7 @@ public class ScreenLoadMap extends Screen{
 		
 		if(maps.size() == 0)
 		{
-			game.getFontRenderer().drawString("No maps", 122, 255, 2, new Color(155,5,5));
+			game.getFontRenderer().drawString(hasLoadedMap ? "Loading.." : "No maps", 122, 255, 2, new Color(155,5,5));
 
 		}else{
 		
@@ -79,6 +79,7 @@ public class ScreenLoadMap extends Screen{
 			}
 
 		}
+		if(!hasLoadedMap)getMaps();
 
 		
 	}	
@@ -97,6 +98,7 @@ public class ScreenLoadMap extends Screen{
 				buttons.put( new Rectangle(41, 4+(60*j), 280, 49), j);			
 			}
 		}
+		hasLoadedMap = true;
 	}	
 	@Override
 	public void mousePressed(MouseEvent e)
