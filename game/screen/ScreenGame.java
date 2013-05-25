@@ -118,13 +118,7 @@ public class ScreenGame extends Screen {
 		if (game.settings.getSetting("Debug") == "ON") {
 			game.getFontRenderer().drawString("DX:" + velx + " DY:" + vely+" SX:"+xScroll+" SY:"+yScroll+" WX:" + Game.WIDTH + " WY:" + Game.HEIGHT, 260, 0, 1);
 			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HEL:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " CLD: "+player.ammocooldown, 260, 10, 1);
-
-	
-			
-		}
-		
-		
-
+		}	
 		for(int i = 0; i < entities.size(); i++)
 		{
 			Entity ent = entities.get(i);
@@ -147,13 +141,10 @@ public class ScreenGame extends Screen {
 			}
 			
 				g.drawImage(sheet.getImage(71), 16+(16*player.getHealth()), h-64, 16, 16, game);
-			
+		
 		}
 		if(player.getAmmo() > 0)
-		{
-			
-				
-			
+		{	
 			g.drawImage(sheet.getImage(66), 16, h-32, 16, 16, game);
 			for(int i = 0; i < player.getAmmo()-1; i++)
 			{
