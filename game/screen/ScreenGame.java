@@ -134,27 +134,27 @@ public class ScreenGame extends Screen {
 		
 		if(player.getHealth() > 0)
 		{
-			g.drawImage(sheet.getImage(69), 16, h-64, 16, 16, game);
+			g.drawImage(game.sheetUI.getImage(69), 16, h-64, 16, 16, game);
 			for(int i = 0; i < player.getHealth()-1; i++)
 			{
-				g.drawImage(sheet.getImage(70), 32+(16*i), h-64, 16, 16, game);
+				g.drawImage(game.sheet.getImage(70), 32+(16*i), h-64, 16, 16, game);
 			}
 			
-				g.drawImage(sheet.getImage(71), 16+(16*player.getHealth()), h-64, 16, 16, game);
+				g.drawImage(game.sheet.getImage(71), 16+(16*player.getHealth()), h-64, 16, 16, game);
 		
 		}
 		if(player.getAmmo() > 0)
 		{	
-			g.drawImage(sheet.getImage(66), 16, h-32, 16, 16, game);
+			g.drawImage(game.sheetUI.getImage(66), 16, h-32, 16, 16, game);
 			for(int i = 0; i < player.getAmmo()-1; i++)
 			{
-				g.drawImage(sheet.getImage(67), 32+(16*i), h-32, 16, 16, game);
+				g.drawImage(game.sheetUI.getImage(67), 32+(16*i), h-32, 16, 16, game);
 			}
 			
-				g.drawImage(sheet.getImage(68), 16+(16*player.getAmmo()), h-32, 16, 16, game);
+				g.drawImage(game.sheetUI.getImage(68), 16+(16*player.getAmmo()), h-32, 16, 16, game);
 				if(player.ammocooldown != 0)
 				{
-					g.drawImage(sheet.getImage(72),32+(16*player.getAmmo()), h-39,32,32, game); 
+					g.drawImage(game.sheetUI.getImage(16),32+(16*player.getAmmo()), h-39,32,32, game); 
 					game.getFontRenderer().drawString(""+player.ammocooldown/60, 32+(16*player.getAmmo()),h-32, 1);
 				}
 

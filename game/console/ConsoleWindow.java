@@ -4,6 +4,7 @@ import game.Game;
 import game.console.command.Command;
 import game.console.command.CommandAddTile;
 import game.console.command.CommandHelp;
+import game.console.command.CommandReinit;
 import game.console.command.CommandSetSetting;
 
 import java.awt.BorderLayout;
@@ -83,6 +84,7 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		registerCommand("help", new CommandHelp(game));
 		registerCommand("tile", new CommandAddTile(game));
 		registerCommand("setting", new CommandSetSetting(game));
+		registerCommand("reinit", new CommandReinit(game));
 	}
 	
 	public void registerCommand(String var, Command command)

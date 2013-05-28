@@ -41,7 +41,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public BufferStrategy strategy;
 
-	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities;
+	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities, sheetUI;
 	private Font font;
 	public Graphics2D g;
 	public Options settings;
@@ -186,21 +186,45 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		}
 		
 
-		try {
+		
 			log("Loading spritesheets...");
+			try{
 			sheet = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/icons.png")), 16);
+			} catch (Exception e) {
+				log("Sheet icon.png failed to load");
+				throw new RuntimeException("Sheet loading failed!");
+			}
+			try{
+			sheetUI = new SpriteSheet(ImageIO.read(Game.class
+					.getResource("/res/ui.png")), 32);
+			} catch (Exception e) {
+				log("Sheet ui.png failed to load");
+				throw new RuntimeException("Sheet ui.png failed to load "+e.getMessage());
+			}
+			try{
 			sheetTiles = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/tiles.png")), 32);
+			} catch (Exception e) {
+				log("Sheet tiles.png failed to load");
+				throw new RuntimeException("Sheet tiles.png failed to load");
+			}
+			try{
 			sheetEntities = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/objects.png")), 32);
+			} catch (Exception e) {
+				log("Sheet object.png failed to load");
+				throw new RuntimeException("Sheet object.png failed to load");
+			}
+			try{
 			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/explosion.png")), 32);
+			} catch (Exception e) {
+				log("Sheet explosion.png failed to load");
+				throw new RuntimeException("Sheet explosion.png failed to load");
+			}
 			log("Done!");
-		} catch (Exception e) {
-			log("Sheet loading failed!");
-			throw new RuntimeException("Sheet loading failed!");
-		}
+	
 		f = new File("keymap.dat");
 		if (!f.exists()) {
 			FileSaver.save(controls.keyMap, "keymap.dat");

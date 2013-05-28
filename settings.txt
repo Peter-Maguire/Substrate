@@ -1,5 +1,5 @@
 #Substrate Property File. 
-GatherStats: OFF
+GatherStats: ON
 Cheats: OFF
 MapPreviews: OFF
 Volume: 100
