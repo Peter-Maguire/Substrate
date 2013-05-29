@@ -22,14 +22,12 @@ public class Font {
 	{
 		this.game = game;
 		this.g = g;
-		this.fontsheet = fontsheet;
+		this.setFontsheet(fontsheet);
 		
 		chars = new BufferedImage[fontsheet.getHeight() * fontsheet.getWidth()];
 		
 		int rows = fontsheet.getWidth() / 8; 
 		int cols = fontsheet.getHeight() /8;
-
-		
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
@@ -37,8 +35,7 @@ public class Font {
 						i * 8, 8, 8);
 			}
 		}
-		
-		
+
 	}
 	
 	
@@ -85,6 +82,16 @@ public class Font {
 			
 		}
 		
+	}
+
+
+	public BufferedImage getFontsheet() {
+		return fontsheet;
+	}
+
+
+	public void setFontsheet(BufferedImage fontsheet) {
+		this.fontsheet = fontsheet;
 	}
 	
 	

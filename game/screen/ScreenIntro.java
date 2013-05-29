@@ -4,7 +4,6 @@ import game.Controls;
 import game.Game;
 import game.SpriteSheet;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 

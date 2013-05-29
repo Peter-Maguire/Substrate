@@ -6,7 +6,6 @@ import game.Map;
 import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
-import game.entity.EntitySign;
 import game.entity.Player;
 import game.tile.Tile;
 
@@ -31,8 +30,6 @@ public class ScreenGame extends Screen {
 	public int yScroll = 0;
 	int mapSize = 0;
 
-
-
 	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g, Map mapfile) {
 		super(width, height, sheet);
 		this.w = width;
@@ -42,11 +39,6 @@ public class ScreenGame extends Screen {
 		tiles = mapfile.tiles;
 		if(!mapfile.entities.contains(player))
 		entities.add(player);
-		
-
-		
-		
-
 	}
 	
 	public void spawnEntity(Entity entity)
@@ -54,14 +46,10 @@ public class ScreenGame extends Screen {
 		entities.add(entity);
 	}
 
-
 	@Override
 	public void tick() {
 		player.tryMoveEntity(velx, vely);
-
 	}
-
-
 
 	public Tile getTileAt(int x, int y) {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
@@ -104,10 +92,8 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void render(final Graphics g) {
-
 		
-		
-		for (int i = 0; i < tiles.keySet().size(); i++) {
+	for (int i = 0; i < tiles.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
 			Tile tile = tiles.get(rec);	
 			tile.tick();
@@ -187,7 +173,7 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		entities.add(new EntitySign(this, "This Sign", "is", "is a test", e.getX(), e.getY()));
+		//entities.add(new EntitySign(this, "This Sign", "is", "is a test", e.getX(), e.getY()));
 		/*tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
 				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
 				.getButton() == MouseEvent.BUTTON1 ? Tile.tiles[11] : Tile.tiles[1]); //TODO: FIX
