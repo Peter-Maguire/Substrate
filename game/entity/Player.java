@@ -23,6 +23,11 @@ public class Player extends Entity {
 
 	}
 	
+	public Player()
+	{
+		this.sprite = 0;
+	}
+	
 	@Override
 	public boolean tryMoveEntity(int x, int y)
 	{

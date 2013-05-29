@@ -20,6 +20,11 @@ public class EntityExplosion extends Entity{
 		this.sprite = -1;
 	}
 	
+	public EntityExplosion()
+	{
+		sprite = 35;
+	}
+	
 	
 	@Override
 	public void tick()

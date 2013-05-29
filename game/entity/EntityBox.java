@@ -18,6 +18,10 @@ public class EntityBox extends Entity{
 		this.sprite = 8;
 	}
 	
+	public EntityBox() {
+		this.sprite = 8;
+	}
+	
 	@Override
 	public void tick()
 	{

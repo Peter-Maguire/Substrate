@@ -18,6 +18,11 @@ public class EntityAmmo extends Entity{
 		sprite = 9;
 	}
 	
+	public EntityAmmo()
+	{
+		sprite = 9;
+	}
+	
 	@Override
 	public void tick()
 	{

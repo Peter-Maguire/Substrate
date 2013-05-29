@@ -20,9 +20,15 @@ public class Entity {
 	public Entity(ScreenGame game) {
 		this.game = game;
 	}
+	
+	public Entity()
+	{
+		
+	}
 
 	public void tick() {
-
+		if(health <= 0)
+			onDeath();
 	}
 
 	/**
@@ -137,6 +143,11 @@ public class Entity {
 	public void onCollideWithPlayer(int x, int y)
 	{
 		
+	}
+	
+	public void onDeath()
+	{
+		this.forRemoval = true;
 	}
 
 }

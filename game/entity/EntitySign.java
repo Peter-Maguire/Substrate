@@ -29,6 +29,11 @@ public class EntitySign extends Entity{
 		this.y = y;
 	}
 	
+	public EntitySign()
+	{
+		this.sprite = 9;
+	}
+	
 	@Override
 	public void render(Graphics g)
 	{

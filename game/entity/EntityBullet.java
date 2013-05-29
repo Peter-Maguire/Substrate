@@ -26,6 +26,11 @@ public class EntityBullet extends Entity{
 		
 	}
 	
+	public EntityBullet()
+	{
+		sprite = 4;
+	}
+	
 	@Override
 	public void tick()
 	{
