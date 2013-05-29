@@ -1,6 +1,7 @@
 package game.screen;
 
 import game.Game;
+import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
 import game.mapeditor.tools.Tool;
@@ -11,6 +12,7 @@ import game.tile.Tile;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -23,13 +25,13 @@ public class ScreenMapEditor extends Screen {
 	private static final int MENU_TOOL = 2;
 	
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
-	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private int openMenu = 0;
 	private boolean isPlacingTile = true;
 	
 	private Tool currentTool = null;
-	private Tile currentTile = null;
+	public Tile currentTile = null;
 	
 	
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
@@ -45,6 +47,14 @@ public class ScreenMapEditor extends Screen {
 	
 	private void init()
 	{
+		
+		for(int x = 0; x < Game.WIDTH/32; x++)
+		{
+			for(int y = 0; y < (Game.HEIGHT-64)/32; y++)
+			{
+				tiles.put(new Rectangle(x*32, y*32, 32, 32), Tile.tiles[0]);
+			}
+		}
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
@@ -101,8 +111,20 @@ public class ScreenMapEditor extends Screen {
 		g.fillRect(x, y-height/2, width, height);
 	}
 	
-	@Override
-	public void render(Graphics g)
+	private void drawMap(Graphics g)
+	{
+		for (int i = 0; i < tiles.keySet().size(); i++) {
+			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
+			Tile tile = tiles.get(rec);	
+			tile.tick();
+			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x,
+					rec.y, rec.width, rec.height, game);
+			g.setColor(Color.white);
+			g.drawRect(rec.x, rec.y,32,32);
+		}
+	}
+	
+	private void drawUI(Graphics g)
 	{
 		g.setColor(new Color(255,255,255,155));
 		g.fillRect(0, 500, Game.WIDTH, 100);
@@ -144,8 +166,42 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}
-		
+	}
+	
+	@Override
+	public void render(Graphics g)
+	{
+		drawMap(g);
+		drawUI(g);
 
+	}
+	
+	public Tile getTileAt(int x, int y) {
+		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
+				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
+				16 * Game.SCALE);
+		return tiles.get(rec);
+	}
+	
+	public void setTileAt(int x, int y, Tile tile)
+	{
+		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
+				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
+				16 * Game.SCALE);
+		
+		tiles.put(rec, tile);
+	}
+	
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		isPlacingTile = true;
+		super.mousePressed(arg0);
+		
+		if(isPlacingTile && openMenu == MENU_NONE)
+		{
+			currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
+		}
+		
 	}
 
 	@Override
