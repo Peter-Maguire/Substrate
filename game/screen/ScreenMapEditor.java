@@ -5,6 +5,7 @@ import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
 import game.mapeditor.tools.Tool;
+import game.mapeditor.tools.ToolBox;
 import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
@@ -28,10 +29,10 @@ public class ScreenMapEditor extends Screen {
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private int openMenu = 0;
-	private boolean isPlacingTile = true;
+	private boolean isPlacingTile = true, showGrid = true;
 	
 	private Tool currentTool = null;
-	public Tile currentTile = null;
+	public Tile currentTile = null; 
 	
 	
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
@@ -57,8 +58,12 @@ public class ScreenMapEditor extends Screen {
 		}
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
+		toolRegistry.add(new ToolBox("Rectangle", 6));
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
+		addButton("toggleGrid", new Rectangle(250,579,32,32));
+		addButton("save", new Rectangle(250,515,32,32));
+		addButton("open", new Rectangle(250,547,32,32));
 		
 		int i = 0;
 		for(Tool t : toolRegistry){
@@ -120,16 +125,19 @@ public class ScreenMapEditor extends Screen {
 			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x,
 					rec.y, rec.width, rec.height, game);
 			g.setColor(Color.white);
-			g.drawRect(rec.x, rec.y,32,32);
+			if(showGrid)g.drawRect(rec.x, rec.y,32,32);
 		}
 	}
 	
 	private void drawUI(Graphics g)
 	{
 		g.setColor(new Color(255,255,255,155));
-		g.fillRect(0, 500, Game.WIDTH, 100);
+		g.fillRect(0, 514, Game.WIDTH, 96);
 		drawTileSelection(10, 520, currentTile.sprite,"Tile", g);
 		drawToolSelection(104, 520, currentTool.getSprite(),"Tool", g);
+		g.drawImage(game.sheetUI.getImage(2),250,515,32,32,game);
+		g.drawImage(game.sheetUI.getImage(3),250,547,32,32,game);
+		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4),250,579,32,32,game);
 		if(openMenu == MENU_TILE)
 		{
 			drawMenuBox(10,320,400,200, g);
@@ -141,7 +149,7 @@ public class ScreenMapEditor extends Screen {
 				g.drawRect(13+(42*x), 225+(42*y), 33, 34);
 				g.setColor(new Color(0,0,0,135));
 				g.fillRect(13+(42*x), 225+(42*y), 33, 34);
-				g.drawImage(game.sheetTiles.getImage(Tile.tiles[i].sprite),14+(42*x),227+(42*y),32,32,game);
+				g.drawImage(game.sheetTiles.getImage(t.sprite),14+(42*x),227+(42*y),32,32,game);
 				i++;
 				x++;
 				if(45*x > 400)
@@ -166,6 +174,7 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}
+
 	}
 	
 	@Override
@@ -218,6 +227,11 @@ public class ScreenMapEditor extends Screen {
 			openMenu = openMenu == MENU_TOOL ? MENU_NONE : MENU_TOOL;
 			return;
 		}
+		if(name == "toggleGrid")
+		{
+			showGrid = !showGrid;
+			return;
+		}
 		if(openMenu == MENU_TOOL)
 		{
 			currentTool = toolRegistry.get(Integer.parseInt(name));
@@ -229,6 +243,7 @@ public class ScreenMapEditor extends Screen {
 			currentTile = Tile.tiles[Integer.parseInt(name)];
 			openMenu = MENU_NONE;
 		}
+
 
 	}
 
