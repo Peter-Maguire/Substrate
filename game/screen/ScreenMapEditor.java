@@ -1,9 +1,16 @@
 package game.screen;
 
+import game.FileSaver;
 import game.Game;
+import game.Map;
 import game.MathHelper;
 import game.SpriteSheet;
 import game.entity.Entity;
+import game.entity.EntityAmmo;
+import game.entity.EntityBox;
+import game.entity.EntityExplosion;
+import game.entity.EntitySign;
+import game.entity.Player;
 import game.mapeditor.tools.Tool;
 import game.mapeditor.tools.ToolBox;
 import game.mapeditor.tools.ToolPencil;
@@ -14,8 +21,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class ScreenMapEditor extends Screen {
 
@@ -24,15 +36,18 @@ public class ScreenMapEditor extends Screen {
 	private static final int MENU_NONE = 0;
 	private static final int MENU_TILE = 1;
 	private static final int MENU_TOOL = 2;
+	private static final int MENU_ENTITY = 3;
 	
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
+	private ArrayList<Class<? extends Entity>> entityRegistry = new ArrayList<Class <? extends Entity>>();
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private int openMenu = 0;
-	private boolean isPlacingTile = true, showGrid = true;
+	private int openMenu = 0, mapVersion = 1;
+	private boolean isPlacingTile = true, showGrid = true, isEntityMode = false;
 	
 	private Tool currentTool = null;
 	public Tile currentTile = null; 
+	private Entity currentEntity = null;
 	
 	
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
@@ -59,11 +74,20 @@ public class ScreenMapEditor extends Screen {
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		toolRegistry.add(new ToolBox("Rectangle", 6));
-		addButton("selectTile", new Rectangle(10, 520, 64, 64));
-		addButton("selectTool", new Rectangle(104, 520, 64, 64));
-		addButton("toggleGrid", new Rectangle(250,579,32,32));
-		addButton("save", new Rectangle(250,515,32,32));
-		addButton("open", new Rectangle(250,547,32,32));
+		entityRegistry.add(EntityBox.class);
+		entityRegistry.add(EntityAmmo.class);
+		entityRegistry.add(EntityExplosion.class);
+		entityRegistry.add(EntitySign.class);
+		entityRegistry.add(Player.class);
+		
+		addButton("selectTile", new Rectangle(10,520,64,64));
+		addButton("selectTool", new Rectangle(104,520,64,64));
+		addButton("selectEntity", new Rectangle(194,520,64,64));
+		addButton("toggleGrid", new Rectangle(350,579,32,32));
+		addButton("toggleMode", new Rectangle(385,520,33,32));
+		addButton("save", new Rectangle(350,515,32,32));
+		addButton("open", new Rectangle(350,547,32,32));
+		
 		
 		int i = 0;
 		for(Tool t : toolRegistry){
@@ -87,6 +111,12 @@ public class ScreenMapEditor extends Screen {
 
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
+		try {
+			currentEntity = entityRegistry.get(0).newInstance();
+		} catch (InstantiationException | IllegalAccessException e) {
+			System.out.println("Fucking peice of shit java");
+			e.printStackTrace();
+		}
 	}
 	
 	private void drawTileSelection(int x, int y, int texpos,String text, Graphics g)
@@ -102,6 +132,16 @@ public class ScreenMapEditor extends Screen {
 	private void drawToolSelection(int x, int y, int texpos,String text, Graphics g)
 	{
 		g.drawImage(game.sheetUI.getImage(texpos), x, y,64,64, game);
+		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
+		g.drawImage(sheet.getImage(15), x+32, y, 32, 32, game);
+		g.drawImage(sheet.getImage(30), x, y+32, 32, 32, game);
+		g.drawImage(sheet.getImage(31), x+32, y+32, 32, 32, game);
+		game.getFontRenderer().drawString(text, x+15, y+65, 1);
+		
+	}
+	private void drawEntitySelection(int x, int y, int texpos,String text, Graphics g)
+	{
+		g.drawImage(game.sheetEntities.getImage(texpos), x, y,64,64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x+32, y, 32, 32, game);
 		g.drawImage(sheet.getImage(30), x, y+32, 32, 32, game);
@@ -135,13 +175,20 @@ public class ScreenMapEditor extends Screen {
 		g.fillRect(0, 514, Game.WIDTH, 96);
 		drawTileSelection(10, 520, currentTile.sprite,"Tile", g);
 		drawToolSelection(104, 520, currentTool.getSprite(),"Tool", g);
-		g.drawImage(game.sheetUI.getImage(2),250,515,32,32,game);
-		g.drawImage(game.sheetUI.getImage(3),250,547,32,32,game);
-		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4),250,579,32,32,game);
+		drawEntitySelection(194, 520, currentEntity.sprite,"Entity", g);
+		g.drawImage(game.sheetUI.getImage(2),350,515,32,32,game);
+		g.drawImage(game.sheetUI.getImage(3),350,547,32,32,game);
+		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4),350,579,32,32,game);
+		
+		g.setColor(Color.BLACK);
+		g.drawRect(385, 520, 32, 32);
+		g.setColor(new Color(0,0,0,135));
+		g.fillRect(385, 520, 33, 32);
+		game.getFontRenderer().drawString(isEntityMode ? "ENT" : "TILE", 385, 527, 1);
+		game.getFontRenderer().drawString("MODE", 385, 537, 1);
 		if(openMenu == MENU_TILE)
 		{
 			drawMenuBox(10,320,400,200, g);
-			int i = 0;
 			int x = 0;
 			int y = 0;
 			for(Tile t : Tile.tiles){
@@ -150,7 +197,6 @@ public class ScreenMapEditor extends Screen {
 				g.setColor(new Color(0,0,0,135));
 				g.fillRect(13+(42*x), 225+(42*y), 33, 34);
 				g.drawImage(game.sheetTiles.getImage(t.sprite),14+(42*x),227+(42*y),32,32,game);
-				i++;
 				x++;
 				if(45*x > 400)
 				{
@@ -164,6 +210,20 @@ public class ScreenMapEditor extends Screen {
 		if(openMenu == MENU_TOOL)
 		{
 			drawMenuBox(104,450,300,50, g);
+			int i = 0;
+			for(Tool t : toolRegistry){
+				g.setColor(Color.BLACK);
+				g.drawRect(112+(42*i), 434, 32, 32);
+				g.setColor(new Color(0,0,0,135));
+				g.fillRect(112+(42*i), 434, 32, 32);
+				g.drawImage(game.sheetUI.getImage(t.getSprite()),112+(42*i),436,32,32,game);
+				i++;
+			}
+		}
+		
+		if(openMenu == MENU_ENTITY)
+		{
+			drawMenuBox(194,450,300,50, g);
 			int i = 0;
 			for(Tool t : toolRegistry){
 				g.setColor(Color.BLACK);
@@ -194,11 +254,25 @@ public class ScreenMapEditor extends Screen {
 	
 	public void setTileAt(int x, int y, Tile tile)
 	{
+		if(game.settings.getSetting("UseAdvancedTilePlacement") == "ON")
+		{
+			for (int i = 0; i < tiles.keySet().size(); i++) {
+				Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
+				if(rec.contains(x,y))
+					{
+					 tiles.put(rec, tile);
+					 return;
+					}
+			}
+			
+			
+		}else{
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
 				16 * Game.SCALE);
 		
 		tiles.put(rec, tile);
+		}
 	}
 	
 	@Override
@@ -217,6 +291,16 @@ public class ScreenMapEditor extends Screen {
 	public void postAction(String name)
 	{
 		isPlacingTile = false;
+		if(name == "save")
+		{
+			saveMap();
+			return;
+		}
+		if(name == "open")
+		{
+			openFile();
+			return;
+		}
 		if(name == "selectTile")
 		{
 			openMenu = openMenu == MENU_TILE ? MENU_NONE : MENU_TILE;
@@ -227,9 +311,19 @@ public class ScreenMapEditor extends Screen {
 			openMenu = openMenu == MENU_TOOL ? MENU_NONE : MENU_TOOL;
 			return;
 		}
+		if(name == "selectEntity")
+		{
+			openMenu = openMenu == MENU_ENTITY ? MENU_NONE : MENU_ENTITY;
+			return;
+		}
 		if(name == "toggleGrid")
 		{
 			showGrid = !showGrid;
+			return;
+		}
+		if(name == "toggleMode")
+		{
+			isEntityMode = !isEntityMode;
 			return;
 		}
 		if(openMenu == MENU_TOOL)
@@ -245,6 +339,39 @@ public class ScreenMapEditor extends Screen {
 		}
 
 
+	}
+	
+	private void openFile()
+	{
+		JFileChooser fileChooser = new JFileChooser(new File(FileSaver.getCleanPath()+"/maps/"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "Substrate Map File", "smf");
+		fileChooser.setFileFilter(filter);
+	
+		if (fileChooser.showOpenDialog(new JFrame("Open")) == JFileChooser.APPROVE_OPTION) {
+		  File file = fileChooser.getSelectedFile();
+		  Map loadedMap = (Map)FileSaver.load(file.getAbsolutePath());
+		  this.tiles = loadedMap.tiles;
+		  this.entities = loadedMap.entities;
+		  this.mapVersion = Integer.parseInt(loadedMap.version);
+		}
+	
+	}
+	
+	private void saveMap()
+	{
+		JFileChooser fileChooser = new JFileChooser(new File(FileSaver.getCleanPath()+"/maps/"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+		        "Substrate Map File", "smf");
+		fileChooser.setFileFilter(filter);
+		if (fileChooser.showSaveDialog(new JFrame("Save")) == JFileChooser.APPROVE_OPTION) {
+		  File file = fileChooser.getSelectedFile();
+		  Map savedMap = new Map(file.getName().replace("_"," ").replace(".smf",""), "NYI", (mapVersion+1)+"",tiles, entities);
+		  FileSaver.save(savedMap, file.getAbsolutePath().contains(".smf") == false ? file.getAbsolutePath()+".smf" : file.getAbsolutePath());
+		 
+		}
 	}
 
 	

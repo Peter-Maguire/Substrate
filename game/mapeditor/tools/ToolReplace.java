@@ -1,5 +1,7 @@
 package game.mapeditor.tools;
 
+import java.awt.Rectangle;
+
 import game.Game;
 import game.screen.ScreenMapEditor;
 import game.tile.Tile;
@@ -15,16 +17,17 @@ public class ToolReplace extends Tool{
 	public void onToolUsed(int x, int y, ScreenMapEditor screen)
 	{
 		Tile clickedTile = screen.getTileAt(x, y);
-		for(int tx = 0; tx < Game.WIDTH; tx++)
-		{
-			for(int ty = 0; ty < Game.HEIGHT-100; ty++)
+		
+		for (int i = 0; i < screen.tiles.keySet().size(); i++) {
+			Rectangle rec = (Rectangle) screen.tiles.keySet().toArray()[i];
+					
+			if(screen.tiles.get(rec) == clickedTile)
 			{
-				if(screen.getTileAt(tx, ty) == clickedTile)
-				{
-					screen.setTileAt(tx, ty, screen.currentTile);
-				}
+				screen.setTileAt(rec.x, rec.y, screen.currentTile);
 			}
+				
 		}
+			
 	}
 
 }

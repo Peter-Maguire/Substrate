@@ -53,8 +53,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public Game() {
 
-		setSize(200, 200);
-		setBounds(0, 0, 800, 600);
+		setSize(WIDTH, HEIGHT);
+		//setBounds(0, 0, WIDTH, HEIGHT);
 		setIgnoreRepaint(true);
 		addKeyListener(this);
 		addFocusListener(this);
@@ -148,6 +148,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
 			SETTINGS.put("MapPreviews", "ON");
+			SETTINGS.put("UseAdvancedTilePlacement", "ON");
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+"\\settings.txt");
 		} else {
 			log("Found settings.dat, loading...");

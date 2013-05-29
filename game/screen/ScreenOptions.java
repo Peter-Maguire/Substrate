@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ScreenOptions extends Screen {
 
 
-	private String sound = "OFF", music = "ON", debug = "OFF", gatherStats = "ON", mpMapPrev="ON", showTutorial = "OFF", showConsole = "OFF";
+	private String sound, music , debug , gatherStats , mpMapPrev, showTutorial , showConsole , advTilePlacement;
 	private int volume = 10;
 	public ScreenOptions(int width, int height, SpriteSheet sheet, HashMap<String, String> options) {
 		super(width, height, sheet);
@@ -28,7 +28,8 @@ public class ScreenOptions extends Screen {
 		addButton("toggleMapPrev", new Rectangle(550, 327,90, 30));
 		addButton("toggleTutorial", new Rectangle(550, 367,90, 30));
 		addButton("toggleConsole", new Rectangle(550, 407,90, 30));
-			
+		addButton("toggleTilePlacement", new Rectangle(550, 447,90, 30));
+		
 		addButton("increaseSound", new Rectangle(702, 238, 25, 30));
 		addButton("decreaseSound", new Rectangle(473, 238, 25, 30));
 		
@@ -36,6 +37,8 @@ public class ScreenOptions extends Screen {
 		
 		addButton("save", new Rectangle(292, 547,95, 28));
 		addButton("cancel", new Rectangle(392, 547,120, 28));
+		
+		
 		
 
 		
@@ -69,6 +72,7 @@ public class ScreenOptions extends Screen {
 		mpMapPrev = settings.get("MapPreviews");
 		showTutorial = settings.get("HasDoneIntro");
 		showConsole = settings.get("Cheats");
+		advTilePlacement = settings.get("UseAdvancedTilePlacement");
 	}
 	
 	@Override
@@ -113,6 +117,11 @@ public class ScreenOptions extends Screen {
 		if(action == "toggleStats")
 		{	
 			gatherStats = gatherStats.contains("ON") ? "OFF" : "ON";
+			return;
+		}
+		if(action == "toggleTilePlacement")
+		{	
+			advTilePlacement = advTilePlacement.contains("ON") ? "OFF" : "ON";
 			return;
 		}
 		if(action == "toggleMapPrev")
@@ -185,6 +194,11 @@ public class ScreenOptions extends Screen {
 		game.getFontRenderer().drawString("Display developer console", 310, 407, 1);
 		game.getFontRenderer().drawString("for commands and things.", 310, 417, 1);
 		ScreenTools.drawOnOffButton(550, 407,90, 30, showConsole, g, game);	
+		
+		game.getFontRenderer().drawString("Adv Tile math", 100, 447, 2);
+		game.getFontRenderer().drawString("Use advanced tile placement,", 310, 447, 1);
+		game.getFontRenderer().drawString("more accurate but slower.", 310, 457, 1);
+		ScreenTools.drawOnOffButton(550, 447,90, 30, advTilePlacement, g, game);	
 		
 		
 		ScreenTools.drawButton(292, 547,95, 28, "Save", g, game);	

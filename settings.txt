@@ -1,9 +1,10 @@
 #Substrate Property File. 
-GatherStats: ON
 Cheats: OFF
+GatherStats: ON
 MapPreviews: OFF
 Volume: 100
-Music: OFF
 Sound: OFF
+Music: OFF
 Debug: ON
 HasDoneIntro: ON
+UseAdvancedTilePlacement: ON
