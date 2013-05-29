@@ -21,7 +21,7 @@ import java.util.HashMap;
 public class ScreenGame extends Screen {
 
 	
-	public Player player = new Player(this);
+	public Player player;
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 
@@ -34,7 +34,6 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
-
 		entities = mapfile.entities;
 		tiles = mapfile.tiles;
 		if(!mapfile.entities.contains(player))
@@ -48,7 +47,16 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void tick() {
+		if(player == null)player = new Player(this);
 		player.tryMoveEntity(velx, vely);
+	}
+	
+	@Override
+	public void init(Game game)
+	{
+		System.out.println("Initializing");
+		super.init(game);
+		player = new Player(this);
 	}
 
 	public Tile getTileAt(int x, int y) {
@@ -107,7 +115,9 @@ public class ScreenGame extends Screen {
 		}	
 		for(int i = 0; i < entities.size(); i++)
 		{
+
 			Entity ent = entities.get(i);
+			if(ent == null)break;
 			if(ent.forRemoval)
 				entities.remove(i);
 			ent.tick();
@@ -173,11 +183,7 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//entities.add(new EntitySign(this, "This Sign", "is", "is a test", e.getX(), e.getY()));
-		/*tiles.put(new Rectangle(MathHelper.round(e.getX(), 16 * Game.SCALE),
-				MathHelper.round(e.getY(), 16 * Game.SCALE), 32, 32), e
-				.getButton() == MouseEvent.BUTTON1 ? Tile.tiles[11] : Tile.tiles[1]); //TODO: FIX
-*/	}
+	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {

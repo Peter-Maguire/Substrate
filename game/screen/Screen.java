@@ -37,7 +37,7 @@ public class Screen {
 		for (int x = 0; x < game.getWidth() / 16; x++) {
 			for (int y = 0; y < game.getHeight() / 16; y++) {
 
-				game.g.drawImage(game.sheet.getImage(7), x * 16, y * 16, game);
+				game.g.drawImage(game.sheetTiles.getImage(7), x * 16, y * 16, game);
 
 			}
 		}

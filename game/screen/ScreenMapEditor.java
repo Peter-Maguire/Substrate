@@ -39,7 +39,7 @@ public class ScreenMapEditor extends Screen {
 	private static final int MENU_ENTITY = 3;
 	
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
-	private ArrayList<Class<? extends Entity>> entityRegistry = new ArrayList<Class <? extends Entity>>();
+	private ArrayList<Entity> entityRegistry = new ArrayList<Entity>();
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private int openMenu = 0, mapVersion = 1;
@@ -74,11 +74,11 @@ public class ScreenMapEditor extends Screen {
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		toolRegistry.add(new ToolBox("Rectangle", 6));
-		entityRegistry.add(EntityBox.class);
-		entityRegistry.add(EntityAmmo.class);
-		entityRegistry.add(EntityExplosion.class);
-		entityRegistry.add(EntitySign.class);
-		entityRegistry.add(Player.class);
+		entityRegistry.add(new EntityBox());
+		entityRegistry.add(new EntityAmmo());
+		entityRegistry.add(new EntityExplosion());
+		entityRegistry.add(new EntitySign());
+		entityRegistry.add(new Player());
 		
 		addButton("selectTile", new Rectangle(10,520,64,64));
 		addButton("selectTool", new Rectangle(104,520,64,64));
@@ -108,15 +108,17 @@ public class ScreenMapEditor extends Screen {
 				x = 0;
 			}
 		}
+		
+		i = 0;
+		for(Entity e : entityRegistry){
+			addButton(i+"",new Rectangle(212+(42*i), 434, 32, 32));
+			i++;
+		}
 
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
-		try {
-			currentEntity = entityRegistry.get(0).newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			System.out.println("Fucking peice of shit java");
-			e.printStackTrace();
-		}
+		currentEntity = entityRegistry.get(0);
+		
 	}
 	
 	private void drawTileSelection(int x, int y, int texpos,String text, Graphics g)
@@ -141,7 +143,7 @@ public class ScreenMapEditor extends Screen {
 	}
 	private void drawEntitySelection(int x, int y, int texpos,String text, Graphics g)
 	{
-		g.drawImage(game.sheetEntities.getImage(texpos), x, y,64,64, game);
+		g.drawImage(currentEntity instanceof EntityExplosion ? game.sheetExplosions.getImage(texpos) : game.sheetEntities.getImage(texpos), x, y,64,64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x+32, y, 32, 32, game);
 		g.drawImage(sheet.getImage(30), x, y+32, 32, 32, game);
@@ -167,6 +169,10 @@ public class ScreenMapEditor extends Screen {
 			g.setColor(Color.white);
 			if(showGrid)g.drawRect(rec.x, rec.y,32,32);
 		}
+		for(Entity e : entities)
+		{
+			e.render(g);
+		}
 	}
 	
 	private void drawUI(Graphics g)
@@ -179,7 +185,6 @@ public class ScreenMapEditor extends Screen {
 		g.drawImage(game.sheetUI.getImage(2),350,515,32,32,game);
 		g.drawImage(game.sheetUI.getImage(3),350,547,32,32,game);
 		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4),350,579,32,32,game);
-		
 		g.setColor(Color.BLACK);
 		g.drawRect(385, 520, 32, 32);
 		g.setColor(new Color(0,0,0,135));
@@ -225,16 +230,15 @@ public class ScreenMapEditor extends Screen {
 		{
 			drawMenuBox(194,450,300,50, g);
 			int i = 0;
-			for(Tool t : toolRegistry){
+			for(Entity e : entityRegistry){
 				g.setColor(Color.BLACK);
-				g.drawRect(112+(42*i), 434, 32, 32);
+				g.drawRect(212+(42*i), 434, 32, 32);
 				g.setColor(new Color(0,0,0,135));
-				g.fillRect(112+(42*i), 434, 32, 32);
-				g.drawImage(game.sheetUI.getImage(t.getSprite()),112+(42*i),436,32,32,game);
+				g.fillRect(212+(42*i), 434, 32, 32);
+				g.drawImage(e instanceof EntityExplosion ? game.sheetExplosions.getImage(e.sprite) : game.sheetEntities.getImage(e.sprite),212+(42*i),436,32,32,game);
 				i++;
 			}
 		}
-
 	}
 	
 	@Override
@@ -242,7 +246,6 @@ public class ScreenMapEditor extends Screen {
 	{
 		drawMap(g);
 		drawUI(g);
-
 	}
 	
 	public Tile getTileAt(int x, int y) {
@@ -280,9 +283,22 @@ public class ScreenMapEditor extends Screen {
 		isPlacingTile = true;
 		super.mousePressed(arg0);
 		
-		if(isPlacingTile && openMenu == MENU_NONE)
+		if(isPlacingTile && openMenu == MENU_NONE && !isEntityMode)
 		{
 			currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
+		}else if(isPlacingTile && isEntityMode && openMenu == MENU_NONE)
+		{
+			try {
+				Entity newent = currentEntity.getClass().newInstance();
+				newent.x = arg0.getX();
+				newent.y = arg0.getY();
+				newent.game = game;
+				entities.add(newent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			
 		}
 		
 	}
@@ -337,6 +353,12 @@ public class ScreenMapEditor extends Screen {
 			currentTile = Tile.tiles[Integer.parseInt(name)];
 			openMenu = MENU_NONE;
 		}
+		if(openMenu == MENU_ENTITY)
+		{
+			currentEntity = entityRegistry.get(Integer.parseInt(name));
+			openMenu = MENU_NONE;
+		}
+		
 
 
 	}
