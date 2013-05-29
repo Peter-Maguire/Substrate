@@ -6,19 +6,21 @@ import game.tile.Tile;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Entity {
+public class Entity implements Serializable {
 
+	private static final long serialVersionUID = -1098294243454921583L;
 	public int sprite = 1;
-	protected ScreenGame game;
+	public Game game;
 
 	public int x = 59, y = 50;
 	public boolean forRemoval = false;
 	int health = 20;
 
 	public Entity(ScreenGame game) {
-		this.game = game;
+		this.game = game.game;
 	}
 	
 	public Entity()
@@ -41,8 +43,10 @@ public class Entity {
 
 	public void render(Graphics g) {
 
-		g.drawImage(game.game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,
-				16 * Game.SCALE, game.game);
+
+		
+		g.drawImage(game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,
+				16 * Game.SCALE, game);
 	}
 
 	/**
@@ -67,7 +71,7 @@ public class Entity {
 			
 			
 			
-			tile = game.getTileAt(this.x + x - 15, this.y);
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x - 15, this.y);
 
 			if (tile == null)
 				return false;
@@ -85,7 +89,7 @@ public class Entity {
 		if (x == 1) // If entity is moving forwards
 		{
 			
-			tile = game.getTileAt(this.x + x + 15, this.y);
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x + 15, this.y);
 
 			if (tile == null)
 				return false;
@@ -101,7 +105,7 @@ public class Entity {
 		}
 		if (y == -1) { // If entity is moving up
 			
-			tile = game.getTileAt(this.x + x, this.y - 15);
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x, this.y - 15);
 
 			if (tile == null)
 				return false;
@@ -119,7 +123,7 @@ public class Entity {
 		if (y == 1) // If entity is moving down
 		{
 			
-			tile = game.getTileAt(this.x + x, this.y + 15);
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x, this.y + 15);
 
 			if (tile == null)
 				return false;

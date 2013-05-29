@@ -11,13 +11,17 @@ import game.screen.ScreenGame;
 
 public class Player extends Entity {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2248392686500480941L;
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
-	Screen game;
+	ScreenGame game;
 	private int orientation = 0, health = 20, ammo = 5;
 	public int ammocooldown = 0;
 
-	public Player(Screen game) {
-		super((ScreenGame) game);
+	public Player(ScreenGame game) {
+		super(game);
 		this.game =  game;
 		this.sprite = 0;
 
@@ -145,10 +149,7 @@ public class Player extends Entity {
 				ammo--;
 				ammocooldown = 256;
 			}
-			
-			
 		}
-	
 	}
 
 	public void keyReleased(KeyEvent e) {

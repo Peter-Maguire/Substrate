@@ -12,6 +12,10 @@ public class EntityBullet extends Entity{
 	
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1323593082285477607L;
 	private ScreenGame game;
 	private int type = 0, rotation = 0, speed = 6;
 	public EntityBullet(ScreenGame game, int type, int rotation, int x, int y) {

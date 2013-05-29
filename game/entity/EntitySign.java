@@ -1,6 +1,5 @@
 package game.entity;
 
-import game.Game;
 import game.screen.ScreenGame;
 import game.screen.ScreenTools;
 
@@ -9,6 +8,10 @@ import java.awt.Graphics;
 
 public class EntitySign extends Entity{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7792148283644707446L;
 	private String line1, line2, line3;
 	private boolean showGUI = false;
 	private int lastPlayerX, lastPlayerY;
@@ -40,11 +43,11 @@ public class EntitySign extends Entity{
 		super.render(g);
 		if(showGUI)
 		{
-			ScreenTools.drawButton(200, 100, 400, 150, " ", g, game.game, new Color(107,69,46), new Color(117,79,56));
-			game.game.getFontRenderer().drawString(line1,250, 120,2);
-			game.game.getFontRenderer().drawString(line2,250, 155,2);
-			game.game.getFontRenderer().drawString(line3,250, 187,2);
-			if(game.player.x != lastPlayerX || game.player.y != lastPlayerY)
+			ScreenTools.drawButton(200, 100, 400, 150, " ", g, game, new Color(107,69,46), new Color(117,79,56));
+			game.getFontRenderer().drawString(line1,250, 120,2);
+			game.getFontRenderer().drawString(line2,250, 155,2);
+			game.getFontRenderer().drawString(line3,250, 187,2);
+			if(((ScreenGame) game.currentScreen).player.x != lastPlayerX || ((ScreenGame) game.currentScreen).player.y != lastPlayerY)
 			{
 				showGUI = false;
 			}
@@ -60,8 +63,8 @@ public class EntitySign extends Entity{
 	public void onCollideWithPlayer(int x, int y)
 	{
 		showGUI = true;
-		lastPlayerX = game.player.x;
-		lastPlayerY = game.player.y;
+		lastPlayerX = ((ScreenGame) game.currentScreen).player.x;
+		lastPlayerY = ((ScreenGame) game.currentScreen).player.y;
 	}
 
 	

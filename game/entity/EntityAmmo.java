@@ -9,18 +9,22 @@ import java.awt.Rectangle;
 public class EntityAmmo extends Entity{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2659727171922463550L;
 	private ScreenGame game;
 	public EntityAmmo(ScreenGame game, int x, int y) {
 		super(game);
 		this.game = game;
 		this.x = x;
 		this.y = y;
-		sprite = 9;
+		sprite = 10;
 	}
 	
 	public EntityAmmo()
 	{
-		sprite = 9;
+		sprite = 10;
 	}
 	
 	@Override
