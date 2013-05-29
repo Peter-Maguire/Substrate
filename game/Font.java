@@ -47,6 +47,11 @@ public class Font {
 		drawString(text,(game.getWidth()/2)-text.length()*6, y, size);
 	}
 	
+	public void updateDrawGraphics(Graphics g)
+	{
+		this.g = g;
+	}
+	
 	public void drawString(String text, int x, int y, int size)
 	{
 		

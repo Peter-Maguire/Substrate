@@ -313,6 +313,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 	public void render() {
 		g = (Graphics2D) strategy.getDrawGraphics();
+		font.updateDrawGraphics(g);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH * 2, HEIGHT * 2);
 		currentScreen.render(g);
