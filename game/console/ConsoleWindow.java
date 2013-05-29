@@ -42,6 +42,7 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		
 		console = new JTextArea();
 		console.setEditable(false);
+		console.setSize(300, 400);
 		console.setRows(10);
 		console.setColumns(10);
 		
@@ -61,11 +62,9 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 	            }
 
 	            public void keyTyped(KeyEvent e) {
-	                // TODO: Do something for the keyTyped event
 	            }
 
 	            public void keyPressed(KeyEvent e) {
-	                // TODO: Do something for the keyPressed event
 	            }
 	        });
 
@@ -111,8 +110,7 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-	
-		
+
 	}
 
 	@Override
@@ -122,11 +120,6 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
-
-
-	
 }
