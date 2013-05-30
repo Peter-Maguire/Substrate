@@ -30,6 +30,7 @@ public class EntityAmmo extends Entity{
 	@Override
 	public void tick()
 	{
+		if(game == null)return;
 		if(game.getEntityInBox(new Rectangle(x, y, 16, 16)) != null)
 		{
 			Entity ent = game.getEntityInBox(new Rectangle(x, y, 16 * Game.SCALE, 16 * Game.SCALE));

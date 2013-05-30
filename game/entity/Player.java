@@ -1,13 +1,13 @@
 package game.entity;
 
+import game.Controls;
+import game.Game;
+import game.screen.ScreenGame;
+
+import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
-import game.Controls;
-import game.Game;
-import game.screen.Screen;
-import game.screen.ScreenGame;
 
 public class Player extends Entity {
 
@@ -16,13 +16,13 @@ public class Player extends Entity {
 	 */
 	private static final long serialVersionUID = -2248392686500480941L;
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
-	ScreenGame game;
 	private int orientation = 0, health = 20, ammo = 5;
+	private ScreenGame game2;
 	public int ammocooldown = 0;
 
 	public Player(ScreenGame game) {
 		super(game);
-		this.game =  game;
+		this.game2 = game;
 		this.sprite = 0;
 
 	}
@@ -32,6 +32,8 @@ public class Player extends Entity {
 		this.sprite = 0;
 	}
 	
+
+	
 	@Override
 	public boolean tryMoveEntity(int x, int y)
 	{
@@ -39,7 +41,7 @@ public class Player extends Entity {
 		
 		if(x == 1) // Player is moving forwards 
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 10 , this.y+y - 20, Game.SIZE, Game.SIZE));
+				ArrayList<Entity>eib = ((ScreenGame) game2).getEntitiesInBox(new Rectangle(this.x+x - 10 , this.y+y - 20, Game.SIZE, Game.SIZE));
 			if(eib.size() > 1)
 			{
 				for(Entity e : eib)
@@ -54,7 +56,7 @@ public class Player extends Entity {
 		}
 		if(x == -1) // Player is moving backwards
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 20, Game.SIZE, Game.SIZE));
+				ArrayList<Entity>eib = ((ScreenGame) game2).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 20, Game.SIZE, Game.SIZE));
 			if(eib.size() > 1)
 			{
 				for(Entity e : eib)
@@ -69,7 +71,7 @@ public class Player extends Entity {
 		}
 		if(y == 1) // Player is moving up 
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 5, Game.SIZE, Game.SIZE));
+				ArrayList<Entity>eib = ((ScreenGame) game2).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 5, Game.SIZE, Game.SIZE));
 			if(eib.size() > 1)
 			{
 				for(Entity e : eib)
@@ -84,7 +86,7 @@ public class Player extends Entity {
 		}
 		if(y == -1) // Player is moving down
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 25, Game.SIZE, Game.SIZE));
+				ArrayList<Entity>eib = ((ScreenGame) game2).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 25, Game.SIZE, Game.SIZE));
 			if(eib.size() > 1)
 			{
 				for(Entity e : eib)
@@ -122,30 +124,30 @@ public class Player extends Entity {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_UP)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP)) {
 			sprite = 1;
 			setOrientation(NORTH);
 
 		}
-		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_DOWN)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN)) {
 			sprite = 0;
 			setOrientation(SOUTH);
 
 		}
-		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_LEFT)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT)) {
 			sprite = 3 ;
 			setOrientation(WEST);
 
 		}
-		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_RIGHT)) {
+		if (e.getKeyCode() ==game.controls.getKey(Controls.CONTROL_RIGHT)) {
 			sprite = 2;
 			setOrientation(EAST);
 
 		}
-		if (e.getKeyCode() == game.game.controls.getKey(Controls.CONTROL_FIRE)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_FIRE)) {
 			if(ammo != 0 && ammocooldown == 0)
 			{
-				((ScreenGame) game).spawnEntity(new EntityBullet((ScreenGame) game, 0, getOrientation(), x, y));
+				((ScreenGame) game2).spawnEntity(new EntityBullet((ScreenGame) game2, 0, getOrientation(), x, y));
 				ammo--;
 				ammocooldown = 256;
 			}

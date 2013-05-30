@@ -43,8 +43,6 @@ public class Entity implements Serializable {
 
 	public void render(Graphics g) {
 
-
-		
 		g.drawImage(game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,
 				16 * Game.SCALE, game);
 	}

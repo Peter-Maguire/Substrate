@@ -1,9 +1,10 @@
 package game;
 
 import java.awt.event.KeyEvent;
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Controls {
+public class Controls{
 
 	
 	public HashMap<Integer, Integer> keyMap = new HashMap<Integer, Integer>();

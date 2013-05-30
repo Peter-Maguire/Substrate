@@ -1,6 +1,7 @@
 package game.screen;
 
 import game.Controls;
+import game.FileSaver;
 import game.Game;
 import game.Map;
 import game.MathHelper;
@@ -25,7 +26,7 @@ public class ScreenGame extends Screen {
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 
-	int velx = 0, vely = 0, w, h;
+	int velx = 0, vely = 0, w, h, px, py;
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
@@ -34,10 +35,31 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
-		entities = mapfile.entities;
+		
+		try {
+			entities = FileSaver.serialToEntity(mapfile.entities, game);
+			Game.log("Entity array size: "+entities.size());
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException e) {
+			Game.log("Sad trumpet noise");
+			e.printStackTrace();
+		}
+		
+		for(Entity ent : entities)
+		{
+			if(ent instanceof Player)
+			{
+				System.out.println("Found player instance at "+ent.x+","+ent.y+".");
+				entities.remove(ent);
+				player = (Player) ent;
+				entities.add(player);
+				break;
+			}
+		}
+	
+
 		tiles = mapfile.tiles;
-		if(!mapfile.entities.contains(player))
-		entities.add(player);
+
 	}
 	
 	public void spawnEntity(Entity entity)
@@ -47,14 +69,21 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void tick() {
-		if(player == null)player = new Player(this);
+		if(player == null)
+		{
+			player = new Player(this);
+			player.x = px;
+			player.y = py;
+			entities.add(player);
+		}
 		player.tryMoveEntity(velx, vely);
+
 	}
 	
 	@Override
 	public void init(Game game)
 	{
-		System.out.println("Initializing");
+		Game.log("Initializing");
 		super.init(game);
 		player = new Player(this);
 	}
@@ -111,19 +140,27 @@ public class ScreenGame extends Screen {
 		}
 		if (game.settings.getSetting("Debug") == "ON") {
 			game.getFontRenderer().drawString("DX:" + velx + " DY:" + vely+" SX:"+xScroll+" SY:"+yScroll+" WX:" + Game.WIDTH + " WY:" + Game.HEIGHT, 260, 0, 1);
-			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HEL:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " CLD: "+player.ammocooldown, 260, 10, 1);
+			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HP:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " CLD: "+player.ammocooldown, 260, 10, 1);
 		}	
 		for(int i = 0; i < entities.size(); i++)
 		{
-
+			
 			Entity ent = entities.get(i);
-			if(ent == null)break;
+			if(ent.game == null)
+			{
+				ent.game = game;
+				Game.log("Entity "+ent+" game instance was null. Game instance is now "+ent.game);
+			}
 			if(ent.forRemoval)
 				entities.remove(i);
 			ent.tick();
 			ent.render(g);
 
 		}
+		
+		g.drawImage(game.sheetEntities.getImage(player.sprite), player.x, player.y, 32, 32, game);
+		g.drawRect(player.x, player.y, 32, 32);
+		
 		
 		g.setColor(new Color(155, 155, 155, 142));
 		g.fillRect(0, h-74, w, h);

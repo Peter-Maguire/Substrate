@@ -1,5 +1,8 @@
 package game;
 
+import game.entity.Entity;
+import game.entity.SerialEntity;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,10 +13,45 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class FileSaver {
 
+	
+	
+	public static ArrayList<Entity> serialToEntity(ArrayList<SerialEntity> entlist, Game game) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+	{
+		System.out.println("Deserializing entity array...");
+		System.out.println(entlist.size()+" entities to deserialize.");
+		ArrayList<Entity>newlist = new ArrayList<Entity>();
+		for(SerialEntity se : entlist)
+		{
+			System.out.println("Deserialized entity "+se.relatedEntity);
+			Class<?> c = Class.forName(se.relatedEntity);
+			Entity dummyentity = (Entity) c.newInstance();
+			dummyentity.x = se.x;
+			dummyentity.y = se.y;
+			dummyentity.game = game;
+			newlist.add(dummyentity);
+		}
+		return newlist;
+	}
+	
+	public static ArrayList<SerialEntity> entityToSerial(ArrayList<Entity> entlist)
+	{
+		System.out.println("Serializing entity array...");
+		System.out.println(entlist.size()+" entities to serialize.");
+		ArrayList<SerialEntity> newlist = new ArrayList<SerialEntity>();
+		for(Entity e : entlist)
+		{
+			System.out.println("Serialized entity "+e.getClass().getCanonicalName());
+			newlist.add(new SerialEntity(e.x, e.y, 0, e.getClass().getCanonicalName()));
+		}
+		return newlist;
+	}
+	
+	
 	
 	public static void savePropertiesFile(HashMap<String, String> props, String path)
 	{
@@ -74,6 +112,7 @@ public class FileSaver {
 			
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
+			System.out.println(file);
 			oos.writeObject(file);
 		}
 		catch(FileNotFoundException e)

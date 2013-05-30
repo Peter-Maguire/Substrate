@@ -22,6 +22,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,10 +30,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class ScreenMapEditor extends Screen {
+public class ScreenMapEditor extends Screen{
 
 	
-	
+
 	private static final int MENU_NONE = 0;
 	private static final int MENU_TILE = 1;
 	private static final int MENU_TOOL = 2;
@@ -375,7 +376,13 @@ public class ScreenMapEditor extends Screen {
 		  File file = fileChooser.getSelectedFile();
 		  Map loadedMap = (Map)FileSaver.load(file.getAbsolutePath());
 		  this.tiles = loadedMap.tiles;
-		  this.entities = loadedMap.entities;
+		  try {
+			this.entities = FileSaver.serialToEntity(loadedMap.entities, game);
+		} catch (ClassNotFoundException | InstantiationException
+				| IllegalAccessException e) {
+			Game.log("Sad trumpet noise");
+			e.printStackTrace();
+		}
 		  this.mapVersion = Integer.parseInt(loadedMap.version);
 		}
 	
@@ -390,7 +397,10 @@ public class ScreenMapEditor extends Screen {
 		fileChooser.setFileFilter(filter);
 		if (fileChooser.showSaveDialog(new JFrame("Save")) == JFileChooser.APPROVE_OPTION) {
 		  File file = fileChooser.getSelectedFile();
-		  Map savedMap = new Map(file.getName().replace("_"," ").replace(".smf",""), "NYI", (mapVersion+1)+"",tiles, entities);
+	
+		  
+		  Map savedMap = new Map(file.getName().replace("_"," ").replace(".smf",""), "NYI", (mapVersion+1)+"",tiles, FileSaver.entityToSerial(entities));
+
 		  FileSaver.save(savedMap, file.getAbsolutePath().contains(".smf") == false ? file.getAbsolutePath()+".smf" : file.getAbsolutePath());
 		 
 		}
