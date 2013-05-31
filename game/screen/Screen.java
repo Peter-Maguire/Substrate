@@ -76,6 +76,9 @@ public class Screen {
 	public void addButton(String action, Rectangle bounds) {
 		bttn.put(bounds, action);
 	}
+	public void removeButton(Rectangle bounds) {
+		bttn.remove(bounds);
+	}
 
 	public HashMap<Rectangle, String> getButtons() {
 		return bttn;
@@ -86,7 +89,11 @@ public class Screen {
 	}
 
 	public void render(Graphics g) {
-
+		for (int i = 0; i < bttn.keySet().size(); i++) {
+			Rectangle rec = (Rectangle) bttn.keySet().toArray()[i];
+			g.setColor(Color.cyan);
+			g.drawRect(rec.x, rec.y, rec.width, rec.height);
+		}
 	}
 
 	public void init(Game game) {
@@ -99,6 +106,7 @@ public class Screen {
 			Rectangle rec = (Rectangle) bttn.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				String action = bttn.get(rec);
+				game.soundman.playSound("select.wav");
 				postAction(action);
 				break;
 
