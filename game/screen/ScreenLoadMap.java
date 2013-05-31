@@ -49,7 +49,7 @@ public class ScreenLoadMap extends Screen{
 		
 		if(maps.size() == 0)
 		{
-			game.getFontRenderer().drawString(hasLoadedMap ? "Loading.." : "No maps", 122, 255, 2, new Color(155,5,5));
+			game.getFontRenderer().drawString("No maps", 122, 255, 2, new Color(155,5,5));
 
 		}else{
 		

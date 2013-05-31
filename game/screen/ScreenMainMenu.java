@@ -27,7 +27,7 @@ public class ScreenMainMenu extends Screen {
 		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game, new Color(255,255,255,155), Color.white);
-		ScreenTools.drawButton(290, 212, 232, 25, "Crash :)", g, game, new Color(255,255,255,155), Color.white);
+		ScreenTools.drawButton(290, 212, 232, 25, "Quit", g, game, new Color(255,255,255,155), Color.white);
 		
 		game.getFontRenderer().drawString(Game.TITLE+" version "+Game.VERSION,0, Game.HEIGHT, 1);
 	}

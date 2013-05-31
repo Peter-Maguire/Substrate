@@ -28,7 +28,7 @@ public class ScreenIntro extends Screen{
 		if(page == 1){
 		game.getFontRenderer().drawString("Welcome to "+Game.TITLE+"!", 10, 30, 2);
 		game.getFontRenderer().drawString("The game is currently in very early stages.", 10, 50, 2);
-		game.getFontRenderer().drawString("Press LMB to place a wall, RMB to remove it.", 10, 70, 2);
+		game.getFontRenderer().drawString("If the next screen hangs, you don't have any maps", 10, 70, 2);
 		game.getFontRenderer().drawString("Space to fire, Arrow keys to move around.", 10, 90, 2);
 		}
 		
