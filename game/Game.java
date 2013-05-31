@@ -6,6 +6,7 @@ import game.screen.ScreenCrash;
 import game.screen.ScreenLoading;
 import game.screen.ScreenMainMenu;
 import game.sound.SoundManager;
+
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -19,6 +20,9 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -31,7 +35,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "Alpha v0.1";
+	public static String TITLE = "Substrate", VERSION = "0.1 Alpha";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -78,20 +82,19 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 
 	public synchronized void start() {
-
 		try {
 			gameLoop();
 		} catch (Exception e) {
-			e.printStackTrace();
-			String[] crashDump = { currentScreen.toString(),
-					Integer.toString(fps), Integer.toString(tps),
-					e.getMessage() };
+			String stacktrace = FileSaver.getStackTrace(e);
+			String[] crashDump = { "Crashed on screen: "+currentScreen.toString(), "Game version: "+Game.VERSION+
+					"FPS:"+Integer.toString(fps), "TPS:"+Integer.toString(tps),
+					"Stack trace: "+stacktrace,"Settings: "+SETTINGS, "---SYSTEM STATS---", "Operating System: "+ System.getProperty("os.name")+"_"+System.getProperty("os.version"), "Java Version: "+System.getProperty("java.version") };
+			
+
 			setScreen(new ScreenCrash(WIDTH, HEIGHT, null, crashDump));
 			render();
-
 		}
 		requestFocus();
-
 	}
 
 	public synchronized void stop() {
