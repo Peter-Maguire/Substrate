@@ -50,14 +50,13 @@ public class ScreenGame extends Screen {
 			if(ent instanceof Player)
 			{
 				System.out.println("Found player instance at "+ent.x+","+ent.y+".");
-				entities.remove(ent);
-				player = (Player) ent;
-				entities.add(player);
+				px = ent.x;
+				py = ent.y;
+				ent.forRemoval = true;
 				break;
 			}
 		}
 	
-
 		tiles = mapfile.tiles;
 
 	}
@@ -72,12 +71,12 @@ public class ScreenGame extends Screen {
 		if(player == null)
 		{
 			player = new Player(this);
-			player.x = px;
-			player.y = py;
+			player.setPos(px, py);
 			entities.add(player);
 		}
+			
 		player.tryMoveEntity(velx, vely);
-
+		
 	}
 	
 	@Override
@@ -85,7 +84,6 @@ public class ScreenGame extends Screen {
 	{
 		Game.log("Initializing");
 		super.init(game);
-		player = new Player(this);
 	}
 
 	public Tile getTileAt(int x, int y) {
