@@ -53,11 +53,11 @@ public class Font {
 	
 	public void drawCenteredString(String text, int y, int size)
 	{
-		drawString(text,(game.getWidth()/2)-text.length()*6, y, size, Color.white);
+		drawCenteredString(text, y, size, Color.white);
 	}
 	public void drawCenteredString(String text, int y, int size, Color colour)
 	{
-		drawString(text,(game.getWidth()/2)-text.length()*6, y, size, colour);
+		drawString(text,(Game.WIDTH/2)-(text.length()*(8*size)/2), y, size, colour);
 	}
 	public void drawString(String text, int x, int y, int size)
 	{
