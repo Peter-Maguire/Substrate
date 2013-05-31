@@ -42,9 +42,8 @@ public class ConsoleWindow extends JFrame implements KeyListener{
 		
 		console = new JTextArea();
 		console.setEditable(false);
-		console.setSize(300, 400);
-		console.setRows(10);
-		console.setColumns(10);
+		setSize(300, 400);
+
 		
 		cScroll = new JScrollPane();
 		cScroll.getViewport().add(console);
