@@ -19,19 +19,14 @@ public class SoundManager {
 	
 	private static final String[] sounds = 
 		{
-		"selesct.wav",
+		"select.wav",
 		"enter.wav",
 
-		
 		};
 	
 	private AudioInputStream[] cache = new AudioInputStream[sounds.length];
 	private Game game;
-	
-	
-	
-	
-	
+
 	public SoundManager(Game game)
 	{
 		this.game = game;

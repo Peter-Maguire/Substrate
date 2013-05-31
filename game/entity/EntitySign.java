@@ -60,7 +60,7 @@ public class EntitySign extends Entity{
 	}
 	
 	@Override
-	public void onCollideWithPlayer(int x, int y)
+	public void onCollideWithPlayer(int x, int y, Player p)
 	{
 		showGUI = true;
 		lastPlayerX = ((ScreenGame) game.currentScreen).player.x;

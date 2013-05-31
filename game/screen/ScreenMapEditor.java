@@ -86,35 +86,16 @@ public class ScreenMapEditor extends Screen{
 		addButton("selectEntity", new Rectangle(194,520,64,64));
 		addButton("toggleGrid", new Rectangle(350,579,32,32));
 		addButton("toggleMode", new Rectangle(385,520,33,32));
+		
 		addButton("save", new Rectangle(350,515,32,32));
 		addButton("open", new Rectangle(350,547,32,32));
 		
 		
-		int i = 0;
-		for(Tool t : toolRegistry){
-			addButton(""+i, new Rectangle(112+(42*i), 434, 32, 32));
-			i++;
-		}
+	
 		
-		i = 0;
-		int x = 0;
-		int y = 0;
-		for(Tile t : Tile.tiles){
-			addButton(""+i, new Rectangle(14+(42*x),227+(42*y),32,32));
-			i++;
-			x++;
-			if(45*x > 400)
-			{
-				y++;
-				x = 0;
-			}
-		}
+	
 		
-		i = 0;
-		for(Entity e : entityRegistry){
-			addButton(i+"",new Rectangle(212+(42*i), 434, 32, 32));
-			i++;
-		}
+		
 
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
@@ -320,17 +301,88 @@ public class ScreenMapEditor extends Screen{
 		}
 		if(name == "selectTile")
 		{
-			openMenu = openMenu == MENU_TILE ? MENU_NONE : MENU_TILE;
-			return;
+			if(openMenu == MENU_TILE)
+			{
+				openMenu = MENU_NONE;
+				int x = 0;
+				int y = 0;
+				for(Tile t : Tile.tiles){
+					removeButton(new Rectangle(14+(42*x),227+(42*y),32,32));
+					x++;
+					if(45*x > 400)
+					{
+						y++;
+						x = 0;
+					}
+				}
+				return;
+			}else
+			{
+				openMenu = MENU_TILE;
+				int i = 0;
+				int x = 0;
+				int y = 0;
+				for(Tile t : Tile.tiles){
+					addButton(""+i, new Rectangle(14+(42*x),227+(42*y),32,32));
+					i++;
+					x++;
+					if(45*x > 400)
+					{
+						y++;
+						x = 0;
+					}
+				}
+
+				return;
+			}
+			
+			
+		
 		}
 		if(name == "selectTool")
 		{
-			openMenu = openMenu == MENU_TOOL ? MENU_NONE : MENU_TOOL;
+			if(openMenu == MENU_TOOL)
+			{
+				openMenu = MENU_NONE;
+				int i = 0;
+				for(Tool t : toolRegistry){
+					removeButton(new Rectangle(112+(42*i), 434, 32, 32));
+					i++;
+				}
+			}else
+			{
+				openMenu = MENU_TOOL;
+				int i = 0;
+				for(Tool t : toolRegistry){
+					addButton(""+i, new Rectangle(112+(42*i), 434, 32, 32));
+					i++;
+				}
+			}
+			
+			
 			return;
 		}
 		if(name == "selectEntity")
 		{
-			openMenu = openMenu == MENU_ENTITY ? MENU_NONE : MENU_ENTITY;
+			if(openMenu == MENU_ENTITY)
+			{
+				openMenu = MENU_NONE;
+				int i = 0;
+				for(Entity e : entityRegistry){
+					removeButton(new Rectangle(212+(42*i), 434, 32, 32));
+					i++;
+				}
+			}else
+			{
+				openMenu = MENU_ENTITY;
+				int i = 0;
+				for(Entity e : entityRegistry){
+					addButton(i+"",new Rectangle(212+(42*i), 434, 32, 32));
+					i++;
+				}
+			}
+			
+			
 			return;
 		}
 		if(name == "toggleGrid")

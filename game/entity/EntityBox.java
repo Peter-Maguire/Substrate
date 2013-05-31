@@ -104,7 +104,7 @@ public class EntityBox extends Entity{
 
 	
 	@Override
-	public void onCollideWithPlayer(int x, int y)
+	public void onCollideWithPlayer(int x, int y, Player p)
 	{
 		tryMoveEntity(x, y);	
 	}

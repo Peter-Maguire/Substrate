@@ -35,7 +35,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "0.2 Alpha";
+	public static String TITLE = "Substrate", VERSION = "0.3 Alpha";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -86,9 +86,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			gameLoop();
 		} catch (Exception e) {
 			String stacktrace = FileSaver.getStackTrace(e);
-			String[] crashDump = { "Crashed on screen: "+currentScreen.toString(), "Game version: "+Game.VERSION+
-					"FPS:"+Integer.toString(fps), "TPS:"+Integer.toString(tps),
-					"Stack trace: "+stacktrace,"Settings: "+SETTINGS, "---SYSTEM STATS---", "Operating System: "+ System.getProperty("os.name")+"_"+System.getProperty("os.version"), "Java Version: "+System.getProperty("java.version") };
+			String crashDump = "Crashed on screen: "+currentScreen.toString()+ "\nGame version: "+Game.VERSION+
+					"\nFPS:"+Integer.toString(fps)+ "\nTPS:"+Integer.toString(tps)+
+					"\nStack trace: "+stacktrace+"\nSettings:\n "+SETTINGS.toString().replace(",","\n")+"\n---SYSTEM STATS---"+ "\nOperating System: "+ System.getProperty("os.name")+"_"+System.getProperty("os.version")+ "\nJava Version: "+System.getProperty("java.version");
 			
 
 			setScreen(new ScreenCrash(WIDTH, HEIGHT, null, crashDump));

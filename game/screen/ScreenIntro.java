@@ -20,7 +20,7 @@ public class ScreenIntro extends Screen{
 	{
 		if(game.settings.getSetting("HasDoneIntro") == "ON")
 		{
-			game.setScreen(new ScreenLoadMap(w, h, g, sheet));
+			game.setScreen(new ScreenLoadMap(w, h, sheet));
 		}else
 		{
 	
@@ -67,7 +67,7 @@ public class ScreenIntro extends Screen{
 		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_FIRE)) {
 			if(page == ttl){
 				game.settings.setSetting("HasDoneIntro", "ON");
-				game.setScreen(new ScreenLoadMap(w, h,g, sheet));
+				game.setScreen(new ScreenLoadMap(w, h, sheet));
 				
 			}else
 			{

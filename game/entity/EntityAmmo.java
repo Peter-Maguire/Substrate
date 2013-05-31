@@ -34,8 +34,9 @@ public class EntityAmmo extends Entity{
 	}
 	
 	@Override
-	public void onCollideWithPlayer(int x, int y)
+	public void onCollideWithPlayer(int x, int y, Player p)
 	{
+		p.setAmmo(p.getAmmo()+5);
 		this.forRemoval = true;
 	}
 	

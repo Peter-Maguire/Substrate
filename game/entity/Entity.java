@@ -142,7 +142,7 @@ public class Entity implements Serializable {
 
 	}
 	
-	public void onCollideWithPlayer(int x, int y)
+	public void onCollideWithPlayer(int x, int y, Player p)
 	{
 		
 	}

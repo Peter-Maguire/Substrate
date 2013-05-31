@@ -107,7 +107,7 @@ public class ScreenDownloadMap extends Screen{
 			if (rec.contains(m)) {
 				if(buttons.get(rec) == -1)
 				{
-					game.setScreen(new ScreenGame(w, h,sheet, g, maps.get(selectedMap-1)));
+					game.setScreen(new ScreenGame(w, h,sheet, maps.get(selectedMap-1)));
 				}else
 				{
 					selectedMap = buttons.get(rec);

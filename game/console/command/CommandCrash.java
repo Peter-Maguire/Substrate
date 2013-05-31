@@ -11,11 +11,8 @@ public class CommandCrash extends Command{
 
 	@Override
 	public void executeCommand(String[] args) {
-		Game.log("Crashing game by dividing by 0.");
-		String[] crashDump = { "Crashed on screen: "+game.currentScreen.getClass().getName(), "Game version: "+Game.VERSION,
-				"FPS: (Manual crash)", "TPS: (Manual Crash)",
-				"Stack trace message: Manual crash","Settings: "+game.SETTINGS, "---SYSTEM STATS---", "Operating System: "+ System.getProperty("os.name")+"_"+System.getProperty("os.version"), "Java Version: "+System.getProperty("java.version") };
-		game.setScreen(new ScreenCrash(Game.WIDTH, Game.HEIGHT, null, crashDump));
+		Game.log("Crashing game by corrupting graphics instance");
+		game.g = null;
 	}
 
 }

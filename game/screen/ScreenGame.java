@@ -31,7 +31,7 @@ public class ScreenGame extends Screen {
 	public int yScroll = 0;
 	int mapSize = 0;
 
-	public ScreenGame(int width, int height, SpriteSheet sheet, Graphics g, Map mapfile) {
+	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile) {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;

@@ -21,10 +21,9 @@ public class ScreenLoadMap extends Screen{
 	private HashMap<Rectangle, Integer>buttons = new HashMap<Rectangle, Integer>();
 	private int selectedMap = 1;
 	private boolean hasLoadedMap = false;
-	private Graphics g;
-	public ScreenLoadMap(int width, int height,Graphics g, SpriteSheet sheet) {
+
+	public ScreenLoadMap(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
-		this.g = g;	
 	}
 	@Override
 	public void render(Graphics g)
@@ -109,7 +108,7 @@ public class ScreenLoadMap extends Screen{
 			if (rec.contains(m)) {
 				if(buttons.get(rec) == -1)
 				{
-					game.setScreen(new ScreenGame(w, h,sheet, g, maps.get(selectedMap-1)));
+					game.setScreen(new ScreenGame(w, h,sheet, maps.get(selectedMap-1)));
 				}else
 				{
 					selectedMap = buttons.get(rec);

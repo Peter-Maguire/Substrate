@@ -49,7 +49,7 @@ public class Player extends Entity {
 				{
 					if(e instanceof Player == false)
 					{
-						e.onCollideWithPlayer(x, 0);
+						e.onCollideWithPlayer(x, 0, this);
 						return false;
 					}
 				}				
@@ -64,7 +64,7 @@ public class Player extends Entity {
 				{
 					if(e instanceof Player == false)
 					{
-						e.onCollideWithPlayer(x, 0);
+						e.onCollideWithPlayer(x, 0, this);
 						return false;
 					}
 				}				
@@ -79,7 +79,7 @@ public class Player extends Entity {
 				{
 					if(e instanceof Player == false)
 					{
-						e.onCollideWithPlayer(0, y);
+						e.onCollideWithPlayer(0, y, this);
 						return false;
 					}
 				}				
@@ -94,7 +94,7 @@ public class Player extends Entity {
 				{
 					if(e instanceof Player == false)
 					{
-						e.onCollideWithPlayer(0, y);
+						e.onCollideWithPlayer(0, y, this);
 						return false;
 					}
 				}				
