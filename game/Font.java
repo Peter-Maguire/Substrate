@@ -67,10 +67,17 @@ public class Font {
 	public void drawString(String text, int x, int y, int size, Color colour)
 	{
 		text = text.toUpperCase();
+		int cy = y, ci = 0;
 		for(int i = 0; i < text.length(); i++)
 		{
+			if(String.valueOf(text.charAt(i)).contains("\n"))
+			{
+				ci = -1;
+				cy+=16*size;
+			}
 			if(chars2.get(String.valueOf(text.charAt(i))) != null)
-				g.drawImage(game.settings.getSetting("UseFontRecolouring") == "ON" ? ScreenTools.recolourImage(chars2.get(String.valueOf(text.charAt(i))),colour) : chars2.get(String.valueOf(text.charAt(i))), x+(i*size*8), y, 8*size, 8*size, game);
+				g.drawImage(game.settings.getSetting("UseFontRecolouring") == "ON" ? ScreenTools.recolourImage(chars2.get(String.valueOf(text.charAt(i))),colour) : chars2.get(String.valueOf(text.charAt(i))), x+(ci*size*8), cy, 8*size, 8*size, game);
+			ci++;
 		}
 	}
 
