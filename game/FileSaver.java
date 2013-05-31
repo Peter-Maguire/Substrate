@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,6 +52,13 @@ public class FileSaver {
 		}
 		return newlist;
 	}
+	
+	 public static String getStackTrace(Throwable aThrowable) {
+		    final Writer result = new StringWriter();
+		    final PrintWriter printWriter = new PrintWriter(result);
+		    aThrowable.printStackTrace(printWriter);
+		    return result.toString();
+		  }
 	
 	
 	
