@@ -31,7 +31,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "Unreleased";
+	public static String TITLE = "Substrate", VERSION = "Alpha v0.1";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -133,8 +133,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 					.getResource("/res/font.png")), strategy.getDrawGraphics(),
 					this);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
+			log("Unable to load font.");
 			e1.printStackTrace();
+			throw new RuntimeException("Unable to load font sheet.");
 		}
 
 		File f = new File(FileSaver.getCleanPath()+"\\settings.txt");
@@ -150,7 +151,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("MapPreviews", "ON");
 			SETTINGS.put("UseAdvancedTilePlacement", "ON");
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+"\\settings.txt");
-		} else {
+			} else {
 			log("Found settings.dat, loading...");
 			SETTINGS = (HashMap<String, String>) FileSaver.readPropertiesFile(FileSaver.getCleanPath()+"\\settings.txt");
 			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
@@ -174,7 +175,10 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		setScreen(new ScreenLoading(Game.WIDTH, Game.HEIGHT, sheet));
 		render();
 		
+		if(settings.getSetting("Cheats") == "ON")
+		{
 			console = new ConsoleWindow(this);
+		}
 
 		f = new File(FileSaver.getCleanPath() + "\\maps\\");
 		if (!f.exists()) {
@@ -232,16 +236,17 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		soundman = new SoundManager(this);
 		
+		log("Trying to send statistics...");
 		if(SETTINGS.get("GatherStats") == "ON")
 		{
 			try {
-				HttpURLConnection statcon = (HttpURLConnection) new URL("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"-"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version")).openConnection();
+				HttpURLConnection statcon = (HttpURLConnection) new URL("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"_"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version")).openConnection();
 				if(statcon.getContent().toString().contains("OK"))
 				{
 					log("Stats sent, all is well!");
 				}else
 				{
-					log(statcon.getContent().toString());
+					log("Stat sending failed: "+statcon.getContent().toString());
 				}
 			} catch (MalformedURLException e) {}
 			catch (IOException e) {
@@ -316,10 +321,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		currentScreen.render(g);
 		if (settings.getSetting("Debug") == "ON")
 			font.drawString(tps + " Ticks, " + fps + " fps", 1, 1, 2);
-		if (settings.getSetting("Cheats") == "ON") {
-			font.drawString("Cheat Menu:", 660, 10, 1);
-			font.drawString("x - xxxxxx", 655, 25, 1);
-		}
 		g.dispose();
 		strategy.show();
 	}

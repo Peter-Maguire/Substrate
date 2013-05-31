@@ -112,7 +112,6 @@ public class FileSaver {
 			
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
-			System.out.println(file);
 			oos.writeObject(file);
 		}
 		catch(FileNotFoundException e)
@@ -144,10 +143,8 @@ public class FileSaver {
 	
 	}
 	public static String getCleanPath() {
-	    ClassLoader classLoader = FileSaver.class.getClassLoader();
-	    File classpathRoot = new File(classLoader.getResource("").getPath());
-
-	    return classpathRoot.getPath();
+	  
+	    return  new File(FileSaver.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getAbsolutePath();
 	}
 		
 
