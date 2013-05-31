@@ -70,7 +70,7 @@ public class Font {
 		for(int i = 0; i < text.length(); i++)
 		{
 			if(chars2.get(String.valueOf(text.charAt(i))) != null)
-			g.drawImage(ScreenTools.recolourImage(chars2.get(String.valueOf(text.charAt(i))),colour), x+(i*size*8), y, 8*size, 8*size, game);
+				g.drawImage(game.settings.getSetting("UseFontRecolouring") == "ON" ? ScreenTools.recolourImage(chars2.get(String.valueOf(text.charAt(i))),colour) : chars2.get(String.valueOf(text.charAt(i))), x+(i*size*8), y, 8*size, 8*size, game);
 		}
 	}
 

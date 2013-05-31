@@ -1,7 +1,8 @@
 #Substrate Property File. 
-Cheats: OFF
+UseFontRecolouring: ON
+Cheats: ON
 GatherStats: ON
-MapPreviews: OFF
+MapPreviews: ON
 Volume: 100
 Sound: OFF
 Music: OFF

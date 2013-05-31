@@ -153,6 +153,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("GatherStats", "ON");
 			SETTINGS.put("MapPreviews", "ON");
 			SETTINGS.put("UseAdvancedTilePlacement", "ON");
+			SETTINGS.put("UseFontRecolouring", "ON");
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+"\\settings.txt");
 			} else {
 			log("Found settings.dat, loading...");

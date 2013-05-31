@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class ScreenOptions extends Screen {
 
 
-	private String sound, music , debug , gatherStats , mpMapPrev, showTutorial , showConsole , advTilePlacement;
+	private String sound, music , debug , gatherStats , mpMapPrev, showTutorial , showConsole , advTilePlacement, fontRecolouring;
 	private int volume = 10;
 	public ScreenOptions(int width, int height, SpriteSheet sheet, HashMap<String, String> options) {
 		super(width, height, sheet);
@@ -29,6 +29,7 @@ public class ScreenOptions extends Screen {
 		addButton("toggleTutorial", new Rectangle(550, 367,90, 30));
 		addButton("toggleConsole", new Rectangle(550, 407,90, 30));
 		addButton("toggleTilePlacement", new Rectangle(550, 447,90, 30));
+		addButton("toggleFontRecolouring", new Rectangle(550, 487,90, 30));
 		
 		addButton("increaseSound", new Rectangle(702, 238, 25, 30));
 		addButton("decreaseSound", new Rectangle(473, 238, 25, 30));
@@ -73,6 +74,7 @@ public class ScreenOptions extends Screen {
 		showTutorial = settings.get("HasDoneIntro");
 		showConsole = settings.get("Cheats");
 		advTilePlacement = settings.get("UseAdvancedTilePlacement");
+		fontRecolouring = settings.get("UseFontRecolouring");
 	}
 	
 	@Override
@@ -124,6 +126,11 @@ public class ScreenOptions extends Screen {
 			advTilePlacement = advTilePlacement.contains("ON") ? "OFF" : "ON";
 			return;
 		}
+		if(action == "toggleFontRecolouring")
+		{	
+			fontRecolouring = fontRecolouring.contains("ON") ? "OFF" : "ON";
+			return;
+		}
 		if(action == "toggleMapPrev")
 		{	
 			mpMapPrev = mpMapPrev.contains("ON") ? "OFF" : "ON";
@@ -144,6 +151,8 @@ public class ScreenOptions extends Screen {
 			game.settings.setSetting("GatherStats", gatherStats);
 			game.settings.setSetting("MapPreviews", mpMapPrev);
 			game.settings.setSetting("Cheats", showConsole);
+			game.settings.setSetting("UseAdvancedTilePlacement", advTilePlacement);
+			game.settings.setSetting("UseFontRecolouring", fontRecolouring);
 			FileSaver.savePropertiesFile(game.settings.getSettings(), FileSaver.getCleanPath()+"\\settings.txt");
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
 			
@@ -198,7 +207,12 @@ public class ScreenOptions extends Screen {
 		game.getFontRenderer().drawString("Adv Tile math", 100, 447, 2);
 		game.getFontRenderer().drawString("Use advanced tile placement,", 310, 447, 1);
 		game.getFontRenderer().drawString("more accurate but slower.", 310, 457, 1);
-		ScreenTools.drawOnOffButton(550, 447,90, 30, advTilePlacement, g, game);	
+		ScreenTools.drawOnOffButton(550, 447,90, 30, advTilePlacement, g, game);
+		
+		game.getFontRenderer().drawString("Font Colours", 100,487, 2);
+		game.getFontRenderer().drawString("Allow the use of colour fonts", 310, 487, 1);
+		game.getFontRenderer().drawString("turn this off to increase FPS.", 310, 497, 1);
+		ScreenTools.drawOnOffButton(550, 487,90, 30, fontRecolouring, g, game);
 		
 		
 		ScreenTools.drawButton(292, 547,95, 28, "Save", g, game);	
