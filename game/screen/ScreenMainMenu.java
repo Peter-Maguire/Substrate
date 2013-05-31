@@ -21,12 +21,15 @@ public class ScreenMainMenu extends Screen {
 
 	@Override
 	public void render(Graphics g) {
+		this.drawBackgroundScreen();
 		//this.drawAnimatedBackground(); //DRAWING ANIMATED BACKGROUND BREAKS THE EVERYTHING
 		game.getFontRenderer().drawCenteredString(Game.TITLE + "        ", 36, 3);
 		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 148, 232, 25, "Map editor", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 180, 232, 25, "Options", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 212, 232, 25, "Crash :)", g, game, new Color(255,255,255,155), Color.white);
+		
+		game.getFontRenderer().drawString(Game.TITLE+" version "+Game.VERSION,0, Game.HEIGHT, 1);
 	}
 
 	@Override
