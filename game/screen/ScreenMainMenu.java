@@ -51,7 +51,7 @@ public class ScreenMainMenu extends Screen {
 			game.setScreen(new ScreenIntro(w, h, sheet));
 			break;
 		case "Wave mode":
-			game.setScreen(new ScreenGame(w, h, sheet, (Map)FileSaver.load(FileSaver.getCleanPath()+"/maps/WaveAttacks.smf")));
+			game.setScreen(new ScreenWaveMode(w, h, sheet, (Map)FileSaver.load(FileSaver.getCleanPath()+"//maps//Metal_Box_Entity.smf")));
 			break;
 		case "Map editor":
 			game.setScreen(new ScreenMapEditor(w,h,sheet));

@@ -22,9 +22,9 @@ public class ScreenCrash extends Screen{
 	{
 		Game.log("Game crash - Report the information below at http://github.com/UnacceptableUse/Susbtrate/issues");
 		Game.log(crashdump);
-		game.getFontRenderer().drawString("Game Crash.",20, 50, 2, Color.red);
-		game.getFontRenderer().drawString("See console for more details.",20, 140, 2, Color.red);
-		game.getFontRenderer().drawString(crashdump, 20, 200, 1);
+		game.getFontRenderer().drawString("Game Crash.",20, 20, 2, Color.red);
+		game.getFontRenderer().drawString("See console for more details.",20, 45, 2, Color.red);
+		game.getFontRenderer().drawString(crashdump, 20, 65, 1);
 		
 		
 	}

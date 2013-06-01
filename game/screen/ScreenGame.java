@@ -127,7 +127,7 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void render(final Graphics g) {
-		
+		if(player == null)return;
 	for (int i = 0; i < tiles.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
 			Tile tile = tiles.get(rec);	
@@ -136,9 +136,9 @@ public class ScreenGame extends Screen {
 					rec.y - yScroll, rec.width, rec.height, game);
 
 		}
-		if (game.settings.getSetting("Debug") == "ON") {
+		if (game.settings.getSetting("Debug") == "ON" && player != null) {
 			game.getFontRenderer().drawString("DX:" + velx + " DY:" + vely+" SX:"+xScroll+" SY:"+yScroll+" WX:" + Game.WIDTH + " WY:" + Game.HEIGHT, 260, 0, 1);
-			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HP:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " CLD: "+player.ammocooldown, 260, 10, 1);
+			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HP:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " TIMERS:GUN:"+player.ammocooldown, 260, 10, 1);
 		}	
 		for(int i = 0; i < entities.size(); i++)
 		{
@@ -155,11 +155,7 @@ public class ScreenGame extends Screen {
 			ent.render(g);
 
 		}
-		
-		g.drawImage(game.sheetEntities.getImage(player.sprite), player.x, player.y, 32, 32, game);
-		g.drawRect(player.x, player.y, 32, 32);
-		
-		
+
 		g.setColor(new Color(155, 155, 155, 142));
 		g.fillRect(0, h-74, w, h);
 		

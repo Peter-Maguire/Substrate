@@ -4,6 +4,7 @@ GatherStats: ON
 Cheats: ON
 MapPreviews: ON
 Volume: 100
+UseAFontColour: ON
 Music: OFF
 Sound: ON
 Debug: ON
