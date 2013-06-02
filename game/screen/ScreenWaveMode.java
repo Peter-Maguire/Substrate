@@ -4,18 +4,24 @@ import game.Game;
 import game.Map;
 import game.SpriteSheet;
 import game.entity.EntitySoldier;
+import game.pathfinding.grid.GridMap;
+import game.tile.Tile;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 
 public class ScreenWaveMode extends ScreenGame{
 
 	public int wave = 1, lastwave = 0, timeleft = 0, maxtime = 122, waveammount = 5, wavehealth = 5, waveammo = 20, wavecooldown = 256,
-			noticetimer = 0; 
+			noticetimer = 0;
+	public GridMap map;
 	
 	public ScreenWaveMode(int width, int height, SpriteSheet sheet, Map mapfile) {
 		super(width, height, sheet, mapfile);
+		
+		   
 	}
 	
 	
@@ -38,12 +44,25 @@ public class ScreenWaveMode extends ScreenGame{
 		g.drawImage(game.sheetUI.getImage(20), 681,Game.HEIGHT-64,32,32,game);
 		game.getFontRenderer().drawString(timeleft < 0 ? "HALT" : timeleft/60+" S", 715, Game.HEIGHT-52,1, timeleft < 600 ? Color.red : Color.white);
 		
+
 	}
 	
 	
 	@Override
 	public void tick()
 	{
+		if(map == null)
+		{
+			Game.log("Initializing path finder...");
+			map = new GridMap( Game.WIDTH, (Game.HEIGHT-64));
+			System.out.println("Map size: "+w/32+","+h/32);
+			for (int i = 0; i < tiles.keySet().size(); i++) {
+				Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
+				Tile tile = tiles.get(rec);	
+				System.out.println("Entry "+i+": Tile "+tile.toString()+" Position: "+rec.x/32+","+rec.y/32+" Passable: "+tile.isPassable());
+				map.set(rec.x, rec.y, tile.isPassable() ? 1 : -1);
+			}
+		}
 		super.tick();
 		if(wave != lastwave)
 		{
@@ -56,12 +75,11 @@ public class ScreenWaveMode extends ScreenGame{
 		{
 			noticetimer--;
 		}
-		if(timeleft > 0 || timeleft < 0)
+		if(timeleft > 0)
 		{
-			if(timeleft > 0)
-			{
+			
 				timeleft--;
-			}
+			
 		}else
 		{
 			wave++;
@@ -71,7 +89,7 @@ public class ScreenWaveMode extends ScreenGame{
 	
 	private void initwave(int wave)
 	{
-		maxtime-=2;
+		maxtime--;
 		wavehealth = wavehealth*maxtime;
 		waveammo = wavehealth-wave;
 		wavecooldown = 256-(wave*2);
@@ -84,7 +102,7 @@ public class ScreenWaveMode extends ScreenGame{
 	@Override
 	public void mousePressed(MouseEvent e)
 	{
-		spawnEntity(new EntitySoldier(this, e.getX(), e.getY()));
+		spawnEntity(new EntitySoldier(this, e.getX(), e.getY(), map));
 	}
 	
 

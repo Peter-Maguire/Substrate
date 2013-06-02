@@ -1,4 +1,4 @@
-package grid.util;
+package game.pathfinding.grid.util;
 
 import java.util.ArrayList;
 

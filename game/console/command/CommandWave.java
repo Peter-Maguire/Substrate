@@ -36,6 +36,24 @@ public class CommandWave extends Command{
 				return;
 				
 			}
+			if(args[1].contains("maxtime"))
+			{
+				int newvalue = Integer.parseInt(args[2]);
+				((ScreenWaveMode)game.currentScreen).maxtime = newvalue;
+				Game.log("Done");
+				return;
+				
+			}
+			if(args[1].contains("path"))
+			{
+				if(args[2].contains("reinit"))
+				{
+					((ScreenWaveMode)game.currentScreen).map = null;
+					return;
+				}
+				return;
+				
+			}
 			Game.log("Invalid command");
 
 		}

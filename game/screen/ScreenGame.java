@@ -23,8 +23,8 @@ public class ScreenGame extends Screen {
 
 	
 	public Player player;
-	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	protected ArrayList<Entity> entities = new ArrayList<Entity>();
+	protected HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 
 	int velx = 0, vely = 0, w, h, px, py;
 	public int xScroll = 0;
