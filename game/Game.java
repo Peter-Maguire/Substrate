@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -36,7 +37,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	private static final long serialVersionUID = 1L;
 	public static String TITLE = "Substrate", VERSION = "0.3 Alpha";
-	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
+	public static int WIDTH = 832, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
 	public BufferStrategy strategy;
@@ -58,7 +59,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public Game() {
 
 		setSize(WIDTH, HEIGHT);
-		//setBounds(0, 0, WIDTH, HEIGHT);
+		setBounds(0, 0, WIDTH, HEIGHT);
 		setIgnoreRepaint(true);
 		addKeyListener(this);
 		addFocusListener(this);
@@ -244,7 +245,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		if(SETTINGS.get("GatherStats") == "ON")
 		{
 			try {
-				HttpURLConnection statcon = (HttpURLConnection) new URL("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"_"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version")).openConnection();
+				HttpURLConnection statcon = (HttpURLConnection) new URL(URLEncoder.encode("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"_"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version"), "UTF-8")).openConnection();
 				if(statcon.getContent().toString().contains("OK"))
 				{
 					log("Stats sent, all is well!");

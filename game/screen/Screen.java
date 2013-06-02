@@ -24,8 +24,7 @@ public class Screen {
 
 	boolean shouldDrawIGui = false;
 	private HashMap<Rectangle, String> bttn = new HashMap<Rectangle, String>();
-	private ArrayList<Integer[]> animlines = new ArrayList<Integer[]>();
-	private int makeCooldown = 0;
+	int i = 0;
 
 	public Screen(int width, int height, SpriteSheet sheet) {
 		this.sheet = sheet;
@@ -34,43 +33,22 @@ public class Screen {
 	}
 
 	public void drawBackgroundScreen() {
-		for (int x = 0; x < game.getWidth() / 16; x++) {
-			for (int y = 0; y < game.getHeight() / 16; y++) {
 
-				game.g.drawImage(game.sheetTiles.getImage(7), x * 16, y * 16, game);
-
-			}
+		for (int x = 0; x < game.getWidth() / 32; x++) {
+			for (int y = 0; y < game.getHeight() / 32; y++) {
+				game.g.setColor(new Color(x+y*10, y*10, x*10));
+				game.g.fillRect(x*32, y*32, 64,64);
+	
+				}
 		}
+
+	
 	}
 
 	public void drawAnimatedBackground() {
-		makeCooldown--;
-		while (animlines.size() < 40 || makeCooldown == 0) {
-			game.g.setColor(Color.black);
-			game.g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
-
-			Integer[] lines = { 0, rand.nextInt(10), rand.nextInt(Game.HEIGHT) };
-			animlines.add(lines);
-
-		}
-		for (int i = 0; i < animlines.size(); i++) {
-			Integer[] lines = animlines.get(i);
-			game.g.setColor(Color.white);
-			game.g.fillRect((Game.WIDTH - lines[1]) - lines[0], lines[2],
-					lines[1], 2);
-			lines[0]++;
-			if ((Game.WIDTH - lines[1]) - lines[0] > Game.WIDTH) {
-				animlines.remove(i);
-			} else {
-				animlines.set(i, lines);
-			}
-
-		}
-
-		if (makeCooldown <= 0) {
-			makeCooldown = 60;
-		}
-
+		game.g.setColor(Color.BLACK);
+		game.g.drawRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		
 	}
 
 	public void addButton(String action, Rectangle bounds) {

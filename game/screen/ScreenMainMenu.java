@@ -26,7 +26,7 @@ public class ScreenMainMenu extends Screen {
 	public void render(Graphics g) {
 		this.g = g;
 		this.drawBackgroundScreen();
-		//this.drawAnimatedBackground(); //DRAWING ANIMATED BACKGROUND BREAKS THE EVERYTHING
+		//this.drawAnimatedBackground(); 
 		game.getFontRenderer().drawCenteredString(Game.TITLE, 36, 3);
 		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game, new Color(255,255,255,155), Color.white);
 		ScreenTools.drawButton(290, 148, 232, 25, "Wave mode", g, game, new Color(255,255,255,155), Color.white);
