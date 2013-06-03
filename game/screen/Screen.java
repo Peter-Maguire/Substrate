@@ -24,7 +24,8 @@ public class Screen {
 
 	boolean shouldDrawIGui = false;
 	private HashMap<Rectangle, String> bttn = new HashMap<Rectangle, String>();
-	int i = 0;
+	int i = 0, j = 600;
+	boolean isDecreasing = false;
 
 	public Screen(int width, int height, SpriteSheet sheet) {
 		this.sheet = sheet;
@@ -36,10 +37,33 @@ public class Screen {
 
 		for (int x = 0; x < game.getWidth() / 32; x++) {
 			for (int y = 0; y < game.getHeight() / 32; y++) {
-				game.g.setColor(new Color(x+y*10, y*10, x*10));
-				game.g.fillRect(x*32, y*32, 64,64);
+				game.g.drawImage(game.sheetTiles.getImage(7), x*40, y*40, 40, 40, game);
+				game.g.setColor(new Color(x+y, y*j/60, x*i/60, 155));
+				game.g.fillRect(x*40, y*40, 40,40);
+				
 	
 				}
+		}
+		
+		
+		if(isDecreasing)
+		{
+			i--;
+			j++;
+		}
+		else 
+		{
+		i++;
+		j--;
+		}
+		
+		if((j <= 0 || i >= 600) && !isDecreasing)
+		{
+			isDecreasing = true;
+		}
+		if((j >= 600 || i <= 0) && isDecreasing)
+		{
+			isDecreasing = false;
 		}
 
 	
