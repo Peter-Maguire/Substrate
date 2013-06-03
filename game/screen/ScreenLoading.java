@@ -1,5 +1,6 @@
 package game.screen;
 
+import game.Game;
 import game.SpriteSheet;
 
 import java.awt.Graphics;
@@ -14,8 +15,11 @@ public class ScreenLoading extends Screen{
 	@Override
 	public void render(Graphics g)
 	{
-		game.getFontRenderer().drawString("Loading...", 100, 100, 3);
+		g.drawImage(game.loadingScreen, 0, 0, Game.WIDTH, Game.HEIGHT, game);
+
 	}
+	
+
 	
 	
 

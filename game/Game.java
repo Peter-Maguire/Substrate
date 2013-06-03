@@ -18,6 +18,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -43,6 +44,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public BufferStrategy strategy;
 
 	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities, sheetUI;
+	public BufferedImage loadingScreen;
 	private Font font;
 	public Graphics2D g;
 	public Options settings;
@@ -133,14 +135,14 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		log("Loading...");
 		
 		try {
-			font = new Font(ImageIO.read(Game.class
-					.getResource("/res/font.png")), strategy.getDrawGraphics(),
-					this);
+			loadingScreen = ImageIO.read(Game.class
+					.getResource("/res/loading.png"));
 		} catch (IOException e1) {
-			log("Unable to load font.");
+			log("Unable to load loading screen.");
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load font sheet.");
 		}
+		
 
 		File f = new File(FileSaver.getCleanPath()+"\\settings.txt");
 		if (!f.exists()) {
@@ -179,6 +181,10 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		
 		setScreen(new ScreenLoading(Game.WIDTH, Game.HEIGHT, sheet));
 		render();
+		
+		
+		
+		
 		
 		if(settings.getSetting("Cheats") == "ON")
 		{
@@ -230,6 +236,16 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 				throw new RuntimeException("Sheet explosion.png failed to load");
 			}
 			log("Done!");
+			
+			try {
+				font = new Font(ImageIO.read(Game.class
+						.getResource("/res/font.png")), strategy.getDrawGraphics(),
+						this);
+			} catch (IOException e1) {
+				log("Unable to load font.");
+				e1.printStackTrace();
+				throw new RuntimeException("Unable to load font sheet.");
+			}
 	
 		f = new File("keymap.dat");
 		if (!f.exists()) {
@@ -248,7 +264,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 				HttpURLConnection statcon = (HttpURLConnection) new URL(URLEncoder.encode("http://assets.fightthetoast.co.uk/stats.php?OS="+System.getProperty("os.name")+"_"+System.getProperty("os.version")+"&GameVersion="+Game.VERSION+"&JavaVersion="+System.getProperty("java.version"), "UTF-8")).openConnection();
 				if(statcon.getContent().toString().contains("OK"))
 				{
-					log("Stats sent, all is well!");
+					log("Stats sent, all is well!"+statcon.getContent().toString());
 				}else
 				{
 					log("Stat sending failed: "+statcon.getContent().toString());
@@ -263,6 +279,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			log("Not sending stats, opted out");
 			System.out.println(SETTINGS.get("GatherStats"));
 		}
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e2) {}
 		setScreen(new ScreenMainMenu(WIDTH, HEIGHT, sheet));
 		
 		log("Loaded!");
@@ -320,11 +339,11 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 	public void render() {
 		g = (Graphics2D) strategy.getDrawGraphics();
-		font.updateDrawGraphics(g);
+		if(font != null)font.updateDrawGraphics(g);
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH * 2, HEIGHT * 2);
 		currentScreen.render(g);
-		if (settings.getSetting("Debug") == "ON")
+		if (settings.getSetting("Debug") == "ON" && font != null)
 			font.drawString(tps + " Ticks, " + fps + " fps", 1, 1, 2);
 		g.dispose();
 		strategy.show();
