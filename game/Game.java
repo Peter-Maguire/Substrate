@@ -6,6 +6,8 @@ import game.screen.ScreenCrash;
 import game.screen.ScreenLoading;
 import game.screen.ScreenMainMenu;
 import game.sound.SoundManager;
+import game.utils.FileSaver;
+import game.utils.SpriteSheet;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;

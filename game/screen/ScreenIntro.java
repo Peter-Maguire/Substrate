@@ -2,7 +2,7 @@ package game.screen;
 
 import game.Controls;
 import game.Game;
-import game.SpriteSheet;
+import game.utils.SpriteSheet;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;

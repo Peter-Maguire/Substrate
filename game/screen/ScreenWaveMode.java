@@ -1,11 +1,11 @@
 package game.screen;
 
 import game.Game;
-import game.Map;
-import game.SpriteSheet;
 import game.entity.EntitySoldier;
 import game.pathfinding.grid.GridMap;
 import game.tile.Tile;
+import game.utils.Map;
+import game.utils.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics;

@@ -1,7 +1,7 @@
 package game.screen;
 
 import game.Game;
-import game.SpriteSheet;
+import game.utils.SpriteSheet;
 
 import java.awt.Graphics;
 

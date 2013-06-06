@@ -1,5 +1,6 @@
-package game;
+package game.utils;
 
+import game.Game;
 import game.entity.Entity;
 import game.entity.SerialEntity;
 

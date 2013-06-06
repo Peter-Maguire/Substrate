@@ -1,14 +1,14 @@
 package game.screen;
 
 import game.Controls;
-import game.FileSaver;
 import game.Game;
-import game.Map;
-import game.MathHelper;
-import game.SpriteSheet;
 import game.entity.Entity;
 import game.entity.Player;
 import game.tile.Tile;
+import game.utils.FileSaver;
+import game.utils.Map;
+import game.utils.MathHelper;
+import game.utils.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics;

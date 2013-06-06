@@ -1,4 +1,4 @@
-package game;
+package game.utils;
 
 import game.entity.SerialEntity;
 import game.tile.Tile;
