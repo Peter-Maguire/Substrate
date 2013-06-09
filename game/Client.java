@@ -1,22 +1,16 @@
 package game;
 
-import game.tile.Tile;
-
 import java.awt.Rectangle;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Client {
 
-	
 	private static final byte PACKET_GET_MAP = 0, PACKET_GET_ENTITIES = 1;
 	private int port;
 	private String ip;
@@ -28,7 +22,7 @@ public class Client {
 		this.port = port;
 		this.ip = ip;
 		try {
-			System.out.println("Connecting to "+ip+":"+port);
+			System.out.println("Connecting to " + ip + ":" + port);
 			cs = new Socket(ip, port);
 			os = cs.getOutputStream();
 			is = cs.getInputStream();
@@ -41,12 +35,9 @@ public class Client {
 		}
 		System.out.println("Connection successful!");
 
-	
-
 	}
-	
-	public HashMap<Rectangle, Integer> getMap()
-	{
+
+	public HashMap<Rectangle, Integer> getMap() {
 		try {
 			os.write(PACKET_GET_MAP);
 			ObjectInputStream ois = new ObjectInputStream(is);
@@ -56,9 +47,8 @@ public class Client {
 		}
 		return null;
 	}
-	
-	public ArrayList<ArrayList<Integer>> getEntities()
-	{
+
+	public ArrayList<ArrayList<Integer>> getEntities() {
 		try {
 			os.write(PACKET_GET_ENTITIES);
 			ObjectInputStream ois = new ObjectInputStream(is);

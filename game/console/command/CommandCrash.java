@@ -1,9 +1,8 @@
 package game.console.command;
 
 import game.Game;
-import game.screen.ScreenCrash;
 
-public class CommandCrash extends Command{
+public class CommandCrash extends Command {
 
 	public CommandCrash(Game game) {
 		super(game);

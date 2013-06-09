@@ -1,9 +1,8 @@
 package game.tile;
 
-public class TileNoTile extends Tile{
+public class TileNoTile extends Tile {
 
-	public TileNoTile()
-	{
+	public TileNoTile() {
 		this.sprite = 23;
 	}
 

@@ -1,12 +1,7 @@
 package game.tile;
 
-import game.Game;
-import game.screen.ScreenGame;
+public class TileGrass extends Tile {
 
-public class TileGrass extends Tile{
-
-
-	
 	/**
 	 * 
 	 */
@@ -17,11 +12,10 @@ public class TileGrass extends Tile{
 	}
 
 	boolean canPassThrough = true;
-	
+
 	@Override
-	public void tick()
-	{
-		
+	public void tick() {
+
 	}
-	
-	}
+
+}

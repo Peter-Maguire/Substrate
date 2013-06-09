@@ -10,7 +10,6 @@ import java.awt.Rectangle;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -37,47 +36,41 @@ public class Screen {
 
 		for (int x = 0; x < game.getWidth() / 32; x++) {
 			for (int y = 0; y < game.getHeight() / 32; y++) {
-				game.g.drawImage(game.sheetTiles.getImage(7), x*40, y*40, 40, 40, game);
-				game.g.setColor(new Color(x+y, y*j/60, x*i/60, 155));
-				game.g.fillRect(x*40, y*40, 40,40);
-				
-	
-				}
+				game.g.drawImage(game.sheetTiles.getImage(7), x * 40, y * 40,
+						40, 40, game);
+				game.g.setColor(new Color(x + y, y * j / 60, x * i / 60, 155));
+				game.g.fillRect(x * 40, y * 40, 40, 40);
+
+			}
 		}
-		
-		
-		if(isDecreasing)
-		{
+
+		if (isDecreasing) {
 			i--;
 			j++;
+		} else {
+			i++;
+			j--;
 		}
-		else 
-		{
-		i++;
-		j--;
-		}
-		
-		if((j <= 0 || i >= 600) && !isDecreasing)
-		{
+
+		if ((j <= 0 || i >= 600) && !isDecreasing) {
 			isDecreasing = true;
 		}
-		if((j >= 600 || i <= 0) && isDecreasing)
-		{
+		if ((j >= 600 || i <= 0) && isDecreasing) {
 			isDecreasing = false;
 		}
 
-	
 	}
 
 	public void drawAnimatedBackground() {
 		game.g.setColor(Color.BLACK);
 		game.g.drawRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		
+
 	}
 
 	public void addButton(String action, Rectangle bounds) {
 		bttn.put(bounds, action);
 	}
+
 	public void removeButton(Rectangle bounds) {
 		bttn.remove(bounds);
 	}

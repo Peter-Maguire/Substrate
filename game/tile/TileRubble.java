@@ -1,6 +1,6 @@
 package game.tile;
 
-public class TileRubble extends Tile{
+public class TileRubble extends Tile {
 
 	/**
 	 * 

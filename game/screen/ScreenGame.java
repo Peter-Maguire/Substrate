@@ -21,7 +21,6 @@ import java.util.HashMap;
 
 public class ScreenGame extends Screen {
 
-	
 	public Player player;
 	protected ArrayList<Entity> entities = new ArrayList<Entity>();
 	protected HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
@@ -35,53 +34,49 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
-		
+
 		try {
 			entities = FileSaver.serialToEntity(mapfile.entities, game);
-			Game.log("Entity array size: "+entities.size());
+			Game.log("Entity array size: " + entities.size());
 		} catch (ClassNotFoundException | InstantiationException
 				| IllegalAccessException e) {
 			Game.log("Sad trumpet noise");
 			e.printStackTrace();
 		}
-		
-		for(Entity ent : entities)
-		{
-			if(ent instanceof Player)
-			{
-				System.out.println("Found player instance at "+ent.x+","+ent.y+".");
+
+		for (Entity ent : entities) {
+			if (ent instanceof Player) {
+				System.out.println("Found player instance at " + ent.x + ","
+						+ ent.y + ".");
 				px = ent.x;
 				py = ent.y;
 				ent.forRemoval = true;
 				break;
 			}
 		}
-	
+
 		tiles = mapfile.tiles;
 
 	}
-	
-	public void spawnEntity(Entity entity)
-	{
+
+	public void spawnEntity(Entity entity) {
 		entities.add(entity);
 	}
 
 	@Override
 	public void tick() {
-		if(player == null)
-		{
+		if (player == null) {
 			player = new Player(this);
 			player.setPos(px, py);
 			entities.add(player);
 		}
-			
+
 		player.tryMoveEntity(velx, vely);
-		
+
 	}
-	
+
 	@Override
-	public void init(Game game)
-	{
+	public void init(Game game) {
 		Game.log("Initializing");
 		super.init(game);
 	}
@@ -92,64 +87,67 @@ public class ScreenGame extends Screen {
 				16 * Game.SCALE);
 		return tiles.get(rec);
 	}
-	
-	public void setTileAt(int x, int y, int tile)
-	{
+
+	public void setTileAt(int x, int y, int tile) {
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
 				16 * Game.SCALE);
-		
+
 		tiles.put(rec, Tile.tiles[tile]);
 	}
-	public Entity getEntityInBox(Rectangle rec)
-	{
-		for(Entity ent : entities)
-		{
-			if(rec.contains(new Point(ent.x, ent.y)))
-				{
+
+	public Entity getEntityInBox(Rectangle rec) {
+		for (Entity ent : entities) {
+			if (rec.contains(new Point(ent.x, ent.y))) {
 				return ent;
-				}
+			}
 		}
 		return null;
 	}
-	public ArrayList<Entity> getEntitiesInBox(Rectangle rec)
-	{
-		ArrayList<Entity>ents = new ArrayList<Entity>();
-		for(Entity ent : entities)
-		{
-			if(rec.contains(new Rectangle(ent.x, ent.y, 32, 32)))
-				{
-					ents.add(ent);	
-				}
+
+	public ArrayList<Entity> getEntitiesInBox(Rectangle rec) {
+		ArrayList<Entity> ents = new ArrayList<Entity>();
+		for (Entity ent : entities) {
+			if (rec.contains(new Rectangle(ent.x, ent.y, 32, 32))) {
+				ents.add(ent);
+			}
 		}
 		return ents;
 	}
 
 	@Override
 	public void render(final Graphics g) {
-		if(player == null)return;
-	for (int i = 0; i < tiles.keySet().size(); i++) {
+		if (player == null)
+			return;
+		for (int i = 0; i < tiles.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
-			Tile tile = tiles.get(rec);	
+			Tile tile = tiles.get(rec);
 			tile.tick();
 			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x - xScroll,
 					rec.y - yScroll, rec.width, rec.height, game);
 
 		}
 		if (game.settings.getSetting("Debug") == "ON" && player != null) {
-			game.getFontRenderer().drawString("DX:" + velx + " DY:" + vely+" SX:"+xScroll+" SY:"+yScroll+" WX:" + Game.WIDTH + " WY:" + Game.HEIGHT, 260, 0, 1);
-			game.getFontRenderer().drawString("X:" + player.x + " Y:" + player.y+" ROT:"+player.getOrientation()+" HP:"+player.getHealth()+ " AMM:"+player.getAmmo()+ " TIMERS:GUN:"+player.ammocooldown, 260, 10, 1);
-		}	
-		for(int i = 0; i < entities.size(); i++)
-		{
-			
+			game.getFontRenderer().drawString(
+					"DX:" + velx + " DY:" + vely + " SX:" + xScroll + " SY:"
+							+ yScroll + " WX:" + Game.WIDTH + " WY:"
+							+ Game.HEIGHT, 260, 0, 1);
+			game.getFontRenderer().drawString(
+					"X:" + player.x + " Y:" + player.y + " ROT:"
+							+ player.getOrientation() + " HP:"
+							+ player.getHealth() + " AMM:" + player.getAmmo()
+							+ " TIMERS:GUN:" + player.ammocooldown, 260, 10, 1);
+		}
+		for (int i = 0; i < entities.size(); i++) {
+
 			Entity ent = entities.get(i);
-			if(ent.game == null)
-			{
+			if (ent.game == null) {
 				ent.game = game;
-				Game.log("Entity "+ent+" game instance was null. Game instance is now "+ent.game);
+				Game.log("Entity " + ent
+						+ " game instance was null. Game instance is now "
+						+ ent.game);
 			}
-			if(ent.forRemoval)
+			if (ent.forRemoval)
 				entities.remove(i);
 			ent.tick();
 			ent.render(g);
@@ -157,33 +155,35 @@ public class ScreenGame extends Screen {
 		}
 
 		g.setColor(new Color(155, 155, 155, 142));
-		g.fillRect(0, h-74, w, h);
-		
-		if(player.getHealth() > 0)
-		{
-			g.drawImage(game.sheetUI.getImage(33), 16, h-64, 32, 32, game);
-			for(int i = 0; i < player.getHealth()-1; i++)
-			{
-				g.drawImage(game.sheetUI.getImage(34), 32+(32*i), h-64, 32, 32, game);
+		g.fillRect(0, h - 74, w, h);
+
+		if (player.getHealth() > 0) {
+			g.drawImage(game.sheetUI.getImage(33), 16, h - 64, 32, 32, game);
+			for (int i = 0; i < player.getHealth() - 1; i++) {
+				g.drawImage(game.sheetUI.getImage(34), 32 + (32 * i), h - 64,
+						32, 32, game);
 			}
-			
-				g.drawImage(game.sheetUI.getImage(35), (32*player.getHealth()), h-64, 32, 32, game);
-		
+
+			g.drawImage(game.sheetUI.getImage(35), (32 * player.getHealth()),
+					h - 64, 32, 32, game);
+
 		}
-		if(player.getAmmo() > 0)
-		{	
-			g.drawImage(game.sheetUI.getImage(17), 16, h-32, 32, 32, game);
-			for(int i = 0; i < player.getAmmo()-1; i++)
-			{
-				g.drawImage(game.sheetUI.getImage(18), 32+(32*i), h-32, 32, 32, game);
+		if (player.getAmmo() > 0) {
+			g.drawImage(game.sheetUI.getImage(17), 16, h - 32, 32, 32, game);
+			for (int i = 0; i < player.getAmmo() - 1; i++) {
+				g.drawImage(game.sheetUI.getImage(18), 32 + (32 * i), h - 32,
+						32, 32, game);
 			}
-			
-				g.drawImage(game.sheetUI.getImage(19), (32*player.getAmmo()), h-32, 32, 32, game);
-				if(player.ammocooldown != 0)
-				{
-					g.drawImage(game.sheetUI.getImage(16),32+(32*player.getAmmo()), h-32,32,32, game); 
-					game.getFontRenderer().drawString(""+player.ammocooldown/60, 32+(32*player.getAmmo()),h-30, 1);
-				}
+
+			g.drawImage(game.sheetUI.getImage(19), (32 * player.getAmmo()),
+					h - 32, 32, 32, game);
+			if (player.ammocooldown != 0) {
+				g.drawImage(game.sheetUI.getImage(16),
+						32 + (32 * player.getAmmo()), h - 32, 32, 32, game);
+				game.getFontRenderer().drawString(
+						"" + player.ammocooldown / 60,
+						32 + (32 * player.getAmmo()), h - 30, 1);
+			}
 
 		}
 
@@ -203,11 +203,11 @@ public class ScreenGame extends Screen {
 		}
 		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT)) {
 			velx = 1;
-	
+
 		}
 		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_ESCAPE)) {
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
-	
+
 		}
 
 	}

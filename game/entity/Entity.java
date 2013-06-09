@@ -5,9 +5,7 @@ import game.screen.ScreenGame;
 import game.tile.Tile;
 
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Entity implements Serializable {
 
@@ -22,14 +20,13 @@ public class Entity implements Serializable {
 	public Entity(ScreenGame game) {
 		this.game = game.game;
 	}
-	
-	public Entity()
-	{
-		
+
+	public Entity() {
+
 	}
 
 	public void tick() {
-		if(health <= 0)
+		if (health <= 0)
 			onDeath();
 	}
 
@@ -57,7 +54,7 @@ public class Entity implements Serializable {
 	 * @return If the movement is successful
 	 */
 	public boolean tryMoveEntity(int x, int y) {
-	
+
 		if (x == 0 && y == 0)
 			return false;
 		if ((this.x + x) - Game.SCALE == Game.WIDTH
@@ -66,10 +63,9 @@ public class Entity implements Serializable {
 
 		Tile tile;
 		if (x == -1) { // If entity is moving backwards
-			
-			
-			
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x - 15, this.y);
+
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x - 15,
+					this.y);
 
 			if (tile == null)
 				return false;
@@ -86,8 +82,9 @@ public class Entity implements Serializable {
 
 		if (x == 1) // If entity is moving forwards
 		{
-			
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x + 15, this.y);
+
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x + 15,
+					this.y);
 
 			if (tile == null)
 				return false;
@@ -102,8 +99,9 @@ public class Entity implements Serializable {
 			}
 		}
 		if (y == -1) { // If entity is moving up
-			
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x, this.y - 15);
+
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
+					this.y - 15);
 
 			if (tile == null)
 				return false;
@@ -120,8 +118,9 @@ public class Entity implements Serializable {
 
 		if (y == 1) // If entity is moving down
 		{
-			
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x, this.y + 15);
+
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
+					this.y + 15);
 
 			if (tile == null)
 				return false;
@@ -135,20 +134,16 @@ public class Entity implements Serializable {
 				return false;
 			}
 		}
-		
-
 
 		return false;
 
 	}
-	
-	public void onCollideWithPlayer(int x, int y, Player p)
-	{
-		
+
+	public void onCollideWithPlayer(int x, int y, Player p) {
+
 	}
-	
-	public void onDeath()
-	{
+
+	public void onDeath() {
 		this.forRemoval = true;
 	}
 

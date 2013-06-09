@@ -1,10 +1,8 @@
 package game.utils;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 public class SpriteSheet {
-
 
 	BufferedImage sheet;
 	private BufferedImage[] imagecache;
@@ -26,7 +24,6 @@ public class SpriteSheet {
 
 	public BufferedImage getImage(int texpos) {
 
-		
 		return imagecache[texpos];
 	}
 

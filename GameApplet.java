@@ -2,10 +2,6 @@ import game.Game;
 
 import java.applet.Applet;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class GameApplet extends Applet {
 
@@ -20,7 +16,6 @@ public class GameApplet extends Applet {
 		add(game, BorderLayout.CENTER);
 		setVisible(true);
 		game.start();
-		
 
 	}
 

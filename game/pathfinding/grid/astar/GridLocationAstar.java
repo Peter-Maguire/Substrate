@@ -2,22 +2,23 @@ package game.pathfinding.grid.astar;
 
 import game.pathfinding.grid.GridLocation;
 
-public class GridLocationAstar extends GridLocation{
+public class GridLocationAstar extends GridLocation {
 
 	private double doneDist;
 	private double todoDist;
-	
-	public GridLocationAstar(int x, int y, boolean end, double doneDist, double todoDist) {
+
+	public GridLocationAstar(int x, int y, boolean end, double doneDist,
+			double todoDist) {
 		super(x, y, end);
 		this.doneDist = doneDist;
 		this.todoDist = todoDist;
 	}
-	
-	public double getDoneDistance(){
+
+	public double getDoneDistance() {
 		return doneDist;
 	}
-	
-	public double getTotalDistance(){
+
+	public double getTotalDistance() {
 		return doneDist + todoDist;
 	}
 

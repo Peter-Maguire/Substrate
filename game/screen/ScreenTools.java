@@ -33,9 +33,10 @@ public class ScreenTools {
 
 	public static void drawOnOffButton(int x, int y, int length, int height,
 			String on, Graphics g, Game game) {
-		ScreenTools.drawButton(x, y, length, height, on, g, game, new Color(
-				on.contains("ON") ? 0 : 145, on.contains("ON") ? 145 : 0, 0, 155),
-				on.contains("ON") ? Color.green : Color.red);
+		ScreenTools.drawButton(x, y, length, height, on, g, game,
+				new Color(on.contains("ON") ? 0 : 145, on.contains("ON") ? 145
+						: 0, 0, 155), on.contains("ON") ? Color.green
+						: Color.red);
 	}
 
 	public static void drawProgressBar(int x, int y, int length, int height,

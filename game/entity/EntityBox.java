@@ -3,21 +3,15 @@ package game.entity;
 import game.Game;
 import game.screen.ScreenGame;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public class EntityBox extends Entity{
-	
+public class EntityBox extends Entity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6538392496176575034L;
-
-
-
 
 	public EntityBox(ScreenGame game, int x, int y) {
 		super(game);
@@ -25,90 +19,78 @@ public class EntityBox extends Entity{
 		this.y = y;
 		this.sprite = 8;
 	}
-	
+
 	public EntityBox() {
 		this.sprite = 8;
 	}
-	
+
 	@Override
-	public void tick()
-	{
-		
+	public void tick() {
+
 	}
-	
+
 	@Override
-	public boolean tryMoveEntity(int x, int y)
-	{
-		
-		
-		if(x == 1) // Player is moving forwards 
+	public boolean tryMoveEntity(int x, int y) {
+
+		if (x == 1) // Player is moving forwards
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game.currentScreen).getEntitiesInBox(new Rectangle(this.x+x - 10 , this.y+y - 20, Game.SIZE, Game.SIZE));
-			if(eib.size() > 1)
-			{
-				for(Entity e : eib)
-				{
-					if(e instanceof EntityBox)
+			ArrayList<Entity> eib = ((ScreenGame) game.currentScreen)
+					.getEntitiesInBox(new Rectangle(this.x + x - 10, this.y + y
+							- 20, Game.SIZE, Game.SIZE));
+			if (eib.size() > 1) {
+				for (Entity e : eib) {
+					if (e instanceof EntityBox)
 						return false;
-					}
-				}				
-			}
-		
-		if(x == -1) // Player is moving backwards
-		{
-				ArrayList<Entity>eib = ((ScreenGame) game.currentScreen).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 20, Game.SIZE, Game.SIZE));
-			if(eib.size() > 1)
-			{
-				for(Entity e : eib)
-				{
-					if(e instanceof EntityBox)
-					{
-						return false;
-					}
-				}				
+				}
 			}
 		}
-		if(y == 1) // Player is moving up 
+
+		if (x == -1) // Player is moving backwards
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game.currentScreen).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 5, Game.SIZE, Game.SIZE));
-			if(eib.size() > 1)
-			{
-				for(Entity e : eib)
-				{
-					if(e instanceof EntityBox)
-					{
+			ArrayList<Entity> eib = ((ScreenGame) game.currentScreen)
+					.getEntitiesInBox(new Rectangle(this.x + x - 25, this.y + y
+							- 20, Game.SIZE, Game.SIZE));
+			if (eib.size() > 1) {
+				for (Entity e : eib) {
+					if (e instanceof EntityBox) {
 						return false;
 					}
-				}				
+				}
 			}
 		}
-		if(y == -1) // Player is moving down
+		if (y == 1) // Player is moving up
 		{
-				ArrayList<Entity>eib = ((ScreenGame) game.currentScreen).getEntitiesInBox(new Rectangle(this.x+x - 25 , this.y+y - 25, Game.SIZE, Game.SIZE));
-			if(eib.size() > 1)
-			{
-				for(Entity e : eib)
-				{
-					if(e instanceof EntityBox)
-					{
+			ArrayList<Entity> eib = ((ScreenGame) game.currentScreen)
+					.getEntitiesInBox(new Rectangle(this.x + x - 25, this.y + y
+							- 5, Game.SIZE, Game.SIZE));
+			if (eib.size() > 1) {
+				for (Entity e : eib) {
+					if (e instanceof EntityBox) {
 						return false;
 					}
-				}				
+				}
+			}
+		}
+		if (y == -1) // Player is moving down
+		{
+			ArrayList<Entity> eib = ((ScreenGame) game.currentScreen)
+					.getEntitiesInBox(new Rectangle(this.x + x - 25, this.y + y
+							- 25, Game.SIZE, Game.SIZE));
+			if (eib.size() > 1) {
+				for (Entity e : eib) {
+					if (e instanceof EntityBox) {
+						return false;
+					}
+				}
 			}
 		}
 		super.tryMoveEntity(x, y);
 		return false;
-		}
-
-	
-
-	
-	@Override
-	public void onCollideWithPlayer(int x, int y, Player p)
-	{
-		tryMoveEntity(x, y);	
 	}
-	
-	
+
+	@Override
+	public void onCollideWithPlayer(int x, int y, Player p) {
+		tryMoveEntity(x, y);
+	}
 
 }

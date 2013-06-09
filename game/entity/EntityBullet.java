@@ -7,17 +7,15 @@ import game.tile.TileWater;
 
 import java.awt.Rectangle;
 
-public class EntityBullet extends Entity{
+public class EntityBullet extends Entity {
 
-	
-	
-	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -1323593082285477607L;
 	private ScreenGame game;
 	private int type = 0, rotation = 0, speed = 6;
+
 	public EntityBullet(ScreenGame game, int type, int rotation, int x, int y) {
 		super(game);
 		this.game = game;
@@ -25,43 +23,36 @@ public class EntityBullet extends Entity{
 		this.rotation = rotation;
 		this.x = x;
 		this.y = y;
-		
+
 		sprite = 4 + rotation;
-		
+
 	}
-	
-	public EntityBullet()
-	{
+
+	public EntityBullet() {
 		sprite = 4;
 	}
-	
+
 	@Override
-	public void tick()
-	{
-		if(rotation == Player.NORTH)
-			this.y -=speed;
-		
-		if(rotation == Player.SOUTH)
-			this.y +=speed;
-		
-		if(rotation == Player.EAST)
-			this.x +=speed;
-		if(rotation == Player.WEST)
-			this.x -=speed;
-		
-		
-		if(game.getTileAt(x, y) == null)
-		{
+	public void tick() {
+		if (rotation == Player.NORTH)
+			this.y -= speed;
+
+		if (rotation == Player.SOUTH)
+			this.y += speed;
+
+		if (rotation == Player.EAST)
+			this.x += speed;
+		if (rotation == Player.WEST)
+			this.x -= speed;
+
+		if (game.getTileAt(x, y) == null) {
 			this.forRemoval = true;
-		return;
+			return;
 		}
 		Tile t = game.getTileAt(x, y);
-		if(!t.isPassable() && t instanceof TileWater == false)
-		{
-			if(t instanceof TileWall)
-			{
-				switch(t.sprite)
-				{
+		if (!t.isPassable() && t instanceof TileWater == false) {
+			if (t instanceof TileWall) {
+				switch (t.sprite) {
 				case TileWall.TOP_CORNER_LEFT:
 					game.setTileAt(x, y, 19);
 					break;
@@ -87,17 +78,16 @@ public class EntityBullet extends Entity{
 					game.setTileAt(x, y, 3);
 					break;
 				}
-				
+
 			}
-			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
+			game.spawnEntity(new EntityExplosion(game, x - 4, y - 2, 2));
 			this.forRemoval = true;
 		}
-		Entity e = game.getEntityInBox(new Rectangle( x, y, 32, 32));
-		if(e instanceof EntityBox)
-		{
+		Entity e = game.getEntityInBox(new Rectangle(x, y, 32, 32));
+		if (e instanceof EntityBox) {
 			this.forRemoval = true;
 			e.forRemoval = true;
-			game.spawnEntity(new EntityExplosion(game, x-4, y-2, 2));
+			game.spawnEntity(new EntityExplosion(game, x - 4, y - 2, 2));
 		}
 	}
 

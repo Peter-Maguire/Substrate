@@ -1,8 +1,6 @@
 package game.tile;
 
-import game.screen.ScreenGame;
-
-public class TileWater extends Tile{
+public class TileWater extends Tile {
 
 	/**
 	 * 

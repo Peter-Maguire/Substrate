@@ -1,8 +1,6 @@
 package game.tile;
 
-import game.screen.ScreenGame;
-
-public class TilePaving extends Tile{
+public class TilePaving extends Tile {
 
 	/**
 	 * 
@@ -12,7 +10,5 @@ public class TilePaving extends Tile{
 	public TilePaving() {
 		sprite = 8;
 	}
-	
-	
 
 }

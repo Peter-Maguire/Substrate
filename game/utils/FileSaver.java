@@ -21,16 +21,15 @@ import java.util.HashMap;
 
 public class FileSaver {
 
-	
-	
-	public static ArrayList<Entity> serialToEntity(ArrayList<SerialEntity> entlist, Game game) throws ClassNotFoundException, InstantiationException, IllegalAccessException
-	{
+	public static ArrayList<Entity> serialToEntity(
+			ArrayList<SerialEntity> entlist, Game game)
+			throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
 		System.out.println("Deserializing entity array...");
-		System.out.println(entlist.size()+" entities to deserialize.");
-		ArrayList<Entity>newlist = new ArrayList<Entity>();
-		for(SerialEntity se : entlist)
-		{
-			System.out.println("Deserialized entity "+se.relatedEntity);
+		System.out.println(entlist.size() + " entities to deserialize.");
+		ArrayList<Entity> newlist = new ArrayList<Entity>();
+		for (SerialEntity se : entlist) {
+			System.out.println("Deserialized entity " + se.relatedEntity);
 			Class<?> c = Class.forName(se.relatedEntity);
 			Entity dummyentity = (Entity) c.newInstance();
 			dummyentity.x = se.x;
@@ -40,66 +39,61 @@ public class FileSaver {
 		}
 		return newlist;
 	}
-	
-	public static ArrayList<SerialEntity> entityToSerial(ArrayList<Entity> entlist)
-	{
+
+	public static ArrayList<SerialEntity> entityToSerial(
+			ArrayList<Entity> entlist) {
 		System.out.println("Serializing entity array...");
-		System.out.println(entlist.size()+" entities to serialize.");
+		System.out.println(entlist.size() + " entities to serialize.");
 		ArrayList<SerialEntity> newlist = new ArrayList<SerialEntity>();
-		for(Entity e : entlist)
-		{
-			System.out.println("Serialized entity "+e.getClass().getCanonicalName());
-			newlist.add(new SerialEntity(e.x, e.y, 0, e.getClass().getCanonicalName()));
+		for (Entity e : entlist) {
+			System.out.println("Serialized entity "
+					+ e.getClass().getCanonicalName());
+			newlist.add(new SerialEntity(e.x, e.y, 0, e.getClass()
+					.getCanonicalName()));
 		}
 		return newlist;
 	}
-	
-	 public static String getStackTrace(Throwable aThrowable) {
-		    final Writer result = new StringWriter();
-		    final PrintWriter printWriter = new PrintWriter(result);
-		    aThrowable.printStackTrace(printWriter);
-		    return result.toString();
-		  }
-	
-	
-	
-	public static void savePropertiesFile(HashMap<String, String> props, String path)
-	{
+
+	public static String getStackTrace(Throwable aThrowable) {
+		final Writer result = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(result);
+		aThrowable.printStackTrace(printWriter);
+		return result.toString();
+	}
+
+	public static void savePropertiesFile(HashMap<String, String> props,
+			String path) {
 		PrintWriter out;
-		try
-		{
-			Game.log("Saving property file "+path);
-			 out = new PrintWriter(path);
-			 out.println("#"+Game.TITLE+" Property File. ");
-				for (int i = 0; i < props.keySet().size(); i++) {
-			
-					String property =  props.keySet().toArray()[i]+"";
-					String value = props.get(property);
-					out.println(property+": "+value);
-				}
-				out.checkError();
-				out.close();
-		}catch(Exception e)
-		{
+		try {
+			Game.log("Saving property file " + path);
+			out = new PrintWriter(path);
+			out.println("#" + Game.TITLE + " Property File. ");
+			for (int i = 0; i < props.keySet().size(); i++) {
+
+				String property = props.keySet().toArray()[i] + "";
+				String value = props.get(property);
+				out.println(property + ": " + value);
+			}
+			out.checkError();
+			out.close();
+		} catch (Exception e) {
 			Game.log("File saving did an uh oh at:");
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public static HashMap<String, String> readPropertiesFile(String path)
-	{
+
+	public static HashMap<String, String> readPropertiesFile(String path) {
 		HashMap<String, String> props = new HashMap<String, String>();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(path));
 			String line;
 			while ((line = br.readLine()) != null) {
-			  if(!line.startsWith("#"))
-			  {	  
-				  String[] properties = line.split(": ");
-				  props.put(properties[0], properties[1]);
-			  }
+				if (!line.startsWith("#")) {
+					String[] properties = line.split(": ");
+					props.put(properties[0], properties[1]);
+				}
 			}
 			br.close();
 
@@ -108,54 +102,49 @@ public class FileSaver {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		return props;
 	}
-	
-	public static void save(Object file, String path)
-	{
+
+	public static void save(Object file, String path) {
 		FileOutputStream fos;
 		ObjectOutputStream oos;
-	
-		try{
-			Game.log("Saving file "+path);
-			
+
+		try {
+			Game.log("Saving file " + path);
+
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
 			oos.writeObject(file);
-		}
-		catch(FileNotFoundException e)
-		{
+		} catch (FileNotFoundException e) {
 			new File(path).mkdir();
 			save(file, path);
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 		Game.log("Done!");
-		
+
 	}
-	
-	public static Object load(String path)
-	{
+
+	public static Object load(String path) {
 		try {
-			Game.log("Loading file "+path);
+			Game.log("Loading file " + path);
 			FileInputStream fis = new FileInputStream(path);
 			ObjectInputStream ois = new ObjectInputStream(fis);
 			return ois.readObject();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-	
+
 	}
+
 	public static String getCleanPath() {
-	  
-	    return  new File(FileSaver.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getAbsolutePath();
+
+		return new File(FileSaver.class.getProtectionDomain().getCodeSource()
+				.getLocation().getPath()).getAbsolutePath();
 	}
-		
 
 }

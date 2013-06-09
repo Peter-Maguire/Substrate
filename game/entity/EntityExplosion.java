@@ -1,18 +1,17 @@
 package game.entity;
 
-
 import game.screen.ScreenGame;
 
 import java.awt.Graphics;
-import java.util.Random;
 
-public class EntityExplosion extends Entity{
+public class EntityExplosion extends Entity {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4635469885829039789L;
 	private int x, y, size, animstage = 0;
+
 	public EntityExplosion(ScreenGame game, int x, int y, int size) {
 		super(game);
 		this.x = x;
@@ -21,32 +20,26 @@ public class EntityExplosion extends Entity{
 		this.game = game.game;
 		this.sprite = -1;
 	}
-	
-	public EntityExplosion()
-	{
+
+	public EntityExplosion() {
 		sprite = 35;
 	}
-	
-	
+
 	@Override
-	public void tick()
-	{
-		animstage ++;
-		if(animstage == 256)this.forRemoval = true;
+	public void tick() {
+		animstage++;
+		if (animstage == 256)
+			this.forRemoval = true;
 
 	}
-	
+
 	@Override
-	public void render(Graphics g)
-	{
-		int scale = size*16;
-	
-		
-		g.drawImage(game.sheetExplosions.getImage(animstage), x+20, y+5, scale, scale, game);
+	public void render(Graphics g) {
+		int scale = size * 16;
 
+		g.drawImage(game.sheetExplosions.getImage(animstage), x + 20, y + 5,
+				scale, scale, game);
 
-
-		
 	}
 
 }
