@@ -114,8 +114,20 @@ public class Screen {
 
 	public void keyPressed(KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
-			game.setScreen(new ScreenMainMenu(w, h, sheet));
+		{
+			deinit();
+			quit();
+		}
+			
 
+	}
+	public void deinit()
+	{
+	}
+	public void quit()
+	{
+		game.setScreen(new ScreenMainMenu(w, h, sheet));
+		game.gameRunning = true;
 	}
 
 	public void keyReleased(KeyEvent arg0) {

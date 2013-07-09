@@ -11,16 +11,57 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.matthiasmann.twl.utils.PNGDecoder;
+import de.matthiasmann.twl.utils.PNGDecoder.Format;
+
 public class FileSaver {
 
+	
+	
+	
+	public static ByteBuffer loadPNGTexture(String path)
+	{
+		try{
+		ByteBuffer buf = null;
+		int tWidth = 0,
+			tHeight = 0;
+		InputStream in = new FileInputStream(FileSaver.getCleanPath()+"//res//tiles.png");
+		PNGDecoder decoder = new PNGDecoder(in);
+		
+		tWidth = decoder.getWidth();
+		tHeight = decoder.getHeight();
+		buf = ByteBuffer.allocateDirect(4 * decoder.getWidth() * decoder.getHeight());
+		decoder.decode(buf, decoder.getWidth() * 4, Format.RGBA);
+		buf.flip();
+		in.close();
+		return buf;
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
+	/**
+	 * Used for map loading to retrieve entity instances from the map file.
+	 * @param entlist The list of serial entities supplied by the map file
+	 * @param game The game instance
+	 * @return A list of entity instances
+	 * @throws ClassNotFoundException If entity list is invalid
+	 * @throws InstantiationException If entity list is invalid
+	 * @throws IllegalAccessException If entity list is invalid
+	 */
 	public static ArrayList<Entity> serialToEntity(
 			ArrayList<SerialEntity> entlist, Game game)
 			throws ClassNotFoundException, InstantiationException,
@@ -40,6 +81,11 @@ public class FileSaver {
 		return newlist;
 	}
 
+	/**
+	 * Used for map saving to convert entities to saveable versions
+	 * @param entlist A list of entities supplied by the Map instance
+	 * @return A list of saveable entities
+	 */
 	public static ArrayList<SerialEntity> entityToSerial(
 			ArrayList<Entity> entlist) {
 		System.out.println("Serializing entity array...");
@@ -54,6 +100,11 @@ public class FileSaver {
 		return newlist;
 	}
 
+	/**
+	 * Used by the crash screen to the stack trace
+	 * @param aThrowable The throwable error
+	 * @return The stacktrace
+	 */
 	public static String getStackTrace(Throwable aThrowable) {
 		final Writer result = new StringWriter();
 		final PrintWriter printWriter = new PrintWriter(result);
@@ -61,6 +112,12 @@ public class FileSaver {
 		return result.toString();
 	}
 
+	/**
+	 *  Saves all the properties in the hashmap props into a file like this:
+	 *  Key: Value
+	 * @param props The hashmap to save to a file.
+	 * @param path The path to save at.
+	 */
 	public static void savePropertiesFile(HashMap<String, String> props,
 			String path) {
 		PrintWriter out;
@@ -83,6 +140,11 @@ public class FileSaver {
 
 	}
 
+	/**
+	 * Used for reading property files
+	 * @param path Path to read from
+	 * @return Hashmap form of property file
+	 */
 	public static HashMap<String, String> readPropertiesFile(String path) {
 		HashMap<String, String> props = new HashMap<String, String>();
 		BufferedReader br;
@@ -106,6 +168,11 @@ public class FileSaver {
 		return props;
 	}
 
+	/**
+	 * Basic file saver
+	 * @param file File to save
+	 * @param path Path to save at
+	 */
 	public static void save(Object file, String path) {
 		FileOutputStream fos;
 		ObjectOutputStream oos;
@@ -127,6 +194,11 @@ public class FileSaver {
 
 	}
 
+	/**
+	 * Basic file loader
+	 * @param path Path to load from
+	 * @return Object returned
+	 */
 	public static Object load(String path) {
 		try {
 			Game.log("Loading file " + path);
@@ -141,6 +213,10 @@ public class FileSaver {
 
 	}
 
+	/**
+	 * Gets working directory
+	 * @return Working directory
+	 */
 	public static String getCleanPath() {
 
 		return new File(FileSaver.class.getProtectionDomain().getCodeSource()

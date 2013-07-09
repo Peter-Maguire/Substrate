@@ -28,12 +28,12 @@ public class ScreenTools {
 		g.setColor(background);
 		g.drawRect(x - 1, y - 1, length + 1, height - 1);
 		game.getFontRenderer().drawString(text,
-				x + (length / text.length()) / 2, y + 5, 2);
+				x , y + 5, 2);
 	}
 
 	public static void drawOnOffButton(int x, int y, int length, int height,
 			String on, Graphics g, Game game) {
-		ScreenTools.drawButton(x, y, length, height, on, g, game,
+		ScreenTools.drawButton(x, y, length, height, " "+on, g, game,
 				new Color(on.contains("ON") ? 0 : 145, on.contains("ON") ? 145
 						: 0, 0, 155), on.contains("ON") ? Color.green
 						: Color.red);

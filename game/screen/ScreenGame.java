@@ -2,11 +2,11 @@ package game.screen;
 
 import game.Controls;
 import game.Game;
+import game.Map;
 import game.entity.Entity;
 import game.entity.Player;
 import game.tile.Tile;
 import game.utils.FileSaver;
-import game.utils.Map;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
 
@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class ScreenGame extends Screen {
 
 	public Player player;
-	protected ArrayList<Entity> entities = new ArrayList<Entity>();
+	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	protected HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 
 	int velx = 0, vely = 0, w, h, px, py;
@@ -34,7 +34,13 @@ public class ScreenGame extends Screen {
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
+		initMap(mapfile);
 
+
+	}
+	
+	public void initMap(Map mapfile)
+	{
 		try {
 			entities = FileSaver.serialToEntity(mapfile.entities, game);
 			Game.log("Entity array size: " + entities.size());
@@ -56,7 +62,6 @@ public class ScreenGame extends Screen {
 		}
 
 		tiles = mapfile.tiles;
-
 	}
 
 	public void spawnEntity(Entity entity) {
@@ -192,6 +197,7 @@ public class ScreenGame extends Screen {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		player.keyPressed(e);
+		super.keyPressed(e);
 		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP)) {
 			vely = -1;
 		}
@@ -205,10 +211,7 @@ public class ScreenGame extends Screen {
 			velx = 1;
 
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_ESCAPE)) {
-			game.setScreen(new ScreenMainMenu(w, h, sheet));
 
-		}
 
 	}
 
