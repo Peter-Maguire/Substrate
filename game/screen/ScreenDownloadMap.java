@@ -1,9 +1,9 @@
 package game.screen;
 
 import game.Game;
+import game.Map;
 import game.tile.Tile;
 import game.utils.FileSaver;
-import game.utils.Map;
 import game.utils.SpriteSheet;
 
 import java.awt.Color;

@@ -1,9 +1,9 @@
 package game.screen;
 
 import game.Game;
+import game.Map;
 import game.tile.Tile;
 import game.utils.FileSaver;
-import game.utils.Map;
 import game.utils.SpriteSheet;
 
 import java.awt.Color;
@@ -18,49 +18,95 @@ import java.util.HashMap;
 public class ScreenLoadMap extends Screen {
 	private String mapName = "LOAD ERROR", mapDesc = "LOAD ERROR",
 			mapVersion = "LOAD ERROR";
-	private ArrayList<Map> maps = new ArrayList<Map>();
+	private ArrayList<Map> maps = new ArrayList<Map>(), levels = new ArrayList<Map>();
 	private HashMap<Rectangle, Integer> buttons = new HashMap<Rectangle, Integer>();
 	private int selectedMap = 1;
-	private boolean hasLoadedMap = false;
+	private boolean hasLoadedMap = false, showingLevels = false;
+	
 
 	public ScreenLoadMap(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
 	}
+	
+	@Override
+	public void tick()
+	{
+		
+		if(buttons.size() == 0)
+		{
+			System.out.println("Registering buttons...");
+			buttons.put(new Rectangle(431, 452, 300, 52), -1);
+			addButton("modeLevels", new Rectangle(32,540,100,32));
+			addButton("modeCustom", new Rectangle(232,540,100,32));
+			String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
+			int j = 0;
+			for (String s : files) {
+				File tf = new File(s);
+				if (tf.getName().contains(".smf")) {
+					j++;
+					Map m = (Map) FileSaver.load(FileSaver.getCleanPath()
+							+ "\\maps\\" + s);
+					if(m.name.startsWith("Level_") && showingLevels)
+					{
+						buttons.put(new Rectangle(41, 4 + (60 * j), 280, 49), j);
+					}
+					else if(!m.name.startsWith("Level_") && !showingLevels)
+					{
+						buttons.put(new Rectangle(41, 4 + (60 * j), 280, 49), j);
+					}
+				}
+			}
+			
+		}
+		
+	}
 
 	@Override
 	public void render(Graphics g) {
+		
 		drawBackgroundScreen();
 		game.getFontRenderer().drawString("Select map to load", 32, 32, 2);
-		g.setColor(new Color(0, 0, 0, 155));
-		g.fillRect(32, 52, 300, Game.HEIGHT - 128);
-		g.setColor(Color.black);
-		g.drawRect(31, 51, 301, Game.HEIGHT - 127);
+		
+		//MAP BOX CONTAINER
+		ScreenTools.drawButton(32,52,300,Game.HEIGHT-128," ",g,game); 
+		
+		//LEVEL/CUSTOM SWITCHER
+		ScreenTools.drawButton(32,540,100,32,"Levels",g,game, new Color(0,0,0,155), showingLevels ? Color.orange : Color.white);
+		ScreenTools.drawButton(232,540,100,32,"Custom",g,game, new Color(0,0,0,155), !showingLevels ? Color.orange : Color.white);
 
-		g.setColor(new Color(0, 0, 0, 155));
-		g.fillRect(431, 452, 300, 52);
-		g.setColor(maps.size() != 0 ? Color.green : Color.red);
-		g.drawRect(430, 451, 301, 52);
-		game.getFontRenderer().drawString(">SELECT<", 514, 469, 2);
+		//SELECT BUTTON
+		ScreenTools.drawButton(431,452,300,52,"    >SELECT<",g,game, new Color(0,0,0,155),maps.size() != 0 ? Color.green : Color.red);
+		
+		//MAP PREVIEW BOX
+		ScreenTools.drawButton(379,31,401,257," ", g,game);
+		
+		//MAP DESC BOX
+		ScreenTools.drawButton(379,321,401,97," ",g,game);
+		
+	
 
-		g.setColor(Color.black);
-		g.drawRect(379, 31, 401, 305);
 
-		if (maps.size() == 0) {
-			game.getFontRenderer().drawString("No maps", 122, 255, 2,
+		if ((maps.size() == 0 && !showingLevels) || (levels.size() == 0 && showingLevels)) {
+			game.getFontRenderer().drawString(showingLevels ? "Level \nloading \nerror!\nRedownload\nGame." : "No maps", 122, 255, 2,
 					new Color(155, 5, 5));
 
 		} else {
 
-			game.getFontRenderer().drawString(mapName, 422, 355, 2);
+			
+			game.getFontRenderer().drawString(mapName, 422, 355, mapName.length() > 16 ? 1 : 2);
 			game.getFontRenderer().drawString(mapVersion, 712, 355, 1);
 			game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
 			int i = 1;
 			for (Map m : maps) {
-				g.setColor(new Color(255, 255, 255, 155));
-				g.fillRect(41, 4 + (60 * i), 280, 49);
-				g.setColor(selectedMap == i ? Color.orange : Color.white);
-				g.drawRect(40, 3 + (60 * i), 281, 50);
-				game.getFontRenderer().drawString(m.name, 41, 8 + (60 * i), 2);
+
+				ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
+
+				if(m.isLocked)
+				{
+					g.setColor(new Color(0, 0, 0, 155));
+					g.fillRect(40, 3 + (60 * i), 282, 51);
+					g.drawImage(game.sheetUI.getImage(8), 155, 10+(60*i),32,32,game);
+				}
 				i++;
 			}
 
@@ -82,16 +128,22 @@ public class ScreenLoadMap extends Screen {
 	}
 
 	private void getMaps() {
-		buttons.put(new Rectangle(431, 452, 300, 52), -1);
 		String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
 		int j = 0;
 		for (String s : files) {
 			File tf = new File(s);
 			if (tf.getName().contains(".smf")) {
 				j++;
-				maps.add((Map) FileSaver.load(FileSaver.getCleanPath()
-						+ "\\maps\\" + s));
-				buttons.put(new Rectangle(41, 4 + (60 * j), 280, 49), j);
+				Map m = (Map) FileSaver.load(FileSaver.getCleanPath()
+						+ "\\maps\\" + s);
+				if(m.isLevel)
+				{
+					 levels.add(m);
+				}
+				else
+				{
+					maps.add(m);
+				}
 			}
 		}
 		hasLoadedMap = true;
@@ -99,12 +151,13 @@ public class ScreenLoadMap extends Screen {
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		super.mousePressed(e);
 		Point m = new Point(e.getX(), e.getY());
 		for (int i = 0; i < buttons.keySet().size(); i++) {
 			Rectangle rec = (Rectangle) buttons.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				if (buttons.get(rec) == -1) {
-					game.setScreen(new ScreenGame(w, h, sheet, maps
+					game.setScreen(showingLevels ? new ScreenWaveMode(w,h,sheet,levels.get(selectedMap-1)) : new ScreenGame(w, h, sheet, maps
 							.get(selectedMap - 1)));
 				} else {
 					selectedMap = buttons.get(rec);
@@ -112,5 +165,12 @@ public class ScreenLoadMap extends Screen {
 				break;
 			}
 		}
+	}
+	
+	@Override
+	public void postAction(String action)
+	{
+		if(action == "modeLevels")showingLevels = true;
+		if(action == "modeCustom")showingLevels = false;
 	}
 }
