@@ -32,13 +32,11 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-
-
 public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "0.5 Alpha";
+	public static String TITLE = "Substrate", VERSION = "0.4 Alpha";
 	public static int WIDTH = 832, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
@@ -72,7 +70,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 
 	public static void main(String[] args) {
-		
 		Game game = new Game();
 		container = new JFrame(TITLE);
 		container.setVisible(true);
@@ -83,13 +80,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		container.setIgnoreRepaint(false);
 		container.setResizable(false);
 		container.setVisible(true);
-		
-	
 		game.start();
 
 	}
-	
-	
 
 	public synchronized void start() {
 		try {
@@ -140,7 +133,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	@SuppressWarnings("unchecked")
 	public void init() {
 
-	
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
 
@@ -351,7 +343,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	}
 
 	public void render() {
-	g = (Graphics2D) strategy.getDrawGraphics();
+		g = (Graphics2D) strategy.getDrawGraphics();
 		if (font != null)
 			font.updateDrawGraphics(g);
 		g.setColor(Color.black);
@@ -361,8 +353,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			font.drawString(String.format("%s FPS, %s TPS", fps, tps), 1, 1, 2);
 		g.dispose();
 		strategy.show();
-		
-
 	}
 
 	@Override

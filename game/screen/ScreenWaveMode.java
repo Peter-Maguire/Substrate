@@ -1,18 +1,16 @@
 package game.screen;
 
 import game.Game;
-import game.Map;
 import game.entity.EntitySoldier;
 import game.pathfinding.grid.GridMap;
 import game.tile.Tile;
-import game.utils.FileSaver;
+import game.utils.Map;
 import game.utils.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 public class ScreenWaveMode extends ScreenGame {
 
@@ -40,19 +38,7 @@ public class ScreenWaveMode extends ScreenGame {
 
 		if (noticetimer > 0) {
 			g.fillRect(0, 100, Game.WIDTH, 50);
-			game.getFontRenderer().drawCenteredString("LEVEL " + wave, 113, 3);
-			if(new File("//maps//Level_"+wave+".smf").exists())
-			{
-				initMap((Map) FileSaver
-						.load(FileSaver.getCleanPath() + "//maps//Level_"+wave+".smf"));
-				wave++;
-			}else
-			{
-				System.out.println("You win!");
-				//TODO: GAME WIN game.setScreen(new ScreenGameWin(w,h,sheet));
-			}
-		
-		
+			game.getFontRenderer().drawCenteredString("WAVE " + wave, 113, 3);
 		}
 
 		g.drawImage(game.sheetUI.getImage(20), 681, Game.HEIGHT - 64, 32, 32,
@@ -106,16 +92,6 @@ public class ScreenWaveMode extends ScreenGame {
 		timeleft = maxtime * 60;
 
 	}
-	
-	@Override
-	public void deinit()
-	{
-		Game.log("Unloading entities...");
-		entities.clear();
-		Game.log("Unloading map...");
-		tiles.clear();
-	}
-	
 
 	@Override
 	public void mousePressed(MouseEvent e) {

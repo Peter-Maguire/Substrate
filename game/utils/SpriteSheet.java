@@ -22,12 +22,8 @@ public class SpriteSheet {
 
 	}
 
-	/**
-	 * Gets image
-	 * @param texpos at point
-	 * @return cropped image
-	 */
 	public BufferedImage getImage(int texpos) {
+
 		return imagecache[texpos];
 	}
 

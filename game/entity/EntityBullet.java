@@ -6,7 +6,6 @@ import game.tile.TileWall;
 import game.tile.TileWater;
 
 import java.awt.Rectangle;
-import java.util.Random;
 
 public class EntityBullet extends Entity {
 
@@ -85,13 +84,7 @@ public class EntityBullet extends Entity {
 			this.forRemoval = true;
 		}
 		Entity e = game.getEntityInBox(new Rectangle(x, y, 32, 32));
-		if(e instanceof EntitySoldier)
-		{
-			//TODO: make the guy look like he dies
-			e.forRemoval = true;
-			this.forRemoval = true;
-		}
-		if (e instanceof EntityBox) { 
+		if (e instanceof EntityBox) {
 			this.forRemoval = true;
 			e.forRemoval = true;
 			game.spawnEntity(new EntityExplosion(game, x - 4, y - 2, 2));

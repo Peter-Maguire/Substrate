@@ -26,9 +26,8 @@ public class EntitySoldier extends Entity {
 	private GridMap pfGrid;
 
 	private int lastPlayerX = 0, lastPlayerY = 0;
-	public int speed = 1;
-	private ScreenGame screen;
 
+	private ScreenGame screen;
 
 	public EntitySoldier(ScreenGame game, int x, int y, GridMap map) {
 		this.screen = game;
@@ -39,24 +38,24 @@ public class EntitySoldier extends Entity {
 		this.y = y;
 		lastPlayerX = screen.player.x;
 		lastPlayerY = screen.player.y;
-		/*path = pathFinder.getPath(new GridLocation(this.x, this.y, false),
+		path = pathFinder.getPath(new GridLocation(this.x, this.y, false),
 				new GridLocation(screen.player.x, screen.player.y, true),
 				pfGrid);
-		System.out.println(path);*/
+		System.out.println(path);
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
-		/*if (lastPlayerX != screen.player.x && lastPlayerY != screen.player.y) {
+		if (lastPlayerX != screen.player.x && lastPlayerY != screen.player.y) {
 			path = pathFinder.getPath(new GridLocation(this.x, this.y, false),
 					new GridLocation(screen.player.x, screen.player.y, true),
 					pfGrid);
 			lastPlayerX = screen.player.x;
 			lastPlayerY = screen.player.y;
-		}*/
+		}
 
-	 pathTo(screen.player.x, screen.player.y);
+		// pathTo(screen.player.x, screen.player.y);
 	}
 
 	private void idle() {
@@ -67,41 +66,22 @@ public class EntitySoldier extends Entity {
 
 		switch (walkDirection) {
 		case 1:
-			tryMoveEntity(speed, 0);
+			tryMoveEntity(1, 0);
 			break;
 		case 2:
-			tryMoveEntity(-speed, 0);
+			tryMoveEntity(-1, 0);
 			break;
 		case 3:
-			tryMoveEntity(0, speed);
+			tryMoveEntity(0, 1);
 			break;
 		case 4:
-			tryMoveEntity(0, -speed);
+			tryMoveEntity(0, -1);
 			break;
 
 		}
 	}
 
-	private void pathTo(int tx, int ty) {
-		//If current X is more than target X
-		if(this.x > tx)
-		{
-			tryMoveEntity(-speed,0);
-		}
-		//If current X is less than target X
-		if(this.x < tx)
-		{
-			tryMoveEntity(speed,0);
-		}
-		//If current Y is more than target Y
-		if(this.y > ty)
-		{
-			tryMoveEntity(0,-speed);
-		}
-		if(this.y < ty)
-		{
-			tryMoveEntity(0,speed);
-		}
+	private void pathTo(int x, int y) {
 	}
 
 	@Override

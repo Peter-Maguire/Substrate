@@ -5,7 +5,7 @@ GatherStats: ON
 MapPreviews: ON
 Volume: 100
 UseAFontColour: ON
-Sound: OFF
+Sound: ON
 Music: OFF
 Debug: ON
 HasDoneIntro: ON

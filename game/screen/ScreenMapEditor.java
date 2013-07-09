@@ -1,7 +1,6 @@
 package game.screen;
 
 import game.Game;
-import game.Map;
 import game.entity.Entity;
 import game.entity.EntityAmmo;
 import game.entity.EntityBox;
@@ -14,6 +13,7 @@ import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
 import game.utils.FileSaver;
+import game.utils.Map;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
 
