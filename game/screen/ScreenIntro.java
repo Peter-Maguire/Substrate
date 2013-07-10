@@ -18,7 +18,7 @@ public class ScreenIntro extends Screen {
 
 	@Override
 	public void render(Graphics g) {
-		if (game.settings.getSetting("HasDoneIntro") == "ON") {
+		if (game.settings.getSetting("HasDoneIntro").equals("ON")) {
 			game.setScreen(new ScreenLoadMap(w, h, sheet));
 		} else {
 

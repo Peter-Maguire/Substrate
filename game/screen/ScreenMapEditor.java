@@ -232,7 +232,7 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	public void setTileAt(int x, int y, Tile tile) {
-		if (game.settings.getSetting("UseAdvancedTilePlacement") == "ON") {
+		if (game.settings.getSetting("UseAdvancedTilePlacement").equals("ON")) {
 			for (int i = 0; i < tiles.keySet().size(); i++) {
 				Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
 				if (rec.contains(x, y)) {
@@ -275,15 +275,15 @@ public class ScreenMapEditor extends Screen {
 	@Override
 	public void postAction(String name) {
 		isPlacingTile = false;
-		if (name == "save") {
+		if (name.equals("save")) {
 			saveMap();
 			return;
 		}
-		if (name == "open") {
+		if (name.equals("open")) {
 			openFile();
 			return;
 		}
-		if (name == "selectTile") {
+		if (name.equals("selectTile")) {
 			if (openMenu == MENU_TILE) {
 				openMenu = MENU_NONE;
 				int x = 0;
@@ -318,7 +318,7 @@ public class ScreenMapEditor extends Screen {
 			}
 
 		}
-		if (name == "selectTool") {
+		if (name.equals("selectTool")) {
 			if (openMenu == MENU_TOOL) {
 				openMenu = MENU_NONE;
 				int i = 0;
@@ -338,7 +338,7 @@ public class ScreenMapEditor extends Screen {
 
 			return;
 		}
-		if (name == "selectEntity") {
+		if (name.equals("selectEntity")) {
 			if (openMenu == MENU_ENTITY) {
 				openMenu = MENU_NONE;
 				int i = 0;
@@ -358,11 +358,11 @@ public class ScreenMapEditor extends Screen {
 
 			return;
 		}
-		if (name == "toggleGrid") {
+		if (name.equals("toggleGrid")) {
 			showGrid = !showGrid;
 			return;
 		}
-		if (name == "toggleMode") {
+		if (name.equals("toggleMode")) {
 			isEntityMode = !isEntityMode;
 			return;
 		}
@@ -423,7 +423,7 @@ public class ScreenMapEditor extends Screen {
 
 			FileSaver.save(
 					savedMap,
-					file.getAbsolutePath().contains(".smf") == false ? file
+					!file.getAbsolutePath().contains(".smf") ? file
 							.getAbsolutePath() + ".smf" : file
 							.getAbsolutePath());
 

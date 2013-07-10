@@ -69,56 +69,56 @@ public class ScreenOptions extends Screen {
 
 	@Override
 	public void postAction(String action) {
-		if (action == "decreaseSound" && volume > 0) {
+		if (action.equals("decreaseSound") && volume > 0) {
 			volume -= 10;
 			return;
 		}
-		if (action == "increaseSound" && volume < 100) {
+		if (action.equals("increaseSound") && volume < 100) {
 			volume += 10;
 			return;
 		}
-		if (action == "toggleSound") {
+		if (action.equals("toggleSound")) {
 			sound = sound.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleMusic") {
+		if (action.equals("toggleMusic")) {
 			music = music.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleDebug") {
+		if (action.equals("toggleDebug")) {
 			debug = debug.contains("ON") ? "OFF" : "ON";
 			return;
 		}
 
-		if (action == "toggleConsole") {
+		if (action.equals("toggleConsole")) {
 			showConsole = showConsole.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleTutorial") {
+		if (action.equals("toggleTutorial")) {
 			showTutorial = showTutorial.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleStats") {
+		if (action.equals("toggleStats")) {
 			gatherStats = gatherStats.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleTilePlacement") {
+		if (action.equals("toggleTilePlacement")) {
 			advTilePlacement = advTilePlacement.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleFontRecolouring") {
+		if (action.equals("toggleFontRecolouring")) {
 			fontRecolouring = fontRecolouring.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "toggleMapPrev") {
+		if (action.equals("toggleMapPrev")) {
 			mpMapPrev = mpMapPrev.contains("ON") ? "OFF" : "ON";
 			return;
 		}
-		if (action == "launchStats") {
+		if (action.equals("launchStats")) {
 			game.setScreen(null); // FIXME: Need a stats screen up in here
 			return;
 		}
-		if (action == "save") {
+		if (action.equals("save")) {
 			game.settings.setSetting("Sound", sound);
 			game.settings.setSetting("Debug", debug);
 			game.settings.setSetting("Music", music);
@@ -135,7 +135,7 @@ public class ScreenOptions extends Screen {
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
 
 		}
-		if (action == "cancel") {
+		if (action.equals("cancel")) {
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
 		}
 	}
@@ -158,7 +158,7 @@ public class ScreenOptions extends Screen {
 		game.getFontRenderer().drawString("Volume", 100, 241, 2);
 		ScreenTools.drawProgressBar(500, 238, 200, 32, volume, g, game,
 				new Color(0, 0, 0, 155),
-				sound == "ON" || music == "ON" ? Color.green : Color.gray);
+				sound.equals("ON") || music.equals("ON") ? Color.green : Color.gray);
 		ScreenTools.drawButton(473, 238, 25, 30, "< ", g, game);
 		ScreenTools.drawButton(702, 238, 25, 30, "> ", g, game);
 

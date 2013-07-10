@@ -28,7 +28,7 @@ public class SoundManager {
 
 	public synchronized void playSound(final String string) {
 
-		if (game.settings.getSetting("Sound") == "OFF")
+		if (game.settings.getSetting("Sound").equals("OFF"))
 			return;
 
 		new Thread(new Runnable() { // the wrapper thread is unnecessary, unless
@@ -69,7 +69,7 @@ public class SoundManager {
 
 						thread.interrupt();
 					}
-				}).start();
+				}, "Sound clip thread").start();
 
 	}
 

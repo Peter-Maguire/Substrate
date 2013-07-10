@@ -41,7 +41,7 @@ public class Player extends Entity {
 							- 20, Game.SIZE, Game.SIZE));
 			if (eib.size() > 1) {
 				for (Entity e : eib) {
-					if (e instanceof Player == false) {
+					if (!(e instanceof Player)) {
 						e.onCollideWithPlayer(x, 0, this);
 						return false;
 					}
@@ -55,7 +55,7 @@ public class Player extends Entity {
 							- 20, Game.SIZE, Game.SIZE));
 			if (eib.size() > 1) {
 				for (Entity e : eib) {
-					if (e instanceof Player == false) {
+					if (!(e instanceof Player)) {
 						e.onCollideWithPlayer(x, 0, this);
 						return false;
 					}
@@ -69,7 +69,7 @@ public class Player extends Entity {
 							- 5, Game.SIZE, Game.SIZE));
 			if (eib.size() > 1) {
 				for (Entity e : eib) {
-					if (e instanceof Player == false) {
+					if (!(e instanceof Player)) {
 						e.onCollideWithPlayer(0, y, this);
 						return false;
 					}
@@ -83,7 +83,7 @@ public class Player extends Entity {
 							- 25, Game.SIZE, Game.SIZE));
 			if (eib.size() > 1) {
 				for (Entity e : eib) {
-					if (e instanceof Player == false) {
+					if (!(e instanceof Player)) {
 						e.onCollideWithPlayer(0, y, this);
 						return false;
 					}

@@ -1,18 +1,14 @@
 package game;
 
-import game.utils.FileSaver;
 
-import java.io.FileInputStream;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.ByteBuffer;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
-import de.matthiasmann.twl.utils.PNGDecoder.Format;
+
 
 public class LWJGLGame {
 

@@ -6,6 +6,8 @@ import game.Map;
 import game.entity.Entity;
 import game.entity.Player;
 import game.tile.Tile;
+import game.triggers.Trigger;
+import game.triggers.TriggerPlate;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
@@ -24,6 +26,7 @@ public class ScreenGame extends Screen {
 	public Player player;
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	protected HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	public ArrayList<Trigger>triggers = new ArrayList<Trigger>();
 
 	int velx = 0, vely = 0, w, h, px, py;
 	public int xScroll = 0;
@@ -62,6 +65,7 @@ public class ScreenGame extends Screen {
 		}
 
 		tiles = mapfile.tiles;
+		//triggers = mapfile.triggers;
 	}
 
 	public void spawnEntity(Entity entity) {
@@ -132,7 +136,29 @@ public class ScreenGame extends Screen {
 					rec.y - yScroll, rec.width, rec.height, game);
 
 		}
-		if (game.settings.getSetting("Debug") == "ON" && player != null) {
+		if(triggers != null)
+		{
+			for(Trigger t : triggers)
+			{
+				
+				t.tick();
+				t.render(g);
+			}
+		}
+		for (Entity e : entities) {
+			if (e.game == null) {
+				e.game = game;
+				Game.log("Entity " + e
+						+ " game instance was null. Game instance is now "
+						+ e.game);
+			}
+			if (e.forRemoval)
+				entities.remove(i);
+			e.tick();
+			e.render(g);
+		}
+		
+		if (game.settings.getSetting("Debug").equals("ON") && player != null) {
 			game.getFontRenderer().drawString(
 					"DX:" + velx + " DY:" + vely + " SX:" + xScroll + " SY:"
 							+ yScroll + " WX:" + Game.WIDTH + " WY:"
@@ -143,21 +169,8 @@ public class ScreenGame extends Screen {
 							+ player.getHealth() + " AMM:" + player.getAmmo()
 							+ " TIMERS:GUN:" + player.ammocooldown, 260, 10, 1);
 		}
-		for (int i = 0; i < entities.size(); i++) {
+		
 
-			Entity ent = entities.get(i);
-			if (ent.game == null) {
-				ent.game = game;
-				Game.log("Entity " + ent
-						+ " game instance was null. Game instance is now "
-						+ ent.game);
-			}
-			if (ent.forRemoval)
-				entities.remove(i);
-			ent.tick();
-			ent.render(g);
-
-		}
 
 		g.setColor(new Color(155, 155, 155, 142));
 		g.fillRect(0, h - 74, w, h);
@@ -217,6 +230,7 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		triggers.add(new TriggerPlate(e.getX(), e.getY(), game));
 	}
 
 	@Override

@@ -45,7 +45,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public BufferStrategy strategy;
 
 	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities,
-			sheetUI;
+			sheetUI, sheetTriggers;
 	public BufferedImage loadingScreen;
 	private Font font;
 	public Graphics2D g;
@@ -178,9 +178,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
 				String setting = (String) SETTINGS.keySet().toArray()[i];
 				String value = SETTINGS.get(setting);
-				if (value != "ON" && value.contains("ON")) {
+				if (!value.equals("ON") && value.contains("ON")) {
 					SETTINGS.put(setting, "ON");
-				} else if (value != "OFF" && value.contains("OFF")) {
+				} else if (!value.equals("OFF") && value.contains("OFF")) {
 					SETTINGS.put(setting, "OFF");
 				}
 			}
@@ -191,7 +191,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		setScreen(new ScreenLoading(Game.WIDTH, Game.HEIGHT, sheet));
 		render();
 
-		if (settings.getSetting("Cheats") == "ON") {
+		if (settings.getSetting("Cheats").equals("ON")) {
 			console = new ConsoleWindow(this);
 		}
 
@@ -238,6 +238,13 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			log("Sheet explosion.png failed to load");
 			throw new RuntimeException("Sheet explosion.png failed to load");
 		}
+		try {
+			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
+					.getResource("/res/puzzle.png")), 32);
+		} catch (Exception e) {
+			log("Sheet puuzle.png failed to load");
+			throw new RuntimeException("Sheet puzzle.png failed to load");
+		}
 		log("Done!");
 
 		try {
@@ -261,7 +268,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		soundman = new SoundManager(this);
 
 		log("Trying to send statistics...");
-		if (SETTINGS.get("GatherStats") == "ON") {
+		if (SETTINGS.get("GatherStats").equals("ON")) {
 			try {
 				HttpURLConnection statcon = (HttpURLConnection) new URL(
 						URLEncoder.encode(
@@ -357,7 +364,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		g.setColor(Color.black);
 		g.fillRect(0, 0, WIDTH * 2, HEIGHT * 2);
 		currentScreen.render(g);
-		if (settings.getSetting("Debug") == "ON" && font != null)
+		if (settings.getSetting("Debug").equals("ON") && font != null)
 			font.drawString(String.format("%s FPS, %s TPS", fps, tps), 1, 1, 2);
 		g.dispose();
 		strategy.show();

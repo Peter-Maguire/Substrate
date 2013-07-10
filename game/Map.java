@@ -2,6 +2,7 @@ package game;
 
 import game.entity.SerialEntity;
 import game.tile.Tile;
+import game.triggers.Trigger;
 
 import java.awt.Rectangle;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Map implements Serializable {
 
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	public ArrayList<SerialEntity> entities = new ArrayList<SerialEntity>();
+	public ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 
 	/**
 	 * 

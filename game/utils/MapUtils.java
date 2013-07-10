@@ -25,11 +25,11 @@ public class MapUtils {
 
 		HashMap<Rectangle, Tile> tiles = map.tiles;
 
-		for (int x = 0; x <= destination.x; x++) {
+/*		for (int x = 0; x <= destination.x; x++) {
 			for (int y = 0; y <= destination.y; y++) {
 
 			}
-		}
+		}*/
 
 		return path;
 	}

@@ -170,7 +170,7 @@ public class ScreenLoadMap extends Screen {
 	@Override
 	public void postAction(String action)
 	{
-		if(action == "modeLevels")showingLevels = true;
-		if(action == "modeCustom")showingLevels = false;
+		if(action.equals("modeLevels"))showingLevels = true;
+		if(action.equals("modeCustom"))showingLevels = false;
 	}
 }

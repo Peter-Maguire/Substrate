@@ -29,7 +29,7 @@ public class ScreenWaveMode extends ScreenGame {
 	@Override
 	public void render(Graphics g) {
 		super.render(g);
-		if (game.settings.getSetting("Debug") == "ON") {
+		if (game.settings.getSetting("Debug").equals("ON")) {
 			game.getFontRenderer().drawString(
 					"W:" + wave + " LW:" + lastwave + " TL:" + timeleft
 							+ " MT:" + maxtime + " WHP:" + wavehealth + " WA:"

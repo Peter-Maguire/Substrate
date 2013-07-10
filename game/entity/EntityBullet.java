@@ -6,7 +6,6 @@ import game.tile.TileWall;
 import game.tile.TileWater;
 
 import java.awt.Rectangle;
-import java.util.Random;
 
 public class EntityBullet extends Entity {
 
@@ -51,7 +50,7 @@ public class EntityBullet extends Entity {
 			return;
 		}
 		Tile t = game.getTileAt(x, y);
-		if (!t.isPassable() && t instanceof TileWater == false) {
+		if (!t.isPassable() && !(t instanceof TileWater)) {
 			if (t instanceof TileWall) {
 				switch (t.sprite) {
 				case TileWall.TOP_CORNER_LEFT:

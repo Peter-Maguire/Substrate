@@ -69,7 +69,7 @@ public class Font {
 			}
 			if (chars2.get(String.valueOf(text.charAt(i))) != null)
 				g.drawImage(
-						game.settings.getSetting("UseFontRecolouring") == "ON" ? ScreenTools
+						game.settings.getSetting("UseFontRecolouring").equals("ON") ? ScreenTools
 								.recolourImage(chars2.get(String.valueOf(text
 										.charAt(i))), colour) : chars2
 								.get(String.valueOf(text.charAt(i))), x

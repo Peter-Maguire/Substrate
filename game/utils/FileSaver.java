@@ -152,7 +152,7 @@ public class FileSaver {
 			br = new BufferedReader(new FileReader(path));
 			String line;
 			while ((line = br.readLine()) != null) {
-				if (!line.startsWith("#")) {
+				if (!(line.charAt(0) == "#".charAt(0))) {
 					String[] properties = line.split(": ");
 					props.put(properties[0], properties[1]);
 				}
