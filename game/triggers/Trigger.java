@@ -10,7 +10,7 @@ public class Trigger {
 	
 	private boolean shown = false, shouldBeShown = false;
 	public int x = 0,y = 0, sprite = 0;
-	protected Game game;
+	public Game game;
 	protected ScreenGame sg;
 	protected Trigger linkedTrigger;
 	

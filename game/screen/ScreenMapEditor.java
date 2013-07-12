@@ -20,7 +20,9 @@ import game.utils.MathHelper;
 import game.utils.SpriteSheet;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -49,7 +51,7 @@ public class ScreenMapEditor extends Screen {
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
-	private int openMenu = 0, mapVersion = 1, mode = 0;
+	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my;
 	private boolean isPlacingTile = true, showGrid = true;
 
 	private Tool currentTool = null;
@@ -90,6 +92,7 @@ public class ScreenMapEditor extends Screen {
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
 		addButton("selectEntity", new Rectangle(194, 520, 64, 64));
+		addButton("selectTriggers", new Rectangle(298, 520, 64, 64));
 		addButton("toggleGrid", new Rectangle(760, 579, 32, 32));
 		addButton("toggleMode", new Rectangle(685, 520, 33, 32));
 
@@ -164,14 +167,55 @@ public class ScreenMapEditor extends Screen {
 					rec.width, rec.height, game);
 			g.setColor(Color.white);
 			if (showGrid)
+			{
 				g.drawRect(rec.x, rec.y, 32, 32);
+				if(rec.contains(mx, my))
+				{
+					g.setColor(new Color(255,255,255,155));
+					g.fillRect(rec.x, rec.y, 32, 32);
+				}
+			}
+				
+		}
+		for(Trigger t : triggers)
+		{
+			g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y,32,32, game);
 		}
 		for (Entity e : entities) {
 			e.render(g);
 		}
+
+	}
+	
+	@Override
+	public void tick()
+	{		
+		try{
+		Container container = game.getParent();
+		Container previous = container;
+		while (container != null)
+		{
+		    previous = container;
+		    container = container.getParent();
+		}
+		
+		if (previous instanceof JFrame)
+		{
+		 Point p = ((JFrame)previous).getMousePosition();
+		  mx = (int) p.getX()-10;
+		  my = (int) p.getY()-10;
+		}
+		}
+		catch(NullPointerException e)
+		{
+			//Exited screen
+		}
+		
 	}
 
 	private void drawUI(Graphics g) {
+
+
 		g.setColor(new Color(255, 255, 255, 155));
 		g.fillRect(0, 514, Game.WIDTH, 96);
 		drawTileSelection(10, 520, currentTile.sprite, "Tile", g);
@@ -240,15 +284,15 @@ public class ScreenMapEditor extends Screen {
 		}
 		
 		if (openMenu == MENU_TRIGGER) {
-			drawMenuBox(104, 450, 300, 50, g);
+			drawMenuBox(298, 450, 300, 50, g);
 			int i = 0;
 			for (Trigger t : triggerRegistry) {
 				g.setColor(Color.BLACK);
-				g.drawRect(112 + (42 * i), 434, 32, 32);
+				g.drawRect(308 + (42 * i), 434, 32, 32);
 				g.setColor(new Color(0, 0, 0, 135));
-				g.fillRect(112 + (42 * i), 434, 32, 32);
+				g.fillRect(308 + (42 * i), 434, 32, 32);
 				g.drawImage(game.sheetTriggers.getImage(t.sprite),
-						112 + (42 * i), 436, 32, 32, game);
+						308 + (42 * i), 436, 32, 32, game);
 				i++;
 			}
 		}
@@ -292,23 +336,46 @@ public class ScreenMapEditor extends Screen {
 		isPlacingTile = true;
 		super.mousePressed(arg0);
 
-		if (isPlacingTile && openMenu == MENU_NONE && mode == MODE_TILE) {
-			currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
-		} else if (isPlacingTile && mode == MODE_ENTITY && openMenu == MENU_NONE) {
-			try {
-				Entity newent = currentEntity.getClass().newInstance();
-				newent.x = arg0.getX();
-				newent.y = arg0.getY();
-				newent.game = game;
-				entities.add(newent);
-			} catch (Exception e) {
-				e.printStackTrace();
+		
+		if(isPlacingTile && openMenu == MENU_NONE)
+		{
+			if(mode == MODE_TILE)
+			{
+				currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
+				return;
 			}
-
+			if(mode == MODE_ENTITY)
+			{
+				try {
+					Entity newent = currentEntity.getClass().newInstance();
+					newent.x = arg0.getX();
+					newent.y = arg0.getY();
+					newent.game = game;
+					entities.add(newent);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return;
+			}
+			if(mode == MODE_TRIGGER)
+			{
+				try {
+					Trigger newTrigger = currentTrigger.getClass().newInstance();
+					newTrigger.x = arg0.getX();
+					newTrigger.y = arg0.getY();
+					newTrigger.game = game;
+					triggers.add(newTrigger);
+				} catch (Exception e) {
+					Game.log("Unable to place trigger - "+e.getLocalizedMessage());
+					e.printStackTrace();
+				}
+				return;
+			}
 		}
 
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void postAction(String name) {
 		isPlacingTile = false;
@@ -389,6 +456,26 @@ public class ScreenMapEditor extends Screen {
 				for (Entity e : entityRegistry) {
 					addButton(i + "",
 							new Rectangle(212 + (42 * i), 434, 32, 32));
+					i++;
+				}
+			}
+
+			return;
+		}
+		if (name.equals("selectTriggers")) {
+			if (openMenu == MENU_TRIGGER) {
+				openMenu = MENU_NONE;
+				int i = 0;
+				for (Trigger t : triggerRegistry) {
+					removeButton(new Rectangle(112 + (42 * i), 434, 32, 32));
+					i++;
+				}
+			} else {
+				openMenu = MENU_TRIGGER;
+				int i = 0;
+				for (Trigger t : triggerRegistry) {
+					addButton("" + i,
+							new Rectangle(112 + (42 * i), 434, 32, 32));
 					i++;
 				}
 			}
