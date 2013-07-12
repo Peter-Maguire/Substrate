@@ -8,6 +8,7 @@ import game.entity.Player;
 import game.tile.Tile;
 import game.triggers.Trigger;
 import game.triggers.TriggerPlate;
+import game.triggers.TriggerWire;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
@@ -136,16 +137,18 @@ public class ScreenGame extends Screen {
 					rec.y - yScroll, rec.width, rec.height, game);
 
 		}
+		
 		if(triggers != null)
 		{
 			for(Trigger t : triggers)
 			{
 				
 				t.tick();
-				t.render(g);
+				g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y, 32, 32, game);
 			}
 		}
-		for (Entity e : entities) {
+		for (int i = 0; i < entities.size(); i++ ) {
+			Entity e = entities.get(i);
 			if (e.game == null) {
 				e.game = game;
 				Game.log("Entity " + e
@@ -157,6 +160,7 @@ public class ScreenGame extends Screen {
 			e.tick();
 			e.render(g);
 		}
+		
 		
 		if (game.settings.getSetting("Debug").equals("ON") && player != null) {
 			game.getFontRenderer().drawString(
@@ -230,7 +234,7 @@ public class ScreenGame extends Screen {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		triggers.add(new TriggerPlate(e.getX(), e.getY(), game));
+		triggers.add(e.getButton() == 1 ? new TriggerPlate(e.getX(), e.getY(), game) : new TriggerWire(e.getX(), e.getY(), game));
 	}
 
 	@Override

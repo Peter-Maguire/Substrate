@@ -12,6 +12,7 @@ public class Trigger {
 	public int x = 0,y = 0, sprite = 0;
 	protected Game game;
 	protected ScreenGame sg;
+	protected Trigger linkedTrigger;
 	
 	
 	public Trigger(int x, int y, int sprite,boolean shown, Game game)
@@ -23,6 +24,16 @@ public class Trigger {
 		this.sprite = sprite;
 		this.game = game;
 		sg = (ScreenGame)game.currentScreen;
+	}
+	
+	public Trigger()
+	{
+		
+	}
+	
+	public void link(Trigger t)
+	{
+		linkedTrigger = t;
 	}
 
 	public void tick()
@@ -41,14 +52,18 @@ public class Trigger {
 	
 	public void render(Graphics g)
 	{
-		System.out.println(shown+" "+x+" "+y+" "+sprite+game+game.sheetTriggers+game.sheetTriggers.getImage(sprite));
-		if(shown)
-		g.drawImage(game.sheetTriggers.getImage(sprite), x, y, 32, 32, game);
+		
+		
 	}
 	
 	public void trigger(Trigger trigger)
 	{
 		trigger.onTrigger(this);
+	}
+	
+	public void trigger()
+	{
+		linkedTrigger.onTrigger(this);
 	}
 	
 	public void onTrigger(Trigger trigger)

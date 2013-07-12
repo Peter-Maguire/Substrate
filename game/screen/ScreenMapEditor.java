@@ -13,6 +13,8 @@ import game.mapeditor.tools.ToolBox;
 import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
+import game.triggers.Trigger;
+import game.triggers.TriggerPlate;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
@@ -35,18 +37,25 @@ public class ScreenMapEditor extends Screen {
 	private static final int MENU_TILE = 1;
 	private static final int MENU_TOOL = 2;
 	private static final int MENU_ENTITY = 3;
+	private static final int MENU_TRIGGER = 4;
+	
+	private static final int MODE_TILE = 0;
+	private static final int MODE_ENTITY = 1;
+	private static final int MODE_TRIGGER = 2;
 
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
 	private ArrayList<Entity> entityRegistry = new ArrayList<Entity>();
+	private ArrayList<Trigger> triggerRegistry = new ArrayList<Trigger>();
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private int openMenu = 0, mapVersion = 1;
-	private boolean isPlacingTile = true, showGrid = true,
-			isEntityMode = false;
+	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
+	private int openMenu = 0, mapVersion = 1, mode = 0;
+	private boolean isPlacingTile = true, showGrid = true;
 
 	private Tool currentTool = null;
 	public Tile currentTile = null;
 	private Entity currentEntity = null;
+	private Trigger currentTrigger = null;
 
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
@@ -76,19 +85,21 @@ public class ScreenMapEditor extends Screen {
 		entityRegistry.add(new EntityExplosion());
 		entityRegistry.add(new EntitySign());
 		entityRegistry.add(new Player());
+		triggerRegistry.add(new TriggerPlate());
 
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
 		addButton("selectEntity", new Rectangle(194, 520, 64, 64));
-		addButton("toggleGrid", new Rectangle(350, 579, 32, 32));
-		addButton("toggleMode", new Rectangle(385, 520, 33, 32));
+		addButton("toggleGrid", new Rectangle(760, 579, 32, 32));
+		addButton("toggleMode", new Rectangle(685, 520, 33, 32));
 
-		addButton("save", new Rectangle(350, 515, 32, 32));
-		addButton("open", new Rectangle(350, 547, 32, 32));
+		addButton("save", new Rectangle(760, 515, 32, 32));
+		addButton("open", new Rectangle(760, 547, 32, 32));
 
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
 		currentEntity = entityRegistry.get(0);
+		currentTrigger = triggerRegistry.get(0);
 
 	}
 
@@ -127,6 +138,16 @@ public class ScreenMapEditor extends Screen {
 		game.getFontRenderer().drawString(text, x + 15, y + 65, 1);
 
 	}
+	private void drawTriggerSelection(int x, int y, int texpos, String text,
+			Graphics g) {
+		g.drawImage(game.sheetTriggers.getImage(texpos), x, y, 64, 64, game);
+		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
+		g.drawImage(sheet.getImage(15), x + 32, y, 32, 32, game);
+		g.drawImage(sheet.getImage(30), x, y + 32, 32, 32, game);
+		g.drawImage(sheet.getImage(31), x + 32, y + 32, 32, 32, game);
+		game.getFontRenderer().drawString(text, x + 15, y + 65, 1);
+
+	}
 
 	private void drawMenuBox(int x, int y, int width, int height, Graphics g) {
 		g.setColor(new Color(255, 255, 255, 155));
@@ -156,17 +177,18 @@ public class ScreenMapEditor extends Screen {
 		drawTileSelection(10, 520, currentTile.sprite, "Tile", g);
 		drawToolSelection(104, 520, currentTool.getSprite(), "Tool", g);
 		drawEntitySelection(194, 520, currentEntity.sprite, "Entity", g);
-		g.drawImage(game.sheetUI.getImage(2), 350, 515, 32, 32, game);
-		g.drawImage(game.sheetUI.getImage(3), 350, 547, 32, 32, game);
-		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 350, 579, 32, 32,
+		drawTriggerSelection(298,520,currentTrigger.sprite, "Trigger", g);
+		g.drawImage(game.sheetUI.getImage(2), 760, 515, 32, 32, game);
+		g.drawImage(game.sheetUI.getImage(3), 760, 547, 32, 32, game);
+		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,
 				game);
 		g.setColor(Color.BLACK);
-		g.drawRect(385, 520, 32, 32);
+		g.drawRect(685, 520, 32, 32);
 		g.setColor(new Color(0, 0, 0, 135));
-		g.fillRect(385, 520, 33, 32);
-		game.getFontRenderer().drawString(isEntityMode ? "ENT" : "TILE", 385,
+		g.fillRect(685, 520, 33, 32);
+		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : "TRIG", 685,
 				527, 1);
-		game.getFontRenderer().drawString("MODE", 385, 537, 1);
+		game.getFontRenderer().drawString("MODE", 685, 537, 1);
 		if (openMenu == MENU_TILE) {
 			drawMenuBox(10, 320, 400, 200, g);
 			int x = 0;
@@ -216,6 +238,21 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}
+		
+		if (openMenu == MENU_TRIGGER) {
+			drawMenuBox(104, 450, 300, 50, g);
+			int i = 0;
+			for (Trigger t : triggerRegistry) {
+				g.setColor(Color.BLACK);
+				g.drawRect(112 + (42 * i), 434, 32, 32);
+				g.setColor(new Color(0, 0, 0, 135));
+				g.fillRect(112 + (42 * i), 434, 32, 32);
+				g.drawImage(game.sheetTriggers.getImage(t.sprite),
+						112 + (42 * i), 436, 32, 32, game);
+				i++;
+			}
+		}
+		
 	}
 
 	@Override
@@ -255,9 +292,9 @@ public class ScreenMapEditor extends Screen {
 		isPlacingTile = true;
 		super.mousePressed(arg0);
 
-		if (isPlacingTile && openMenu == MENU_NONE && !isEntityMode) {
+		if (isPlacingTile && openMenu == MENU_NONE && mode == MODE_TILE) {
 			currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
-		} else if (isPlacingTile && isEntityMode && openMenu == MENU_NONE) {
+		} else if (isPlacingTile && mode == MODE_ENTITY && openMenu == MENU_NONE) {
 			try {
 				Entity newent = currentEntity.getClass().newInstance();
 				newent.x = arg0.getX();
@@ -363,7 +400,9 @@ public class ScreenMapEditor extends Screen {
 			return;
 		}
 		if (name.equals("toggleMode")) {
-			isEntityMode = !isEntityMode;
+			mode++;
+			if(mode > MODE_TRIGGER)
+				mode = MODE_TILE;
 			return;
 		}
 		if (openMenu == MENU_TOOL) {

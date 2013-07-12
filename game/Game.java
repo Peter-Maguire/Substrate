@@ -239,7 +239,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			throw new RuntimeException("Sheet explosion.png failed to load");
 		}
 		try {
-			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
+			sheetTriggers = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/puzzle.png")), 32);
 		} catch (Exception e) {
 			log("Sheet puuzle.png failed to load");
