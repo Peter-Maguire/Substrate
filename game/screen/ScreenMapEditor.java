@@ -51,8 +51,8 @@ public class ScreenMapEditor extends Screen {
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
-	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my;
-	private boolean isPlacingTile = true, showGrid = true;
+	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, linkmode = 0;
+	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false;
 
 	private Tool currentTool = null;
 	public Tile currentTile = null;
@@ -95,6 +95,9 @@ public class ScreenMapEditor extends Screen {
 		addButton("selectTriggers", new Rectangle(298, 520, 64, 64));
 		addButton("toggleGrid", new Rectangle(760, 579, 32, 32));
 		addButton("toggleMode", new Rectangle(685, 520, 33, 32));
+		addButton("toggleSnap",new Rectangle(685, 579, 32, 32));
+		addButton("toggleTriggers", new Rectangle(723, 579, 32, 32));
+		
 
 		addButton("save", new Rectangle(760, 515, 32, 32));
 		addButton("open", new Rectangle(760, 547, 32, 32));
@@ -226,10 +229,23 @@ public class ScreenMapEditor extends Screen {
 		g.drawImage(game.sheetUI.getImage(3), 760, 547, 32, 32, game);
 		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,
 				game);
+		g.drawImage(game.sheetUI.getImage(snapToGrid ? 21 : 22), 685, 579, 32, 32,
+				game);
+		g.drawImage(game.sheetUI.getImage(linkmode == 0 ? showTriggers ? 23 : 24 : 25), 723, 579, 32, 32,
+				game);
+		
+	
 		g.setColor(Color.BLACK);
 		g.drawRect(685, 520, 32, 32);
+		g.drawRect(685, 579, 32, 32);
+		g.drawRect(760, 579, 32, 32);
+		g.drawRect(723, 579, 32, 32);
+		
 		g.setColor(new Color(0, 0, 0, 135));
 		g.fillRect(685, 520, 33, 32);
+	
+		
+		
 		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : "TRIG", 685,
 				527, 1);
 		game.getFontRenderer().drawString("MODE", 685, 537, 1);
@@ -295,8 +311,7 @@ public class ScreenMapEditor extends Screen {
 						308 + (42 * i), 436, 32, 32, game);
 				i++;
 			}
-		}
-		
+		}	
 	}
 
 	@Override
@@ -321,7 +336,6 @@ public class ScreenMapEditor extends Screen {
 					return;
 				}
 			}
-
 		} else {
 			Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 					MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
@@ -353,6 +367,7 @@ public class ScreenMapEditor extends Screen {
 					newent.game = game;
 					entities.add(newent);
 				} catch (Exception e) {
+					Game.log("Unable to place entity - (Invalid entity) "+e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 				return;
@@ -366,7 +381,7 @@ public class ScreenMapEditor extends Screen {
 					newTrigger.game = game;
 					triggers.add(newTrigger);
 				} catch (Exception e) {
-					Game.log("Unable to place trigger - "+e.getLocalizedMessage());
+					Game.log("Unable to place trigger - (Invalid Trigger) "+e.getLocalizedMessage());
 					e.printStackTrace();
 				}
 				return;
@@ -486,7 +501,17 @@ public class ScreenMapEditor extends Screen {
 			showGrid = !showGrid;
 			return;
 		}
-		if (name.equals("toggleMode")) {
+		if(name.equals("toggleSnap"))
+		{
+			snapToGrid = !snapToGrid;
+			return;
+		}
+		if(name.equals("toggleTriggers"))
+		{
+			showTriggers = !showTriggers;
+			return;
+		}
+		if(name.equals("toggleMode")) {
 			mode++;
 			if(mode > MODE_TRIGGER)
 				mode = MODE_TILE;
@@ -498,11 +523,34 @@ public class ScreenMapEditor extends Screen {
 			return;
 		}
 		if (openMenu == MENU_TILE) {
+			int x = 0, y = 0;
 			currentTile = Tile.tiles[Integer.parseInt(name)];
+			for (Tile t : Tile.tiles) {
+				removeButton(new Rectangle(14 + (42 * x), 227 + (42 * y),
+						32, 32));
+				x++;
+				if (45 * x > 400) {
+					y++;
+					x = 0;
+				}
+			}
 			openMenu = MENU_NONE;
 		}
 		if (openMenu == MENU_ENTITY) {
 			currentEntity = entityRegistry.get(Integer.parseInt(name));
+			for (Entity e : entityRegistry) {
+				removeButton(new Rectangle(212 + (42 * i), 434, 32, 32));
+				i++;
+			}
+			openMenu = MENU_NONE;
+		}
+		if(openMenu == MENU_TRIGGER)
+		{
+			currentEntity = entityRegistry.get(Integer.parseInt(name));
+			for (Trigger t : triggerRegistry) {
+				removeButton(new Rectangle(112 + (42 * i), 434, 32, 32));
+				i++;
+			}
 			openMenu = MENU_NONE;
 		}
 
@@ -525,7 +573,7 @@ public class ScreenMapEditor extends Screen {
 						game);
 			} catch (ClassNotFoundException | InstantiationException
 					| IllegalAccessException e) {
-				Game.log("Sad trumpet noise");
+				Game.log("Could not parse entities... Invalid entity");
 				e.printStackTrace();
 			}
 			this.mapVersion = Integer.parseInt(loadedMap.version);
@@ -545,7 +593,7 @@ public class ScreenMapEditor extends Screen {
 
 			Map savedMap = new Map(file.getName().replace("_", " ")
 					.replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,
-					FileSaver.entityToSerial(entities));
+					FileSaver.entityToSerial(entities), triggers);
 
 			FileSaver.save(
 					savedMap,
