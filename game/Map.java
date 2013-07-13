@@ -32,12 +32,13 @@ public class Map implements Serializable {
 	 * @param entities Saveable version of map entities, see <code>FileSaver.class</code>
 	 */
 	public Map(String name, String desc, String version,
-			HashMap<Rectangle, Tile> tiles, ArrayList<SerialEntity> entities) {
+			HashMap<Rectangle, Tile> tiles, ArrayList<SerialEntity> entities, ArrayList<Trigger> triggers) {
 		this.name = name;
 		this.desc = desc;
 		this.version = version;
 		this.tiles = tiles;
 		this.entities = entities;
+		this.triggers = triggers;
 	}
 
 }
