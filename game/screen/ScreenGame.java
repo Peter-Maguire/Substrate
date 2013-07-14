@@ -171,13 +171,13 @@ public class ScreenGame extends Screen {
 					"X:" + player.x + " Y:" + player.y + " ROT:"
 							+ player.getOrientation() + " HP:"
 							+ player.getHealth() + " AMM:" + player.getAmmo()
-							+ " TIMERS:GUN:" + player.ammocooldown, 260, 10, 1);
+							+ " TIMERS:GUN:" + player.ammocooldown+" SW:"+w+" SH:"+h, 260, 10, 1);
 		}
 		
 
 
 		g.setColor(new Color(155, 155, 155, 142));
-		g.fillRect(0, h - 74, w, h);
+		g.fillRect(0, h - 88, w, h);
 
 		if (player.getHealth() > 0) {
 			g.drawImage(game.sheetUI.getImage(33), 16, h - 64, 32, 32, game);
