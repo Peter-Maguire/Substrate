@@ -39,7 +39,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	private static final long serialVersionUID = 1L;
 	public static String TITLE = "Substrate", VERSION = "0.5 Alpha";
-	public static int WIDTH = 832, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
+	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 
 	public BufferStrategy strategy;
@@ -82,9 +82,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		container.pack();
 		container.setIgnoreRepaint(false);
 		container.setResizable(false);
-		container.setVisible(true);
-		
-	
 		game.start();
 
 	}
