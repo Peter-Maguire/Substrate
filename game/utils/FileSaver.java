@@ -101,52 +101,49 @@ public class FileSaver {
 		}
 		return newlist;
 	}
-	/**
-	 * Used for map saving to convert triggers to saveable versions
-	 * @param entlist A list of triggers supplied by the Map instance
-	 * @return A list of saveable triggers
-	 *//*
-	public static ArrayList<SerialTrigger> triggerToSerial(
-			ArrayList<Trigger> entlist) {
-		System.out.println("Serializing trigger array...");
-		System.out.println(entlist.size() + " entities to serialize.");
-		ArrayList<SerialTrigger> newlist = new ArrayList<SerialTrigger>();
-		for (Trigger e : entlist) {
-			System.out.println("Serialized trigger "
-					+ e.getClass().getCanonicalName());
-			newlist.add(new SerialEntity(e.x, e.y, 0, e.getClass()
-					.getCanonicalName()));
-		}
-		return newlist;
-	}
 	
-	*//**
-	 * Used for map loading to retrieve entity instances from the map file.
-	 * @param entlist The list of serial triggers supplied by the map file
-	 * @param game The game instance
-	 * @return A list of trigger instances
-	 * @throws ClassNotFoundException If entity list is invalid
-	 * @throws InstantiationException If entity list is invalid
-	 * @throws IllegalAccessException If entity list is invalid
-	 *//*
-	public static ArrayList<Trigger> serialToTrigger(
-			ArrayList<SerialTrigger> entlist, Game game)
-			throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException {
-		System.out.println("Deserializing trigger array...");
-		System.out.println(entlist.size() + " entities to deserialize.");
-		ArrayList<Trigger> newlist = new ArrayList<Trigger>();
-		for (SerialEntity se : entlist) {
-			System.out.println("Deserialized trigger " + se.relatedEntity);
-			Class<?> c = Class.forName(se.relatedEntity);
-			Trigger dummyentity = (Trigger) c.newInstance();
-			dummyentity.x = se.x;
-			dummyentity.y = se.y;
-			dummyentity.game = game;
-			newlist.add(dummyentity);
+	public static ArrayList<SerialTrigger> triggerToSerial(ArrayList<Trigger> triggers)
+	{
+		ArrayList<SerialTrigger> retrn = new ArrayList<SerialTrigger>();
+		
+		
+		for(Trigger t : triggers)
+		{
+			boolean newTrigger = true;
+			//Take the first trigger and see if its been serialized allready
+			for(SerialTrigger st : retrn)
+			{
+				if(st.x == t.x && st.y == t.y && st.relatedTrigger == t.getClass().getCanonicalName())
+				{
+					//Must be the same trigger, break
+					System.out.println("Found already serialized trigger "+t.getClass().getCanonicalName());
+					newTrigger = false;
+					break;
+				}
+			}
+			if(newTrigger)
+			{
+				System.out.println("Trigger is still fresh... finding chain...");
+				//If the trigger is still fresh
+				SerialTrigger newSerial = new SerialTrigger(t.x, t.y,null, t.getClass().getCanonicalName());
+				//Now we need to serialize the related trigger
+				Trigger relatedTrigger = t.linkedTrigger;
+				System.out.println("-Chain start at "+relatedTrigger);
+				while(relatedTrigger != null)
+				{
+					System.out.println("|Trigger Element "+relatedTrigger.linkedTrigger);
+					//While we are still in the chain
+					
+					
+					relatedTrigger = relatedTrigger.linkedTrigger;
+				
+				}
+				System.out.println("-Chain end at "+relatedTrigger);
+			}
 		}
-		return newlist;
-	}*/
+		
+		return retrn;
+	}
 
 	/**
 	 * Used by the crash screen to the stack trace

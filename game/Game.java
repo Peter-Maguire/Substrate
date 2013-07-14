@@ -46,7 +46,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities,
 			sheetUI, sheetTriggers;
-	public BufferedImage loadingScreen;
+	public BufferedImage loadingScreen, winScreen;
 	private Font font;
 	public Graphics2D g;
 	public Options settings;
@@ -149,7 +149,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		} catch (IOException e1) {
 			log("Unable to load loading screen.");
 			e1.printStackTrace();
-			throw new RuntimeException("Unable to load font sheet.");
+			throw new RuntimeException("Unable to load loading.png.");
 		}
 
 		File f = new File(FileSaver.getCleanPath() + "\\settings.txt");
@@ -241,6 +241,14 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		} catch (Exception e) {
 			log("Sheet puuzle.png failed to load");
 			throw new RuntimeException("Sheet puzzle.png failed to load");
+		}
+		try {
+			winScreen = ImageIO.read(Game.class
+					.getResource("/res/win.png"));
+		} catch (IOException e1) {
+			log("Unable to load win screen.");
+			e1.printStackTrace();
+			throw new RuntimeException("Unable to load win.png");
 		}
 		log("Done!");
 

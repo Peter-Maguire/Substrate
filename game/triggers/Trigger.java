@@ -17,7 +17,7 @@ public class Trigger implements Serializable{
 	public int x = 0,y = 0, sprite = 0;
 	public Game game;
 	protected ScreenGame sg;
-	protected Trigger linkedTrigger;
+	public Trigger linkedTrigger;
 	
 	
 	public Trigger(int x, int y, int sprite,boolean shown, Game game)
