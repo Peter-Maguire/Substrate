@@ -3,6 +3,8 @@ package game.utils;
 import game.Game;
 import game.entity.Entity;
 import game.entity.SerialEntity;
+import game.triggers.SerialTrigger;
+import game.triggers.Trigger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -99,6 +101,52 @@ public class FileSaver {
 		}
 		return newlist;
 	}
+	/**
+	 * Used for map saving to convert triggers to saveable versions
+	 * @param entlist A list of triggers supplied by the Map instance
+	 * @return A list of saveable triggers
+	 *//*
+	public static ArrayList<SerialTrigger> triggerToSerial(
+			ArrayList<Trigger> entlist) {
+		System.out.println("Serializing trigger array...");
+		System.out.println(entlist.size() + " entities to serialize.");
+		ArrayList<SerialTrigger> newlist = new ArrayList<SerialTrigger>();
+		for (Trigger e : entlist) {
+			System.out.println("Serialized trigger "
+					+ e.getClass().getCanonicalName());
+			newlist.add(new SerialEntity(e.x, e.y, 0, e.getClass()
+					.getCanonicalName()));
+		}
+		return newlist;
+	}
+	
+	*//**
+	 * Used for map loading to retrieve entity instances from the map file.
+	 * @param entlist The list of serial triggers supplied by the map file
+	 * @param game The game instance
+	 * @return A list of trigger instances
+	 * @throws ClassNotFoundException If entity list is invalid
+	 * @throws InstantiationException If entity list is invalid
+	 * @throws IllegalAccessException If entity list is invalid
+	 *//*
+	public static ArrayList<Trigger> serialToTrigger(
+			ArrayList<SerialTrigger> entlist, Game game)
+			throws ClassNotFoundException, InstantiationException,
+			IllegalAccessException {
+		System.out.println("Deserializing trigger array...");
+		System.out.println(entlist.size() + " entities to deserialize.");
+		ArrayList<Trigger> newlist = new ArrayList<Trigger>();
+		for (SerialEntity se : entlist) {
+			System.out.println("Deserialized trigger " + se.relatedEntity);
+			Class<?> c = Class.forName(se.relatedEntity);
+			Trigger dummyentity = (Trigger) c.newInstance();
+			dummyentity.x = se.x;
+			dummyentity.y = se.y;
+			dummyentity.game = game;
+			newlist.add(dummyentity);
+		}
+		return newlist;
+	}*/
 
 	/**
 	 * Used by the crash screen to the stack trace
@@ -182,7 +230,10 @@ public class FileSaver {
 
 			fos = new FileOutputStream(path);
 			oos = new ObjectOutputStream(fos);
+			oos.reset();
 			oos.writeObject(file);
+			oos.close();
+			fos.close();
 		} catch (FileNotFoundException e) {
 			new File(path).mkdir();
 			save(file, path);

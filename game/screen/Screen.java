@@ -80,7 +80,7 @@ public class Screen {
 	}
 
 	public void tick() {
-
+		
 	}
 
 	public void render(Graphics g) {
