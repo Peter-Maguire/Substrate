@@ -98,9 +98,7 @@ public class ScreenLoadMap extends Screen {
 			game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
 			int i = 1;
 			for (Map m : maps) {
-
 				ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
-
 				if(m.isLocked)
 				{
 					g.setColor(new Color(0, 0, 0, 155));
@@ -109,7 +107,6 @@ public class ScreenLoadMap extends Screen {
 				}
 				i++;
 			}
-
 			mapName = maps.get(selectedMap - 1).name;
 			mapDesc = maps.get(selectedMap - 1).desc;
 			mapVersion = maps.get(selectedMap - 1).version;
@@ -120,11 +117,9 @@ public class ScreenLoadMap extends Screen {
 				g.drawImage(game.sheetTiles.getImage(tile.sprite),
 						380 + rec.x / 2, 32 + rec.y / 2, 16, 16, game);
 			}
-
 		}
 		if (!hasLoadedMap)
 			getMaps();
-
 	}
 
 	private void getMaps() {

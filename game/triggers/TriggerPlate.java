@@ -1,12 +1,17 @@
 package game.triggers;
 
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 import game.Game;
 
-public class TriggerPlate extends Trigger{
+public class TriggerPlate extends Trigger implements Serializable{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7572380975319558520L;
 	private boolean triggered = false;
 	public TriggerPlate(int x, int y, Game game) {
 		super(x, y, 0, true, game);

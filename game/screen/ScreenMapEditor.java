@@ -51,7 +51,7 @@ public class ScreenMapEditor extends Screen {
 	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
-	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, linkmode = 0;
+	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;
 	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false;
 
 	private Tool currentTool = null;
@@ -98,7 +98,6 @@ public class ScreenMapEditor extends Screen {
 		addButton("toggleSnap",new Rectangle(685, 579, 32, 32));
 		addButton("toggleTriggers", new Rectangle(723, 579, 32, 32));
 		
-
 		addButton("save", new Rectangle(760, 515, 32, 32));
 		addButton("open", new Rectangle(760, 547, 32, 32));
 
@@ -146,7 +145,7 @@ public class ScreenMapEditor extends Screen {
 	}
 	private void drawTriggerSelection(int x, int y, int texpos, String text,
 			Graphics g) {
-		g.drawImage(game.sheetTriggers.getImage(texpos), x, y, 64, 64, game);
+		g.drawImage(this.game.sheetTriggers.getImage(texpos), x, y, 64, 64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x + 32, y, 32, 32, game);
 		g.drawImage(sheet.getImage(30), x, y + 32, 32, 32, game);
@@ -155,7 +154,7 @@ public class ScreenMapEditor extends Screen {
 
 	}
 
-	private void drawMenuBox(int x, int y, int width, int height, Graphics g) {
+	private static void drawMenuBox(int x, int y, int width, int height, Graphics g) {
 		g.setColor(new Color(255, 255, 255, 155));
 		g.fillRect(x, y + height / 2, 64, height / 2);
 		g.fillRect(x, y - height / 2, width, height);
@@ -214,6 +213,13 @@ public class ScreenMapEditor extends Screen {
 			//Exited screen
 		}
 		
+		if(pmx != mx || pmy != my)
+		{
+			pmx = mx;
+			pmy = my;
+		}
+
+
 	}
 
 	private void drawUI(Graphics g) {
@@ -312,6 +318,23 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}	
+		
+		for (int i = 0; i < getButtons().keySet().size(); i++) {
+			Rectangle rec = (Rectangle)  getButtons().keySet().toArray()[i];
+			if (rec.contains(mx, my)) {
+				try{
+				if(openMenu == MENU_TOOL)
+					game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
+				}catch(NumberFormatException e)
+				{
+					break;
+				}
+
+				break;
+
+			}
+		}
+
 	}
 
 	@Override
@@ -321,10 +344,12 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	public Tile getTileAt(int x, int y) {
+
 		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
 				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
 				16 * Game.SCALE);
 		return tiles.get(rec);
+		
 	}
 
 	public void setTileAt(int x, int y, Tile tile) {
@@ -349,8 +374,6 @@ public class ScreenMapEditor extends Screen {
 	public void mousePressed(MouseEvent arg0) {
 		isPlacingTile = true;
 		super.mousePressed(arg0);
-
-		
 		if(isPlacingTile && openMenu == MENU_NONE)
 		{
 			if(mode == MODE_TILE)
@@ -362,8 +385,16 @@ public class ScreenMapEditor extends Screen {
 			{
 				try {
 					Entity newent = currentEntity.getClass().newInstance();
-					newent.x = arg0.getX();
-					newent.y = arg0.getY();
+					if(snapToGrid)
+					{
+							newent.x = MathHelper.round(arg0.getX(), 16 * Game.SCALE);
+							newent.y = MathHelper.round(arg0.getY(), 16 * Game.SCALE);	
+					}else
+					{
+						newent.x = arg0.getX();
+						newent.y = arg0.getY();
+					}
+
 					newent.game = game;
 					entities.add(newent);
 				} catch (Exception e) {
@@ -376,8 +407,15 @@ public class ScreenMapEditor extends Screen {
 			{
 				try {
 					Trigger newTrigger = currentTrigger.getClass().newInstance();
-					newTrigger.x = arg0.getX();
-					newTrigger.y = arg0.getY();
+					if(snapToGrid)
+					{
+							newTrigger.x = MathHelper.round(arg0.getX(), 16 * Game.SCALE);
+							newTrigger.y = MathHelper.round(arg0.getY(), 16 * Game.SCALE);	
+					}else
+					{
+						newTrigger.x = arg0.getX();
+						newTrigger.y = arg0.getY();
+					}
 					newTrigger.game = game;
 					triggers.add(newTrigger);
 				} catch (Exception e) {
@@ -576,6 +614,11 @@ public class ScreenMapEditor extends Screen {
 				Game.log("Could not parse entities... Invalid entity");
 				e.printStackTrace();
 			}
+			for(Trigger t : loadedMap.triggers)
+			{
+				System.out.println("Trigger: "+t+" at "+t.x+","+t.y);
+			}
+			this.triggers = loadedMap.triggers;
 			this.mapVersion = Integer.parseInt(loadedMap.version);
 		}
 
@@ -594,6 +637,8 @@ public class ScreenMapEditor extends Screen {
 			Map savedMap = new Map(file.getName().replace("_", " ")
 					.replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,
 					FileSaver.entityToSerial(entities), triggers);
+			savedMap.isLevel = true;
+			savedMap.isLocked = false;
 
 			FileSaver.save(
 					savedMap,
