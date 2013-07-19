@@ -5,17 +5,26 @@ import game.screen.ScreenTools;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.awt.image.RasterFormatException;
 import java.util.HashMap;
 
 public class Font {
 
-	String font = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "0123456789!?/\\\"()#><|{}%"
-			+ "+-.,:";
+/*	String font = 
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  + "0123456789!?/\\\"()#><|{}%"
+  + "+-.,:";*/
+
+	String font = 
+			" !\"#$%&'()*+,-./0123456789:;<=>?"
+		  + "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
+		  + "'abcdefghijklmnopqrstuvwxyz{|}~~";
 
 	private BufferedImage fontsheet;
 	private BufferedImage[] chars;
 	private Graphics g;
 	private Game game;
+	private int charWidth = 6, charHeight = 8;
 	private HashMap<String, BufferedImage> chars2 = new HashMap<String, BufferedImage>();
 
 	public Font(BufferedImage fontsheet, Graphics g, Game game) {
@@ -25,16 +34,22 @@ public class Font {
 
 		chars = new BufferedImage[fontsheet.getHeight() * fontsheet.getWidth()];
 
-		int rows = fontsheet.getWidth() / 8;
-		int cols = fontsheet.getHeight() / 8;
+		int rows = fontsheet.getWidth() / charWidth;
+		int cols = fontsheet.getHeight() / charHeight;
 
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
-				int loc = (i * cols) + j;
-				chars[loc] = fontsheet.getSubimage(j * 8, i * 8, 8, 8);
+				int loc = (i * cols) +  j;
+				//chars[loc] = fontsheet.getSubimage(j * 8, i * 8, 6, 8);
 				if (loc + 1 <= font.length()) {
+					try{
+						
 					chars2.put(String.valueOf(font.charAt(loc)),
-							fontsheet.getSubimage(j * 8, i * 8, 8, 8));
+							fontsheet.getSubimage(i * charWidth, j * charHeight, charHeight, charWidth));
+					}catch(RasterFormatException e)
+					{
+						System.err.println("RASTA FORMAT EXCEPTION");
+					}
 				}
 
 			}
@@ -51,7 +66,7 @@ public class Font {
 	}
 
 	public void drawCenteredString(String text, int y, int size, Color colour) {
-		drawString(text, (Game.WIDTH / 2) - (text.length() * (8 * size) / 2),
+		drawString(text, (Game.WIDTH / 2) - (text.length() * (charWidth * size) / 2),
 				y, size, colour);
 	}
 
@@ -60,12 +75,12 @@ public class Font {
 	}
 
 	public void drawString(String text, int x, int y, int size, Color colour) {
-		text = text.toUpperCase();
+	//	text = text.toUpperCase();
 		int cy = y, ci = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if (String.valueOf(text.charAt(i)).contains("\n")) {
 				ci = -1;
-				cy += 16 * size;
+				cy += charHeight * size;
 			}
 			if (chars2.get(String.valueOf(text.charAt(i))) != null)
 				g.drawImage(
@@ -73,7 +88,7 @@ public class Font {
 								.recolourImage(chars2.get(String.valueOf(text
 										.charAt(i))), colour) : chars2
 								.get(String.valueOf(text.charAt(i))), x
-								+ (ci * size * 8), cy, 8 * size, 8 * size, game);
+								+ (ci * size * charWidth), cy, charWidth * size, charHeight * size, game);
 			ci++;
 		}
 	}

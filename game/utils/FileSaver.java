@@ -1,6 +1,7 @@
 package game.utils;
 
 import game.Game;
+import game.Map;
 import game.entity.Entity;
 import game.entity.SerialEntity;
 import game.triggers.SerialTrigger;
@@ -52,6 +53,11 @@ public class FileSaver {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static void saveMapFile(Map map, String path)
+	{
+		
 	}
 	
 	

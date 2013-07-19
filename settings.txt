@@ -1,12 +1,12 @@
 #Substrate Property File. 
 UseFontRecolouring: OFF
-GatherStats: ON
 Cheats: ON
+GatherStats: ON
 MapPreviews: ON
 Volume: 100
 UseAFontColour: ON
-Music: OFF
 Sound: OFF
+Music: OFF
 Debug: ON
 HasDoneIntro: ON
-UseAdvancedTilePlacement: OFF
+UseAdvancedTilePlacement: ON
