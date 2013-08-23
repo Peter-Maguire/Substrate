@@ -47,7 +47,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities,
 			sheetUI, sheetTriggers;
 	public BufferedImage loadingScreen, winScreen;
-	private Font font;
+	public Font font;
 	public Graphics2D g;
 	public Options settings;
 	public SoundManager soundman;
@@ -254,7 +254,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		try {
 			font = new Font(ImageIO.read(Game.class
-					.getResource("/res/newfont.png")), strategy.getDrawGraphics(),
+					.getResource("/res/font.png")), strategy.getDrawGraphics(),
 					this);
 		} catch (IOException e1) {
 			log("Unable to load font.");

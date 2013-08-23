@@ -4,6 +4,7 @@ import game.Game;
 import game.console.command.Command;
 import game.console.command.CommandAddTile;
 import game.console.command.CommandCrash;
+import game.console.command.CommandFontInit;
 import game.console.command.CommandHelp;
 import game.console.command.CommandReinit;
 import game.console.command.CommandSetSetting;
@@ -83,6 +84,7 @@ public class ConsoleWindow extends JFrame implements KeyListener {
 		registerCommand("reinit", new CommandReinit(game));
 		registerCommand("crash", new CommandCrash(game));
 		registerCommand("wave", new CommandWave(game));
+		registerCommand("font", new CommandFontInit(game));
 	}
 
 	public void registerCommand(String var, Command command) {

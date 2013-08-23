@@ -24,15 +24,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import de.matthiasmann.twl.utils.PNGDecoder;
-import de.matthiasmann.twl.utils.PNGDecoder.Format;
 
 public class FileSaver {
 
 	
 	
 	
-	public static ByteBuffer loadPNGTexture(String path)
+/*	public static ByteBuffer loadPNGTexture(String path)
 	{
 		try{
 		ByteBuffer buf = null;
@@ -53,7 +51,7 @@ public class FileSaver {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 	public static void saveMapFile(Map map, String path)
 	{
@@ -271,8 +269,7 @@ public class FileSaver {
 	 * Gets working directory
 	 * @return Working directory
 	 */
-	public static String getCleanPath() {
-
+	public static String getCleanPath() { 
 		return new File(FileSaver.class.getProtectionDomain().getCodeSource()
 				.getLocation().getPath()).getAbsolutePath();
 	}

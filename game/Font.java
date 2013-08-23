@@ -10,21 +10,21 @@ import java.util.HashMap;
 
 public class Font {
 
-/*	String font = 
+	String font = 
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   + "0123456789!?/\\\"()#><|{}%"
-  + "+-.,:";*/
+  + "+-.,:";
 
-	String font = 
+	/*String font = 
 			" !\"#$%&'()*+,-./0123456789:;<=>?"
 		  + "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
-		  + "'abcdefghijklmnopqrstuvwxyz{|}~~";
+		  + "'abcdefghijklmnopqrstuvwxyz{|}~~";*/
 
 	private BufferedImage fontsheet;
 	private BufferedImage[] chars;
 	private Graphics g;
 	private Game game;
-	private int charWidth = 6, charHeight = 8;
+	private int charWidth = 8, charHeight = 8;
 	private HashMap<String, BufferedImage> chars2 = new HashMap<String, BufferedImage>();
 
 	public Font(BufferedImage fontsheet, Graphics g, Game game) {
@@ -45,7 +45,7 @@ public class Font {
 					try{
 						
 					chars2.put(String.valueOf(font.charAt(loc)),
-							fontsheet.getSubimage(i * charWidth, j * charHeight, charHeight, charWidth));
+							fontsheet.getSubimage(j * charWidth, i * charHeight, charWidth, charHeight));
 					}catch(RasterFormatException e)
 					{
 						System.err.println("RASTA FORMAT EXCEPTION");
@@ -66,7 +66,7 @@ public class Font {
 	}
 
 	public void drawCenteredString(String text, int y, int size, Color colour) {
-		drawString(text, (Game.WIDTH / 2) - (text.length() * (charWidth * size) / 2),
+		drawString(text, (Game.WIDTH / 2) - (text.length() * (charHeight * size) / 2),
 				y, size, colour);
 	}
 
@@ -75,12 +75,12 @@ public class Font {
 	}
 
 	public void drawString(String text, int x, int y, int size, Color colour) {
-	//	text = text.toUpperCase();
+		text = text.toUpperCase();
 		int cy = y, ci = 0;
 		for (int i = 0; i < text.length(); i++) {
 			if (String.valueOf(text.charAt(i)).contains("\n")) {
 				ci = -1;
-				cy += charHeight * size;
+				cy += charHeight * size+3;
 			}
 			if (chars2.get(String.valueOf(text.charAt(i))) != null)
 				g.drawImage(
@@ -88,7 +88,7 @@ public class Font {
 								.recolourImage(chars2.get(String.valueOf(text
 										.charAt(i))), colour) : chars2
 								.get(String.valueOf(text.charAt(i))), x
-								+ (ci * size * charWidth), cy, charWidth * size, charHeight * size, game);
+								+ (ci * size * charHeight), cy, charWidth * size, charHeight * size, game);
 			ci++;
 		}
 	}

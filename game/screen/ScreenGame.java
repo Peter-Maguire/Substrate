@@ -208,11 +208,7 @@ public class ScreenGame extends Screen {
 						32 + (32 * player.getAmmo()), h - 30, 1);
 			}
 
-			String font = 
-					" !\"#$%&'()*+,-./0123456789:;<=>?\n"
-				  + "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_\n"
-				  + "'abcdefghijklmnopqrstuvwxyz{|}~~\n";
-			game.getFontRenderer().drawString(font, 1,50, 4);
+
 		}
 
 	}
