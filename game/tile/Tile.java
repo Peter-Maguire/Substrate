@@ -30,10 +30,13 @@ public class Tile implements Serializable {
 
 	boolean canPassThrough = true;
 	public int sprite = 0;
+	public String tileName = "NO NAME";
 
 	public Tile() {
 
 	}
+
+	
 
 	public void init() {
 		Game.log("Tile initizalizing...");
@@ -47,5 +50,9 @@ public class Tile implements Serializable {
 
 	public void tick() {
 
+	}
+	@Override
+	public String toString() {
+		return tileName;
 	}
 }

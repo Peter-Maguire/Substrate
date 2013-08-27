@@ -20,7 +20,7 @@ public class TileWall extends Tile {
 	public static final int WALL_VERTICAL_TOP = 0;
 	public static final int WALL_VERTICAL = 16;
 	public static final int WALL_VERTICAL_BOTTOM = 32;
-
+	public String tileName = "Wall "+sprite;
 	public TileWall(int typ) {
 		sprite = typ;
 		canPassThrough = false;

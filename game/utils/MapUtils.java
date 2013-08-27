@@ -12,27 +12,28 @@ import java.util.HashMap;
 
 public class MapUtils {
 
-	/**
+/*	*//**
 	 * Broken pathfinding
 	 * @param startingPoint Point to start at
 	 * @param destination Point to end at
 	 * @param map Map
 	 * @return Points to travel to
-	 */
+	 *//*
 	public static ArrayList<Point> findPath(Point startingPoint,
 			Point destination, Map map) {
 		ArrayList<Point> path = new ArrayList<Point>();
 
 		HashMap<Rectangle, Tile> tiles = map.tiles;
 
-/*		for (int x = 0; x <= destination.x; x++) {
+		for (int x = 0; x <= destination.x; x++) {
 			for (int y = 0; y <= destination.y; y++) {
 
 			}
-		}*/
+		}
 
 		return path;
-	}
+	}*/
+	
 
 	/**
 	 * Used to retrieve tiles at a certain point on the map

@@ -110,12 +110,23 @@ public class ScreenLoadMap extends Screen {
 			mapName = maps.get(selectedMap - 1).name;
 			mapDesc = maps.get(selectedMap - 1).desc;
 			mapVersion = maps.get(selectedMap - 1).version;
-			HashMap<Rectangle, Tile> tiles = maps.get(selectedMap - 1).tiles;
-			for (int d = 0; d < tiles.keySet().size(); d++) {
+			/*for (int d = 0; d < tiles.keySet().size(); d++) {
 				Rectangle rec = (Rectangle) tiles.keySet().toArray()[d];
 				Tile tile = tiles.get(rec);
 				g.drawImage(game.sheetTiles.getImage(tile.sprite),
 						380 + rec.x / 2, 32 + rec.y / 2, 16, 16, game);
+			}*/
+			Tile[] tiles = maps.get(selectedMap - 1).tiles;
+			int ctx = 0, cty = 0;
+			for(int j = 0; i < tiles.length; j++)
+			{
+				g.drawImage(game.sheetUI.getImage(tiles[j].sprite), 380 + ctx, 32 +cty, 16,16, game);
+				ctx++;
+				if(ctx > 25)
+				{
+					ctx = 0;
+					cty++;
+				}
 			}
 		}
 		if (!hasLoadedMap)

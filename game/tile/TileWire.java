@@ -5,6 +5,8 @@ import game.screen.ScreenGame;
 
 public class TileWire extends WireProvider {
 
+	
+	public String tileName = "Wire";
 	public TileWire(int blockmask, int x, int y, ScreenGame game) {
 		super(blockmask, x, y, game);
 		sprite = 5;

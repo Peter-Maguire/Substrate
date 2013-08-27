@@ -19,7 +19,8 @@ public class Map implements Serializable {
 	public String name = "Untitled", desc = "Untitled Map", version = "v0.0.0";
 	public boolean isLocked = true, isLevel = false;
 
-	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	//public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
+	public Tile[] tiles = new Tile[600];
 	public ArrayList<SerialEntity> entities = new ArrayList<SerialEntity>();
 	public ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 
@@ -32,7 +33,7 @@ public class Map implements Serializable {
 	 * @param entities Saveable version of map entities, see <code>FileSaver.class</code>
 	 */
 	public Map(String name, String desc, String version,
-			HashMap<Rectangle, Tile> tiles, ArrayList<SerialEntity> entities, ArrayList<Trigger> triggers) {
+			Tile[] tiles, ArrayList<SerialEntity> entities, ArrayList<Trigger> triggers) {
 		this.name = name;
 		this.desc = desc;
 		this.version = version;
