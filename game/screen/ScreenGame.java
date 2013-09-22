@@ -22,11 +22,12 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ScreenGame extends Screen {
+public class ScreenGame extends Screen
+{
 
 	public Player player;
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-	public ArrayList<Trigger>triggers = new ArrayList<Trigger>();
+	public ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 	public Map map;
 
 	int velx = 0, vely = 0, w, h, px, py;
@@ -34,28 +35,32 @@ public class ScreenGame extends Screen {
 	public int yScroll = 0;
 	int mapSize = 0;
 
-	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile) {
+	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile)
+	{
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
 		initMap(mapfile);
 
-
 	}
-	
+
 	public void initMap(Map mapfile)
 	{
-		try {
+		try
+		{
 			entities = FileSaver.serialToEntity(mapfile.entities, game);
 			Game.log("Entity array size: " + entities.size());
 		} catch (ClassNotFoundException | InstantiationException
-				| IllegalAccessException e) {
+				| IllegalAccessException e)
+		{
 			Game.log("Sad trumpet noise");
 			e.printStackTrace();
 		}
 
-		for (Entity ent : entities) {
-			if (ent instanceof Player) {
+		for (Entity ent : entities)
+		{
+			if (ent instanceof Player)
+			{
 				System.out.println("Found player instance at " + ent.x + ","
 						+ ent.y + ".");
 				px = ent.x;
@@ -63,20 +68,23 @@ public class ScreenGame extends Screen {
 				ent.forRemoval = true;
 				break;
 			}
-			
+
 			map = mapfile;
 		}
 
-		//triggers = mapfile.triggers;
+		// triggers = mapfile.triggers;
 	}
 
-	public void spawnEntity(Entity entity) {
+	public void spawnEntity(Entity entity)
+	{
 		entities.add(entity);
 	}
 
 	@Override
-	public void tick() {
-		if (player == null) {
+	public void tick()
+	{
+		if (player == null)
+		{
 			player = new Player(this);
 			player.setPos(px, py);
 			entities.add(player);
@@ -87,32 +95,41 @@ public class ScreenGame extends Screen {
 	}
 
 	@Override
-	public void init(Game game) {
+	public void init(Game game)
+	{
 		Game.log("Initializing");
 		super.init(game);
 	}
 
-	public Tile getTileAt(int x, int y) {
-		return map.tiles[y * 25 + x];
+	public Tile getTileAt(int x, int y)
+	{
+		return Map.getTileAt(map, x, y);
 	}
 
-	public void setTileAt(int x, int y, int tile) {
-		map.tiles[y * 25 + x] = Tile.tiles[tile];
+	public void setTileAt(int x, int y, int tile)
+	{
+		map = Map.setTileAt(map, x, y, tile);
 	}
 
-	public Entity getEntityInBox(Rectangle rec) {
-		for (Entity ent : entities) {
-			if (rec.contains(new Point(ent.x, ent.y))) {
+	public Entity getEntityInBox(Rectangle rec)
+	{
+		for (Entity ent : entities)
+		{
+			if (rec.contains(new Point(ent.x, ent.y)))
+			{
 				return ent;
 			}
 		}
 		return null;
 	}
 
-	public ArrayList<Entity> getEntitiesInBox(Rectangle rec) {
+	public ArrayList<Entity> getEntitiesInBox(Rectangle rec)
+	{
 		ArrayList<Entity> ents = new ArrayList<Entity>();
-		for (Entity ent : entities) {
-			if (rec.contains(new Rectangle(ent.x, ent.y, 32, 32))) {
+		for (Entity ent : entities)
+		{
+			if (rec.contains(new Rectangle(ent.x, ent.y, 32, 32)))
+			{
 				ents.add(ent);
 			}
 		}
@@ -124,20 +141,19 @@ public class ScreenGame extends Screen {
 		
 		if (player == null)
 			return;
-		for(int i = 0; i < map.tiles.length; i++)
+		for(int x = 0; x < map.tiles.length; i++)
 		{
-			Tile t = map.tiles[i];
-			t.tick();
-			g.drawImage(game.sheetTiles.getImage(t.sprite), i/25 - xScroll,
-					1 - yScroll, 32, 32, game);
-
+			for(int y = 0; y < map.tiles[x].length; i++)
+			{
+				Tile t = map.tiles[x][y];
+				t.tick();
+				g.drawImage(game.sheetTiles.getImage(t.sprite), x - xScroll, y - yScroll, 32, 32, game);
+			}
 		}
-		
 		if(triggers != null)
 		{
 			for(Trigger t : triggers)
 			{
-				
 				t.tick();
 				g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y, 32, 32, game);
 			}
@@ -208,45 +224,56 @@ public class ScreenGame extends Screen {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e)
+	{
 		player.keyPressed(e);
 		super.keyPressed(e);
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP))
+		{
 			vely = -1;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN))
+		{
 			vely = 1;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT))
+		{
 			velx = -1;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT))
+		{
 			velx = 1;
 
 		}
 
-
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		//triggers.add(e.getButton() == 1 ? new TriggerPlate(e.getX(), e.getY(), game) : new TriggerWire(e.getX(), e.getY(), game));
+	public void mouseReleased(MouseEvent e)
+	{
+		// triggers.add(e.getButton() == 1 ? new TriggerPlate(e.getX(),
+		// e.getY(), game) : new TriggerWire(e.getX(), e.getY(), game));
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyReleased(KeyEvent e)
+	{
 
 		player.keyReleased(e);
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_UP))
+		{
 			vely = 0;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_DOWN))
+		{
 			vely = 0;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_LEFT))
+		{
 			velx = 0;
 		}
-		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT)) {
+		if (e.getKeyCode() == game.controls.getKey(Controls.CONTROL_RIGHT))
+		{
 			velx = 0;
 		}
 	}

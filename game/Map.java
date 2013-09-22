@@ -20,7 +20,7 @@ public class Map implements Serializable {
 	public boolean isLocked = true, isLevel = false;
 
 	//public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
-	public Tile[] tiles = new Tile[600];
+	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
 	public ArrayList<SerialEntity> entities = new ArrayList<SerialEntity>();
 	public ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 
@@ -33,7 +33,7 @@ public class Map implements Serializable {
 	 * @param entities Saveable version of map entities, see <code>FileSaver.class</code>
 	 */
 	public Map(String name, String desc, String version,
-			Tile[] tiles, ArrayList<SerialEntity> entities, ArrayList<Trigger> triggers) {
+			Tile[][] tiles, ArrayList<SerialEntity> entities, ArrayList<Trigger> triggers) {
 		this.name = name;
 		this.desc = desc;
 		this.version = version;
@@ -41,5 +41,43 @@ public class Map implements Serializable {
 		this.entities = entities;
 		this.triggers = triggers;
 	}
+	/**
+	 * Returns the tile at position
+	 * @param map
+	 * @param x
+	 * @param y
+	 * @return null if no tile
+	 */
+	public static Tile getTileAt(Map map, int x, int y) {
+		return map.tiles[x][y];
+	}
+	
+	public static Tile getTileAt(Tile[][] tiles, int x, int y) {
+		return tiles[x][y];
+	}
+	
+	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, int tile) {
+		tiles[x][y] = Tile.tiles[tile];
+		return tiles;
+	}
+
+	public static Map setTileAt(Map map, int x, int y, int tile) {
+		map.tiles[x][y] = Tile.tiles[tile];
+		return map;
+	}
+	
+	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, Tile tile) {
+		System.out.println("Setting "+x+","+y+" to tile "+tile.toString());
+		System.out.println("XTILES: "+tiles.length);
+		System.out.println("YTILES:"+tiles[x].length);
+		tiles[x][y] = tile;
+		return tiles;
+	}
+
+	public static Map setTileAt(Map map, int x, int y, Tile tile) {
+		map.tiles[x][y] = tile;
+		return map;
+	}
+
 
 }

@@ -50,6 +50,7 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Trigger> triggerRegistry = new ArrayList<Trigger>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
+	private Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
 	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;
 	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false;
 
@@ -64,7 +65,7 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet,
-			HashMap<Rectangle, Tile> tiles, ArrayList<Entity> entities) {
+			Tile[][] tiles, ArrayList<Entity> entities) {
 		super(width, height, sheet);
 		this.tiles = tiles;
 		this.entities = entities;
@@ -75,19 +76,24 @@ public class ScreenMapEditor extends Screen {
 
 		for (int x = 0; x < Game.WIDTH / 32; x++) {
 			for (int y = 0; y < (Game.HEIGHT - 64) / 32; y++) {
-				tiles.put(new Rectangle(x * 32, y * 32, 32, 32), Tile.tiles[0]);
+				System.out.println("[MAPEDITOR] INIT set tile ("+x+","+y+") to 0");
+				tiles = Map.setTileAt(tiles, x, y, 0);
 			}
 		}
+		System.out.println("[MAPEDITOR] INIT registering tools.");
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		toolRegistry.add(new ToolBox("Rectangle", 6));
+		System.out.println("[MAPEDITOR] INIT registering entities.");
 		entityRegistry.add(new EntityBox());
 		entityRegistry.add(new EntityAmmo());
 		entityRegistry.add(new EntityExplosion());
 		entityRegistry.add(new EntitySign());
 		entityRegistry.add(new Player());
+		System.out.println("[MAPEDITOR] INIT registering triggers.");
 		triggerRegistry.add(new TriggerPlate());
 
+		System.out.println("[MAPEDITOR] INIT adding buttons.");
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
 		addButton("selectEntity", new Rectangle(194, 520, 64, 64));
@@ -100,10 +106,12 @@ public class ScreenMapEditor extends Screen {
 		addButton("save", new Rectangle(760, 515, 32, 32));
 		addButton("open", new Rectangle(760, 547, 32, 32));
 
+		System.out.println("[MAPEDITOR] INIT setting defaults.");
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
 		currentEntity = entityRegistry.get(0);
 		currentTrigger = triggerRegistry.get(0);
+		System.out.println("[MAPEDITOR] INIT finished with no error.");
 
 	}
 
@@ -160,20 +168,23 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	private void drawMap(Graphics g) {
-		for (int i = 0; i < tiles.keySet().size(); i++) {
-			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
-			Tile tile = tiles.get(rec);
-			tile.tick();
-			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x, rec.y,
-					rec.width, rec.height, game);
+		for(int x = 0; x < tiles.length; x++)
+		{
+			for(int y = 0; y < tiles[x].length; y++)
+			{
+				
+			Tile t = tiles[x][y];
+			t.tick();
+			g.drawImage(game.sheetTiles.getImage(t.sprite), x * 32, y * 32 ,32, 32, game);
 			g.setColor(Color.white);
 			if (showGrid)
 			{
-				g.drawRect(rec.x, rec.y, 32, 32);
-				if(rec.contains(mx, my))
+				g.drawRect(x * 32, y * 32, 32, 32);
+				if(new Rectangle(x, y, 32, 32).contains(mx, my))
 				{
 					g.setColor(new Color(255,255,255,155));
-					g.fillRect(rec.x, rec.y, 32, 32);
+					g.fillRect(x, y, 32, 32);
+				}
 				}
 			}
 				
@@ -223,7 +234,12 @@ public class ScreenMapEditor extends Screen {
 
 	private void drawUI(Graphics g) {
 
-
+		if(game.settings.getSetting("Debug").equals("ON"))
+		{
+			game.getFontRenderer().drawString("ROWS: "+tiles.length+" DEFAULT:"+Game.XTILES, 400, 520, 1);
+			game.getFontRenderer().drawString("COLS: "+tiles[0].length+" DEFAULT:"+Game.YTILES, 400, 530, 1);
+			game.getFontRenderer().drawString("SIZE: "+tiles[0].length*tiles.length+" DEFAULT:"+Game.XTILES*Game.YTILES, 400, 540, 1);
+		}
 		g.setColor(new Color(255, 255, 255, 155));
 		g.fillRect(0, 514, Game.WIDTH, 96);
 		drawTileSelection(10, 520, currentTile.sprite, "Tile", g);
@@ -271,7 +287,6 @@ public class ScreenMapEditor extends Screen {
 					x = 0;
 				}
 			}
-
 		}
 		if (openMenu == MENU_TOOL) {
 			drawMenuBox(104, 450, 300, 50, g);
@@ -286,7 +301,6 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}
-
 		if (openMenu == MENU_ENTITY) {
 			drawMenuBox(194, 450, 300, 50, g);
 			int i = 0;
@@ -303,7 +317,6 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}
-		
 		if (openMenu == MENU_TRIGGER) {
 			drawMenuBox(298, 450, 300, 50, g);
 			int i = 0;
@@ -317,7 +330,6 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}	
-		
 		for (int i = 0; i < getButtons().keySet().size(); i++) {
 			Rectangle rec = (Rectangle)  getButtons().keySet().toArray()[i];
 			if (rec.contains(mx, my)) {
@@ -328,12 +340,9 @@ public class ScreenMapEditor extends Screen {
 				{
 					break;
 				}
-
 				break;
-
 			}
 		}
-
 	}
 
 	@Override
@@ -343,16 +352,11 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	public Tile getTileAt(int x, int y) {
-
-		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
-				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
-				16 * Game.SCALE);
-		return tiles.get(rec);
-		
+		return Map.getTileAt(tiles, x, y);
 	}
 
 	public void setTileAt(int x, int y, Tile tile) {
-		if (game.settings.getSetting("UseAdvancedTilePlacement").equals("ON")) {
+		/*if (game.settings.getSetting("UseAdvancedTilePlacement").equals("ON")) {
 			for (int i = 0; i < tiles.keySet().size(); i++) {
 				Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
 				if (rec.contains(x, y)) {
@@ -366,7 +370,8 @@ public class ScreenMapEditor extends Screen {
 					16 * Game.SCALE);
 
 			tiles.put(rec, tile);
-		}
+		}*/
+		tiles = Map.setTileAt(tiles, x, y, tile);
 	}
 
 	@Override

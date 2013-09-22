@@ -116,16 +116,12 @@ public class ScreenLoadMap extends Screen {
 				g.drawImage(game.sheetTiles.getImage(tile.sprite),
 						380 + rec.x / 2, 32 + rec.y / 2, 16, 16, game);
 			}*/
-			Tile[] tiles = maps.get(selectedMap - 1).tiles;
-			int ctx = 0, cty = 0;
-			for(int j = 0; i < tiles.length; j++)
+			Tile[][] tiles = maps.get(selectedMap - 1).tiles;
+			for(int x = 0; x < tiles.length; x++)
 			{
-				g.drawImage(game.sheetUI.getImage(tiles[j].sprite), 380 + ctx, 32 +cty, 16,16, game);
-				ctx++;
-				if(ctx > 25)
+				for(int y = 0; y < tiles[x].length; y++)
 				{
-					ctx = 0;
-					cty++;
+					g.drawImage(game.sheetUI.getImage(tiles[x][y].sprite), 380 + x, 32 + y, 16,16, game);
 				}
 			}
 		}
