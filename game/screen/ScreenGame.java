@@ -146,6 +146,7 @@ public class ScreenGame extends Screen
 			for(int y = 0; y < map.tiles[x].length; i++)
 			{
 				Tile t = map.tiles[x][y];
+				System.out.println("[SCREENGAME] RENDER is rendering "+t.toString());
 				t.tick();
 				g.drawImage(game.sheetTiles.getImage(t.sprite), x - xScroll, y - yScroll, 32, 32, game);
 			}

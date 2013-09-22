@@ -121,7 +121,7 @@ public class ScreenLoadMap extends Screen {
 			{
 				for(int y = 0; y < tiles[x].length; y++)
 				{
-					g.drawImage(game.sheetUI.getImage(tiles[x][y].sprite), 380 + x, 32 + y, 16,16, game);
+					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * 16, 32 + y * 16, 16,16, game);
 				}
 			}
 		}
@@ -140,7 +140,8 @@ public class ScreenLoadMap extends Screen {
 						+ "\\maps\\" + s);
 				if(m.isLevel)
 				{
-					 levels.add(m);
+					// levels.add(m);
+					maps.add(m);
 				}
 				else
 				{
