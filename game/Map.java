@@ -67,9 +67,6 @@ public class Map implements Serializable {
 	}
 	
 	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, Tile tile) {
-		System.out.println("Setting "+x+","+y+" to tile "+tile.toString());
-		System.out.println("XTILES: "+tiles.length);
-		System.out.println("YTILES:"+tiles[x].length);
 		tiles[x][y] = tile;
 		return tiles;
 	}

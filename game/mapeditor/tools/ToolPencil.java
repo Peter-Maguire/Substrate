@@ -10,7 +10,6 @@ public class ToolPencil extends Tool {
 
 	@Override
 	public void onToolUsed(int x, int y, ScreenMapEditor screen) {
-		System.out.println("PENCIL");
 		screen.setTileAt(x, y, screen.currentTile);
 	}
 }

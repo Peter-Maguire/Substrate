@@ -50,7 +50,7 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Trigger> triggerRegistry = new ArrayList<Trigger>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
-	private Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
+	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
 	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;
 	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false;
 
@@ -382,7 +382,7 @@ public class ScreenMapEditor extends Screen {
 		{
 			if(mode == MODE_TILE)
 			{
-				currentTool.onToolUsed(arg0.getX(), arg0.getY(), this);
+				currentTool.onToolUsed(arg0.getX()/(800/25), arg0.getY()/(514/16), this);
 				return;
 			}
 			if(mode == MODE_ENTITY)

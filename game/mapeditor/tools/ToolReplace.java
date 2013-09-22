@@ -16,14 +16,14 @@ public class ToolReplace extends Tool {
 	public void onToolUsed(int x, int y, ScreenMapEditor screen) {
 		Tile clickedTile = screen.getTileAt(x, y);
 
-		for (int i = 0; i < screen.tiles.keySet().size(); i++) {
-			Rectangle rec = (Rectangle) screen.tiles.keySet().toArray()[i];
-
-			if (screen.tiles.get(rec) == clickedTile) {
-				screen.setTileAt(rec.x, rec.y, screen.currentTile);
+			for(int x2 = 0; x2 < screen.tiles.length; x2++)
+			{
+				for(int y2 = 0; y2 < screen.tiles[x].length; y2++)
+				{
+					if(screen.getTileAt(x2, y2) == clickedTile)
+					screen.setTileAt(x2, y2, screen.currentTile);
+				}
 			}
-
-		}
 
 	}
 
