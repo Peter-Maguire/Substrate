@@ -48,7 +48,6 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
 	private ArrayList<Entity> entityRegistry = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggerRegistry = new ArrayList<Trigger>();
-	public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;

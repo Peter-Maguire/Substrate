@@ -26,8 +26,8 @@ public class ScreenGame extends Screen {
 
 	public Player player;
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
-	protected HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	public ArrayList<Trigger>triggers = new ArrayList<Trigger>();
+	public Map map;
 
 	int velx = 0, vely = 0, w, h, px, py;
 	public int xScroll = 0;
@@ -63,9 +63,10 @@ public class ScreenGame extends Screen {
 				ent.forRemoval = true;
 				break;
 			}
+			
+			map = mapfile;
 		}
 
-		tiles = mapfile.tiles;
 		//triggers = mapfile.triggers;
 	}
 
@@ -92,18 +93,11 @@ public class ScreenGame extends Screen {
 	}
 
 	public Tile getTileAt(int x, int y) {
-		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
-				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
-				16 * Game.SCALE);
-		return tiles.get(rec);
+		return map.tiles[y * 25 + x];
 	}
 
 	public void setTileAt(int x, int y, int tile) {
-		Rectangle rec = new Rectangle(MathHelper.round(x, 16 * Game.SCALE),
-				MathHelper.round(y, 16 * Game.SCALE), 16 * Game.SCALE,
-				16 * Game.SCALE);
-
-		tiles.put(rec, Tile.tiles[tile]);
+		map.tiles[y * 25 + x] = Tile.tiles[tile];
 	}
 
 	public Entity getEntityInBox(Rectangle rec) {
@@ -130,12 +124,12 @@ public class ScreenGame extends Screen {
 		
 		if (player == null)
 			return;
-		for (int i = 0; i < tiles.keySet().size(); i++) {
-			Rectangle rec = (Rectangle) tiles.keySet().toArray()[i];
-			Tile tile = tiles.get(rec);
-			tile.tick();
-			g.drawImage(game.sheetTiles.getImage(tile.sprite), rec.x - xScroll,
-					rec.y - yScroll, rec.width, rec.height, game);
+		for(int i = 0; i < map.tiles.length; i++)
+		{
+			Tile t = map.tiles[i];
+			t.tick();
+			g.drawImage(game.sheetTiles.getImage(t.sprite), i/25 - xScroll,
+					1 - yScroll, 32, 32, game);
 
 		}
 		

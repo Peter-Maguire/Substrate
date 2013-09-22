@@ -39,8 +39,9 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	private static final long serialVersionUID = 1L;
 	public static String TITLE = "Substrate", VERSION = "0.5 Alpha";
-	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32;
+	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32, XTILES = 25, YTILES = 16;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
+	
 
 	public BufferStrategy strategy;
 
@@ -81,7 +82,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		container.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		container.pack();
 		container.setIgnoreRepaint(false);
-		container.setResizable(false);
+		container.setResizable(true);
 		game.start();
 
 	}
@@ -251,7 +252,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			throw new RuntimeException("Unable to load win.png");
 		}
 		
-
 		try {
 			font = new Font(ImageIO.read(Game.class
 					.getResource("/res/font.png")), strategy.getDrawGraphics(),
