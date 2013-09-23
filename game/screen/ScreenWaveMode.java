@@ -84,7 +84,7 @@ public class ScreenWaveMode extends ScreenGame {
 		Game.log("Unloading entities...");
 		entities.clear();
 		Game.log("Unloading map...");
-		tiles.clear();
+
 	}
 	
 

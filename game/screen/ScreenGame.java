@@ -111,7 +111,7 @@ public class ScreenGame extends Screen
 
 	public Tile getTileAt(int x, int y)
 	{
-		return Map.getTileAt(map, x, y);
+		return Map.getTileAt(map, x /(800/25),y /(514/16));
 	}
 
 	public void setTileAt(int x, int y, int tile)

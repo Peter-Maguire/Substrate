@@ -45,7 +45,7 @@ public class EntityBullet extends Entity {
 		if (rotation == Player.WEST)
 			this.x -= speed;
 
-		if (game.getTileAt(x, y) == null) {
+		if (x <= 0  || y <= 0 || x >= 800 || y >= 600) {
 			this.forRemoval = true;
 			return;
 		}

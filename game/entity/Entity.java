@@ -64,7 +64,7 @@ public class Entity implements Serializable {
 		Tile tile;
 		if (x == -1) { // If entity is moving backwards
 
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x - 15,
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
 					this.y);
 
 			if (tile == null)
@@ -83,7 +83,7 @@ public class Entity implements Serializable {
 		if (x == 1) // If entity is moving forwards
 		{
 
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x + 15,
+			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
 					this.y);
 
 			if (tile == null)
@@ -101,7 +101,7 @@ public class Entity implements Serializable {
 		if (y == -1) { // If entity is moving up
 
 			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y - 15);
+					this.y );
 
 			if (tile == null)
 				return false;
@@ -120,7 +120,7 @@ public class Entity implements Serializable {
 		{
 
 			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y + 15);
+					this.y );
 
 			if (tile == null)
 				return false;
