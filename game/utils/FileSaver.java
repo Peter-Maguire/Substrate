@@ -117,6 +117,8 @@ public class FileSaver {
 						if(args[0].equals("NAME"))map.name = args[1];
 						if(args[0].equals("VERSION"))map.version = args[1];
 						if(args[0].equals("DESC"))map.desc = args[1];
+						if(args[0].equals("LOCKED"))map.isLocked = Boolean.getBoolean(args[1]);
+						if(args[0].equals("LEVEL"))map.isLevel = Boolean.getBoolean(args[1]);
 						if(args[0].equals("TILES"))readMode = 1;
 						if(args[0].equals("ENTITIES"))readMode = 2;
 						if(args[0].equals("TRIGGERS"))readMode = 3;
