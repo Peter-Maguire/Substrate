@@ -35,14 +35,23 @@ public class Tile implements Serializable {
 	public Tile() {
 
 	}
+	
+	public static int getTileID(Tile t)
+	{
+		for(int i = 0; i < Tile.tiles.length; i++)
+		{
+			Game.log("[TILE] tileID checking id "+i);
+			if(t == Tile.tiles[i])return i;
+		}
+		Game.log("[TILE] tileID found no possible match!");
+		return 0; //No possible tile?
+	}
+	
+
 
 	
 
-	public void init() {
-		Game.log("Tile initizalizing...");
-
-		Game.log("Tile initizalized.");
-	}
+	
 
 	public boolean isPassable() {
 		return canPassThrough;

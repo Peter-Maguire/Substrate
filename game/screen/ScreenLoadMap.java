@@ -44,7 +44,7 @@ public class ScreenLoadMap extends Screen {
 				File tf = new File(s);
 				if (tf.getName().contains(".smf")) {
 					j++;
-					Map m = (Map) FileSaver.load(FileSaver.getCleanPath()
+					Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
 							+ "\\maps\\" + s);
 					if(m.name.startsWith("Level_") && showingLevels)
 					{
@@ -136,7 +136,7 @@ public class ScreenLoadMap extends Screen {
 			File tf = new File(s);
 			if (tf.getName().contains(".smf")) {
 				j++;
-				Map m = (Map) FileSaver.load(FileSaver.getCleanPath()
+				Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
 						+ "\\maps\\" + s);
 				if(m.isLevel)
 				{

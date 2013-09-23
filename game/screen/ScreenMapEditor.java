@@ -608,8 +608,8 @@ public class ScreenMapEditor extends Screen {
 
 		if (fileChooser.showOpenDialog(new JFrame("Open")) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			Map loadedMap = (Map) FileSaver.load(file.getAbsolutePath());
-			this.tiles = loadedMap.tiles;
+			Map loadedMap = FileSaver.loadMapFile(file.getAbsolutePath());
+			
 			try {
 				this.entities = FileSaver.serialToEntity(loadedMap.entities,
 						game);
@@ -624,6 +624,7 @@ public class ScreenMapEditor extends Screen {
 			}
 			this.triggers = loadedMap.triggers;
 			this.mapVersion = Integer.parseInt(loadedMap.version);
+			
 		}
 
 	}
@@ -644,11 +645,7 @@ public class ScreenMapEditor extends Screen {
 			savedMap.isLevel = true;
 			savedMap.isLocked = false;
 
-			FileSaver.save(
-					savedMap,
-					!file.getAbsolutePath().contains(".smf") ? file
-							.getAbsolutePath() + ".smf" : file
-							.getAbsolutePath());
+			FileSaver.saveMapFile(savedMap,!file.getAbsolutePath().contains(".smf") ? file.getAbsolutePath() + ".smf" : file.getAbsolutePath());
 
 		}
 	}

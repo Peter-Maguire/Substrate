@@ -15,6 +15,8 @@ public class Trigger implements Serializable{
 	private static final long serialVersionUID = 1219419139996693191L;
 	private boolean shown = false, shouldBeShown = false;
 	public int x = 0,y = 0, sprite = 0;
+	public int lx = 0;
+	public int ly = 0;
 	public Game game;
 	protected ScreenGame sg;
 	public Trigger linkedTrigger;

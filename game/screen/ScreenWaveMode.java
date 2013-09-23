@@ -66,8 +66,7 @@ public class ScreenWaveMode extends ScreenGame {
 		System.out.println(f.getAbsolutePath());
 		if(f.exists())
 		{
-			initMap((Map) FileSaver
-					.load(FileSaver.getCleanPath() + "\\maps\\Level_"+nwave+".smf"));
+			initMap((Map) FileSaver.load(FileSaver.getCleanPath() + "\\maps\\Level_"+nwave+".smf"));
 			//wave++;
 		}else
 		{

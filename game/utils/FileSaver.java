@@ -4,6 +4,7 @@ import game.Game;
 import game.Map;
 import game.entity.Entity;
 import game.entity.SerialEntity;
+import game.tile.Tile;
 import game.triggers.SerialTrigger;
 import game.triggers.Trigger;
 
@@ -55,7 +56,97 @@ public class FileSaver {
 	
 	public static void saveMapFile(Map map, String path)
 	{
+		PrintWriter out;
+		try {
+			Game.log("Saving map file " + path);
+			out = new PrintWriter(path);
+			//SAVE MISC INFO
+			out.println("NAME "+map.name);
+			out.println("VERSION "+map.version);
+			out.println("DESC "+map.desc);
+			out.println("LOCKED "+map.isLocked);
+			out.println("LEVEL "+map.isLevel);
+			
+			
+			//SAVE TILES
+			out.println("TILES");
+			for(int x = 0; x < map.tiles.length; x++)
+			{
+				for(int y = 0; y < map.tiles[x].length; y++)
+				{
+					out.println(x+" "+y+" "+Tile.getTileID(map.tiles[x][y]));
+				}
+			}
+			out.println("END");
+			out.println("ENTITIES");
+			for(SerialEntity e : map.entities)
+			{
+				out.println(e.x+" "+e.y+" "+e.health+" "+e.relatedEntity);
+			}
+			out.println("END");
+			out.println("TRIGGERS");
+			for(Trigger t : map.triggers)
+			{
+				out.println(t.x+" "+t.y+" "+t.getClass().getCanonicalName()+" "+t.lx+" "+t.ly);
+			}
+			out.println("END");
+			
+			
+			out.checkError();
+			out.close();
+		} catch (Exception e) {
+			Game.log("Map saving did an uh oh at:");
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static Map loadMapFile(String path)
+	{
+		int readMode = 0;
+		Map map = new Map();
+		BufferedReader br;
+		try {
+			br = new BufferedReader(new FileReader(path));
+			String line;
+			while ((line = br.readLine()) != null) {
+				if (!(line.charAt(0) == "#".charAt(0))) {
+					String args[] = line.split(" ");
+					if(readMode == 0)
+					{
+						if(args[0].equals("NAME"))map.name = args[1];
+						if(args[0].equals("VERSION"))map.version = args[1];
+						if(args[0].equals("DESC"))map.desc = args[1];
+						if(args[0].equals("TILES"))readMode = 1;
+						if(args[0].equals("ENTITIES"))readMode = 2;
+						if(args[0].equals("TRIGGERS"))readMode = 3;
+					}else if(readMode > 0)
+					{
+						if(args[0].equals("END"))readMode = 0;
+						if(readMode == 1)
+						{
+							map.tiles[Integer.parseInt(args[0])][Integer.parseInt(args[1])] = Tile.tiles[Integer.parseInt(args[2])];
+						}
+						if(readMode == 2)
+						{
+							map.entities.add(new SerialEntity(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]), args[3]));
+						}
+						if(readMode == 3)
+						{
+							map.triggers.add(new Trigger());
+						}
+					}
+				}
+			}
+			br.close();
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
+		return map;
 	}
 	
 	

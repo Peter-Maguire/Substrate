@@ -41,6 +41,10 @@ public class Map implements Serializable {
 		this.entities = entities;
 		this.triggers = triggers;
 	}
+	
+	public Map()
+	{
+	}
 	/**
 	 * Returns the tile at position
 	 * @param map
