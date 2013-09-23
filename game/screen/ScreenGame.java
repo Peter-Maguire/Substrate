@@ -40,14 +40,20 @@ public class ScreenGame extends Screen
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
+		System.out.println("[SCREENGAME] Constructor has finished");
 		initMap(mapfile);
 
 	}
 
 	public void initMap(Map mapfile)
 	{
+		
+		System.out.println("[SCREENGAME] initMap is starting...");
+		System.out.println("[SCREENGAME] initMap is loading mapfile " + mapfile);
+		this.map = mapfile;
 		try
 		{
+			System.out.println("[SCREENGAME] initMap is getting entities");
 			entities = FileSaver.serialToEntity(mapfile.entities, game);
 			Game.log("Entity array size: " + entities.size());
 		} catch (ClassNotFoundException | InstantiationException
@@ -56,11 +62,12 @@ public class ScreenGame extends Screen
 			Game.log("Sad trumpet noise");
 			e.printStackTrace();
 		}
-
+		System.out.println("[SCREENGAME] initMap is finding player");
 		for (Entity ent : entities)
 		{
+			
 			if (ent instanceof Player)
-			{
+			{		
 				System.out.println("Found player instance at " + ent.x + ","
 						+ ent.y + ".");
 				px = ent.x;
@@ -69,7 +76,8 @@ public class ScreenGame extends Screen
 				break;
 			}
 
-			map = mapfile;
+			
+			
 		}
 
 		// triggers = mapfile.triggers;
@@ -141,14 +149,13 @@ public class ScreenGame extends Screen
 		
 		if (player == null)
 			return;
-		for(int x = 0; x < map.tiles.length; i++)
+		for(int x = 0; x < map.tiles.length; x++)
 		{
-			for(int y = 0; y < map.tiles[x].length; i++)
+			for(int y = 0; y < map.tiles[x].length; y++)
 			{
 				Tile t = map.tiles[x][y];
-				System.out.println("[SCREENGAME] RENDER is rendering "+t.toString());
 				t.tick();
-				g.drawImage(game.sheetTiles.getImage(t.sprite), x - xScroll, y - yScroll, 32, 32, game);
+				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * 32) - xScroll, (y * 32) - yScroll, 32, 32, game);
 			}
 		}
 		if(triggers != null)

@@ -160,6 +160,7 @@ public class ScreenLoadMap extends Screen {
 			Rectangle rec = (Rectangle) buttons.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				if (buttons.get(rec) == -1) {
+					System.out.println("[LOADMAP] mousePressed is loading map "+maps.get(selectedMap-1));
 					game.setScreen(showingLevels ? new ScreenWaveMode(w,h,sheet,levels.get(selectedMap-1)) : new ScreenGame(w, h, sheet, maps
 							.get(selectedMap - 1)));
 				} else {
