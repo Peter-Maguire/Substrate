@@ -76,24 +76,19 @@ public class ScreenMapEditor extends Screen {
 
 		for (int x = 0; x < Game.WIDTH / 32; x++) {
 			for (int y = 0; y < (Game.HEIGHT - 64) / 32; y++) {
-				System.out.println("[MAPEDITOR] INIT set tile ("+x+","+y+") to 0");
 				tiles = Map.setTileAt(tiles, x, y, 0);
 			}
 		}
-		System.out.println("[MAPEDITOR] INIT registering tools.");
 		toolRegistry.add(new ToolPencil("Pencil", 1));
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		toolRegistry.add(new ToolBox("Rectangle", 6));
-		System.out.println("[MAPEDITOR] INIT registering entities.");
 		entityRegistry.add(new EntityBox());
 		entityRegistry.add(new EntityAmmo());
 		entityRegistry.add(new EntityExplosion());
 		entityRegistry.add(new EntitySign());
 		entityRegistry.add(new Player());
-		System.out.println("[MAPEDITOR] INIT registering triggers.");
 		triggerRegistry.add(new TriggerPlate());
 
-		System.out.println("[MAPEDITOR] INIT adding buttons.");
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
 		addButton("selectEntity", new Rectangle(194, 520, 64, 64));
@@ -106,12 +101,10 @@ public class ScreenMapEditor extends Screen {
 		addButton("save", new Rectangle(760, 515, 32, 32));
 		addButton("open", new Rectangle(760, 547, 32, 32));
 
-		System.out.println("[MAPEDITOR] INIT setting defaults.");
 		currentTool = toolRegistry.get(0);
 		currentTile = Tile.tiles[1];
 		currentEntity = entityRegistry.get(0);
 		currentTrigger = triggerRegistry.get(0);
-		System.out.println("[MAPEDITOR] INIT finished with no error.");
 
 	}
 
@@ -609,7 +602,7 @@ public class ScreenMapEditor extends Screen {
 		if (fileChooser.showOpenDialog(new JFrame("Open")) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 			Map loadedMap = FileSaver.loadMapFile(file.getAbsolutePath());
-			
+			this.tiles = loadedMap.tiles;
 			try {
 				this.entities = FileSaver.serialToEntity(loadedMap.entities,
 						game);

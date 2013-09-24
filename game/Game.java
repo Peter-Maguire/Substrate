@@ -47,7 +47,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public SpriteSheet sheet, sheetExplosions, sheetTiles, sheetEntities,
 			sheetUI, sheetTriggers;
-	public BufferedImage loadingScreen, winScreen;
+	public BufferedImage loadingScreen, winScreen, logo;
 	public Font font;
 	public Graphics2D g;
 	public Options settings;
@@ -251,6 +251,16 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load win.png");
 		}
+		
+		try {
+			logo = ImageIO.read(Game.class
+					.getResource("/res/logo.png"));
+		} catch (IOException e1) {
+			log("Unable to load logo");
+			e1.printStackTrace();
+			throw new RuntimeException("Unable to load logo.png");
+		}
+		
 		
 		try {
 			font = new Font(ImageIO.read(Game.class

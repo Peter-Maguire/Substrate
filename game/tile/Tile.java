@@ -26,7 +26,11 @@ public class Tile implements Serializable {
 			new TileRubble(TileRubble.RUBBLE_TOP_CORNER_LEFT),
 			new TileRubble(TileRubble.RUBBLE_TOP_CORNER_RIGHT),
 			new TileRubble(TileRubble.RUBBLE_BOTTOM_CORNER_LEFT),
-			new TileRubble(TileRubble.RUBBLE_BOTTOM_CORNER_RIGHT), };
+			new TileRubble(TileRubble.RUBBLE_BOTTOM_CORNER_RIGHT), 
+			new TileWood(),
+			new TileCarpet(0),
+			new TileCarpet(1),
+			new TileCarpet(2)};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;
@@ -40,10 +44,8 @@ public class Tile implements Serializable {
 	{
 		for(int i = 0; i < Tile.tiles.length; i++)
 		{
-			Game.log("[TILE] tileID checking id "+i);
 			if(t == Tile.tiles[i])return i;
 		}
-		Game.log("[TILE] tileID found no possible match!");
 		return 0; //No possible tile?
 	}
 	
