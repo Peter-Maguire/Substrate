@@ -30,7 +30,8 @@ public class Tile implements Serializable {
 			new TileWood(),
 			new TileCarpet(0),
 			new TileCarpet(1),
-			new TileCarpet(2)};
+			new TileCarpet(2),
+			new TileSky()};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;

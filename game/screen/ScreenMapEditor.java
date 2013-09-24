@@ -5,6 +5,7 @@ import game.Map;
 import game.entity.Entity;
 import game.entity.EntityAmmo;
 import game.entity.EntityBox;
+import game.entity.EntityCloud;
 import game.entity.EntityExplosion;
 import game.entity.EntitySign;
 import game.entity.Player;
@@ -90,6 +91,7 @@ public class ScreenMapEditor extends Screen {
 		entityRegistry.add(new EntityExplosion());
 		entityRegistry.add(new EntitySign());
 		entityRegistry.add(new Player());
+		entityRegistry.add(new EntityCloud());
 		triggerRegistry.add(new TriggerPlate());
 		triggerRegistry.add(new TriggerGameWin());
 
