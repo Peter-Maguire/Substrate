@@ -63,14 +63,26 @@ public class Trigger implements Serializable{
 		
 	}
 	
-	public void trigger(Trigger trigger)
+	public void trigger(int x, int y)
 	{
-		trigger.onTrigger(this);
+		for(Trigger t : sg.triggers)
+		{
+			if( t.x == x && t.y == y)
+			{
+				t.onTrigger(this);
+			}
+		}
 	}
 	
 	public void trigger()
 	{
-		linkedTrigger.onTrigger(this);
+		for(Trigger t : sg.triggers)
+		{
+			if( t.x == lx && t.y == ly)
+			{
+				t.onTrigger(this);
+			}
+		}
 	}
 	
 	public void onTrigger(Trigger trigger)

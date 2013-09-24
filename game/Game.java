@@ -261,7 +261,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			throw new RuntimeException("Unable to load logo.png");
 		}
 		
-		
 		try {
 			font = new Font(ImageIO.read(Game.class
 					.getResource("/res/font.png")), strategy.getDrawGraphics(),
@@ -271,8 +270,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load font sheet.");
 		}
-		
-
+	
 		f = new File("keymap.dat");
 		if (!f.exists()) {
 			FileSaver.save(controls.keyMap, "keymap.dat");

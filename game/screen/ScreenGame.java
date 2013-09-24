@@ -40,7 +40,6 @@ public class ScreenGame extends Screen
 		super(width, height, sheet);
 		this.w = width;
 		this.h = height;
-		System.out.println("[SCREENGAME] Constructor has finished");
 		initMap(mapfile);
 
 	}
@@ -48,12 +47,9 @@ public class ScreenGame extends Screen
 	public void initMap(Map mapfile)
 	{
 		
-		System.out.println("[SCREENGAME] initMap is starting...");
-		System.out.println("[SCREENGAME] initMap is loading mapfile " + mapfile);
 		this.map = mapfile;
 		try
 		{
-			System.out.println("[SCREENGAME] initMap is getting entities");
 			entities = FileSaver.serialToEntity(mapfile.entities, game);
 			Game.log("Entity array size: " + entities.size());
 		} catch (ClassNotFoundException | InstantiationException
@@ -62,7 +58,6 @@ public class ScreenGame extends Screen
 			Game.log("Sad trumpet noise");
 			e.printStackTrace();
 		}
-		System.out.println("[SCREENGAME] initMap is finding player");
 		for (Entity ent : entities)
 		{
 			
@@ -179,8 +174,6 @@ public class ScreenGame extends Screen
 			e.tick();
 			e.render(g);
 		}
-		
-		
 		if (game.settings.getSetting("Debug").equals("ON") && player != null) {
 			game.getFontRenderer().drawString(
 					"DX:" + velx + " DY:" + vely + " SX:" + xScroll + " SY:"
@@ -192,12 +185,8 @@ public class ScreenGame extends Screen
 							+ player.getHealth() + " AMM:" + player.getAmmo()
 							+ " TIMERS:GUN:" + player.ammocooldown+" SW:"+w+" SH:"+h, 260, 10, 1);
 		}
-		
-
-
 		g.setColor(new Color(155, 155, 155, 142));
 		g.fillRect(0, h - 88, w, h);
-
 		if (player.getHealth() > 0) {
 			g.drawImage(game.sheetUI.getImage(33), 16, h - 64, 32, 32, game);
 			for (int i = 0; i < player.getHealth() - 1; i++) {
@@ -207,7 +196,6 @@ public class ScreenGame extends Screen
 
 			g.drawImage(game.sheetUI.getImage(35), (32 * player.getHealth()),
 					h - 64, 32, 32, game);
-
 		}
 		if (player.getAmmo() > 0) {
 			g.drawImage(game.sheetUI.getImage(17), 16, h - 32, 32, 32, game);
@@ -225,10 +213,7 @@ public class ScreenGame extends Screen
 						"" + player.ammocooldown / 60,
 						32 + (32 * player.getAmmo()), h - 30, 1);
 			}
-
-
 		}
-
 	}
 
 	@Override

@@ -135,22 +135,29 @@ public class FileSaver {
 						}
 						if(readMode == 3)
 						{
-							map.triggers.add(new Trigger());
+							try{
+							Trigger t = (Trigger) Class.forName(args[2]).newInstance();
+							System.out.println("[FILESAVER] Adding trigger");
+							t.x = Integer.parseInt(args[0]);
+							t.y = Integer.parseInt(args[1]);
+							t.lx = Integer.parseInt(args[3]);
+							t.ly = Integer.parseInt(args[4]);
+							System.out.println("[FILESAVER] "+t.x+" "+t.y+" "+t.lx+" "+t.ly);
+							map.triggers.add(t);
+							}catch(Exception e)
+							{
+								e.printStackTrace();
+							}
 						}
 					}
 				}
 			}
 			br.close();
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		return map;
 	}
-	
 	
 	/**
 	 * Used for map loading to retrieve entity instances from the map file.

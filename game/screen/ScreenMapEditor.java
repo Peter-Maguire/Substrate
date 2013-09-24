@@ -14,6 +14,7 @@ import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
 import game.triggers.Trigger;
+import game.triggers.TriggerGameWin;
 import game.triggers.TriggerPlate;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
@@ -52,12 +53,14 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
 	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;
-	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false;
+	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false, triggerMode = false;
 
 	private Tool currentTool = null;
 	public Tile currentTile = null;
 	private Entity currentEntity = null;
 	private Trigger currentTrigger = null;
+	private Trigger sendTrigger = null;
+	private Trigger receiveTrigger = null;
 
 	public ScreenMapEditor(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
@@ -88,6 +91,7 @@ public class ScreenMapEditor extends Screen {
 		entityRegistry.add(new EntitySign());
 		entityRegistry.add(new Player());
 		triggerRegistry.add(new TriggerPlate());
+		triggerRegistry.add(new TriggerGameWin());
 
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
@@ -182,10 +186,16 @@ public class ScreenMapEditor extends Screen {
 			}
 				
 		}
+		try{
 		for(Trigger t : triggers)
 		{
 			g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y,32,32, game);
+			if(showTriggers && !(t.x == 0 && t.y == 0)){
+			g.setColor(Color.cyan);
+			g.drawLine(t.x, t.y, t.lx, t.ly);
+			}
 		}
+		}catch(Exception e){}
 		for (Entity e : entities) {
 			e.render(g);
 		}
@@ -402,6 +412,8 @@ public class ScreenMapEditor extends Screen {
 			}
 			if(mode == MODE_TRIGGER)
 			{
+				if(arg0.getButton() == 1)
+				{
 				try {
 					Trigger newTrigger = currentTrigger.getClass().newInstance();
 					if(snapToGrid)
@@ -420,6 +432,45 @@ public class ScreenMapEditor extends Screen {
 					e.printStackTrace();
 				}
 				return;
+				}else
+				{
+					
+					if(triggerMode)
+					{
+						System.out.println("Select second trigger");
+						for(Trigger t : triggers)
+						{
+							if(new Rectangle(arg0.getX(), arg0.getY(), 32, 32).contains(t.x, t.y))
+							{
+								System.out.println("Trigger selected!");
+								System.out.println(sendTrigger);
+								System.out.println(t);
+								sendTrigger.lx = t.x;
+								sendTrigger.ly = t.y;
+								triggerMode = false;
+								break;
+							}
+							
+						}
+						System.out.println("No trigger found");
+						triggerMode = false;
+					}else
+					{
+						System.out.println("Select trigger");
+						for(Trigger t : triggers)
+						{
+							if(new Rectangle(arg0.getX(), arg0.getY(), 32, 32).contains(t.x, t.y))
+							{
+								System.out.println("Trigger selected!");
+								sendTrigger = t;
+								break;
+							}
+						}
+						triggerMode = true;
+					}
+					
+					
+				}
 			}
 		}
 
