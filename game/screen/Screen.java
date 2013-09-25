@@ -38,7 +38,7 @@ public class Screen {
 			for (int y = 0; y < game.getHeight() / 32; y++) {
 				game.g.drawImage(game.sheetTiles.getImage(7), x * 40, y * 40,
 						40, 40, game);
-				game.g.setColor(new Color(x + y, y * j / 60, x * i / 60, 155));
+				game.g.setColor(new Color(x + y > 255 ? 255 : x + y, y*j/60 > 255 ? 255 : y * j / 60, x*i/60 > 255 ? 255 : x * i / 60, 155));
 				game.g.fillRect(x * 40, y * 40, 40, 40);
 
 			}
@@ -69,6 +69,11 @@ public class Screen {
 
 	public void addButton(String action, Rectangle bounds) {
 		bttn.put(bounds, action);
+	}
+	
+	public void clearButtons()
+	{
+		bttn.clear();
 	}
 
 	public void removeButton(Rectangle bounds) {

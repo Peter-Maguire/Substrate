@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 public class ScreenMainMenu extends Screen {
 
 	Graphics g;
+	private int lastWidth = 0; 
+	private int lastHeight = 0;
 
 	public ScreenMainMenu(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
@@ -22,6 +24,7 @@ public class ScreenMainMenu extends Screen {
 		addButton("Options", new Rectangle(290, 212, 232, 25));
 		addButton("Exit", new Rectangle(290, 244, 232, 25));
 	}
+	
 
 	@Override
 	public void render(Graphics g) {
@@ -29,26 +32,38 @@ public class ScreenMainMenu extends Screen {
 		this.drawBackgroundScreen();
 		// this.drawAnimatedBackground();
 		//game.getFontRenderer().drawCenteredString(Game.TITLE, 36, 3);
-		g.drawImage(game.logo, 240, 36, 328, 66, game);
-		ScreenTools.drawButton(290, 116, 232, 25, "Singleplayer", g, game,
+		g.drawImage(game.logo, (game.getWidth()/2)-164, 36, 328, 66, game);
+		ScreenTools.drawButton((game.getWidth()/2)-116, 116, 232, 25, "Singleplayer", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton(290, 148, 232, 25, "Wave mode", g, game,
+		ScreenTools.drawButton((game.getWidth()/2)-116, 148, 232, 25, "Wave mode", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton(290, 180, 232, 25, "Map Editor", g, game,
+		ScreenTools.drawButton((game.getWidth()/2)-116, 180, 232, 25, "Map Editor", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton(290, 212, 232, 25, "Options", g, game,
+		ScreenTools.drawButton((game.getWidth()/2)-116, 212, 232, 25, "Options", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton(290, 244, 232, 25, "Quit", g, game, new Color(
+		ScreenTools.drawButton((game.getWidth()/2)-116, 244, 232, 25, "Quit", g, game, new Color(
 				255, 255, 255, 155), Color.white);
 
 		game.getFontRenderer().drawString(
 				String.format("%s version %s", Game.TITLE, Game.VERSION), 0,
-				Game.HEIGHT, 1);
+				game.getHeight(), 1);
 
 	}
 
 	@Override
 	public void tick() {
+		if(game.getWidth() != lastWidth || game.getHeight() != lastHeight)
+		{
+			lastWidth = game.getWidth();
+			lastHeight = game.getHeight();
+			clearButtons();
+			
+			addButton("Singleplayer", new Rectangle((game.getWidth()/2)-116, 116, 232, 25));
+			addButton("Wave mode", new Rectangle((game.getWidth()/2)-116, 148, 232, 25));
+			addButton("Map editor", new Rectangle((game.getWidth()/2)-116, 180, 232, 25));
+			addButton("Options", new Rectangle((game.getWidth()/2)-116, 212, 232, 25));
+			addButton("Exit", new Rectangle((game.getWidth()/2)-116, 244, 232, 25));
+		}
 	}
 
 	@Override
