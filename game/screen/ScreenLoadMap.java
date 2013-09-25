@@ -68,20 +68,20 @@ public class ScreenLoadMap extends Screen {
 		game.getFontRenderer().drawString("Select map to load", 32, 32, 2);
 		
 		//MAP BOX CONTAINER
-		ScreenTools.drawButton(32,52,300,Game.HEIGHT-128," ",g,game); 
+		ScreenTools.drawButton(32,52,300,game.getHeight()-128," ",g,game); 
 		
 		//LEVEL/CUSTOM SWITCHER
-		ScreenTools.drawButton(32,540,100,32,"Levels",g,game, new Color(0,0,0,155), showingLevels ? Color.orange : Color.white);
-		ScreenTools.drawButton(232,540,100,32,"Custom",g,game, new Color(0,0,0,155), !showingLevels ? Color.orange : Color.white);
+		ScreenTools.drawButton(32,game.getHeight()-50,100,32,"Levels",g,game, new Color(0,0,0,155), showingLevels ? Color.orange : Color.white);
+		ScreenTools.drawButton(232,game.getHeight()-50,100,32,"Custom",g,game, new Color(0,0,0,155), !showingLevels ? Color.orange : Color.white);
 
 		//SELECT BUTTON
-		ScreenTools.drawButton(431,452,300,52,"    >SELECT<",g,game, new Color(0,0,0,155),maps.size() != 0 ? Color.green : Color.red);
+		ScreenTools.drawButton(431,game.getHeight()-130,300,52,"    >SELECT<",g,game, new Color(0,0,0,155),maps.size() != 0 ? Color.green : Color.red);
 		
 		//MAP PREVIEW BOX
-		ScreenTools.drawButton(379,31,401,257," ", g,game);
+		ScreenTools.drawButton(379,30,game.getWidth()-600,game.getHeight()-400," ", g,game);
 		
 		//MAP DESC BOX
-		ScreenTools.drawButton(379,321,401,97," ",g,game);
+		ScreenTools.drawButton(379,game.getHeight()-300,401,97," ",g,game);
 		
 	
 
@@ -93,9 +93,9 @@ public class ScreenLoadMap extends Screen {
 		} else {
 
 			
-			game.getFontRenderer().drawString(mapName, 422, 355, mapName.length() > 16 ? 1 : 2);
-			game.getFontRenderer().drawString(mapVersion, 712, 355, 1);
-			game.getFontRenderer().drawString(mapDesc, 422, 375, 2);
+			game.getFontRenderer().drawString(mapName, 422, game.getHeight()-270, mapName.length() > 16 ? 1 : 2);
+			game.getFontRenderer().drawString(mapVersion, 712, game.getHeight()-270, 1);
+			game.getFontRenderer().drawString(mapDesc, 422, game.getHeight()-240, 2);
 			int i = 1;
 			for (Map m : maps) {
 				ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
@@ -121,7 +121,7 @@ public class ScreenLoadMap extends Screen {
 			{
 				for(int y = 0; y < tiles[x].length; y++)
 				{
-					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * 16, 32 + y * 16, 16,16, game);
+					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * (16 * game.getWidth()/578), 32 + y * (16 * game.getHeight()/420), 16 * game.getWidth()/578,16 * game.getHeight()/420, game);
 				}
 			}
 		}
