@@ -60,7 +60,6 @@ public class ScreenGame extends Screen
 		}
 		for (Entity ent : entities)
 		{
-			
 			if (ent instanceof Player)
 			{		
 				System.out.println("Found player instance at " + ent.x + ","
@@ -70,12 +69,8 @@ public class ScreenGame extends Screen
 				ent.forRemoval = true;
 				break;
 			}
-
-			
-			
 		}
-
-		// triggers = mapfile.triggers;
+		 triggers = mapfile.triggers;
 	}
 
 	public void spawnEntity(Entity entity)
@@ -94,7 +89,6 @@ public class ScreenGame extends Screen
 		}
 
 		player.tryMoveEntity(velx, vely);
-
 	}
 
 	@Override
@@ -150,7 +144,7 @@ public class ScreenGame extends Screen
 			{
 				Tile t = map.tiles[x][y];
 				t.tick();
-				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * 32) - xScroll, (y * 32) - yScroll, 32, 32, game);
+				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * (32 + (game.getWidth()/35))) - xScroll, (y * (32 + (game.getWidth()/67))) - yScroll, 32 + (game.getWidth()/35) , 32 + (game.getWidth()/67), game);
 			}
 		}
 		if(triggers != null)
@@ -186,32 +180,25 @@ public class ScreenGame extends Screen
 							+ " TIMERS:GUN:" + player.ammocooldown+" SW:"+w+" SH:"+h, 260, 10, 1);
 		}
 		g.setColor(new Color(155, 155, 155, 142));
-		g.fillRect(0, h - 88, w, h);
+		g.fillRect(0, game.getHeight()-88, game.getWidth(), game.getHeight());
 		if (player.getHealth() > 0) {
-			g.drawImage(game.sheetUI.getImage(33), 16, h - 64, 32, 32, game);
+			g.drawImage(game.sheetUI.getImage(33), 16, game.getHeight() - 64, 32, 32, game);
 			for (int i = 0; i < player.getHealth() - 1; i++) {
-				g.drawImage(game.sheetUI.getImage(34), 32 + (32 * i), h - 64,
-						32, 32, game);
+				g.drawImage(game.sheetUI.getImage(34), 32 + (32 * i), game.getHeight() - 64,32, 32, game);
 			}
 
-			g.drawImage(game.sheetUI.getImage(35), (32 * player.getHealth()),
-					h - 64, 32, 32, game);
+			g.drawImage(game.sheetUI.getImage(35), (32 * player.getHealth()),game.getHeight() - 64, 32, 32, game);
 		}
 		if (player.getAmmo() > 0) {
-			g.drawImage(game.sheetUI.getImage(17), 16, h - 32, 32, 32, game);
+			g.drawImage(game.sheetUI.getImage(17), 16, game.getHeight() - 32, 32, 32, game);
 			for (int i = 0; i < player.getAmmo() - 1; i++) {
-				g.drawImage(game.sheetUI.getImage(18), 32 + (32 * i), h - 32,
-						32, 32, game);
+				g.drawImage(game.sheetUI.getImage(18), 32 + (32 * i), game.getHeight() - 32,32, 32, game);
 			}
 
-			g.drawImage(game.sheetUI.getImage(19), (32 * player.getAmmo()),
-					h - 32, 32, 32, game);
+			g.drawImage(game.sheetUI.getImage(19), (32 * player.getAmmo()),game.getHeight() - 32, 32, 32, game);
 			if (player.ammocooldown != 0) {
-				g.drawImage(game.sheetUI.getImage(16),
-						32 + (32 * player.getAmmo()), h - 32, 32, 32, game);
-				game.getFontRenderer().drawString(
-						"" + player.ammocooldown / 60,
-						32 + (32 * player.getAmmo()), h - 30, 1);
+				g.drawImage(game.sheetUI.getImage(16),32 + (32 * player.getAmmo()), game.getHeight() - 32, 32, 32, game);
+				game.getFontRenderer().drawString("" + player.ammocooldown / 60,32 + (32 * player.getAmmo()), game.getHeight() - 30, 1);
 			}
 		}
 	}
