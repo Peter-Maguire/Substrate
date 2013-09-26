@@ -22,6 +22,7 @@ public class ScreenLoadMap extends Screen {
 	private HashMap<Rectangle, Integer> buttons = new HashMap<Rectangle, Integer>();
 	private int selectedMap = 1;
 	private boolean hasLoadedMap = false, showingLevels = false;
+	private int lastWidth = 0, lastHeight = 0;
 	
 
 	public ScreenLoadMap(int width, int height, SpriteSheet sheet) {
@@ -32,12 +33,17 @@ public class ScreenLoadMap extends Screen {
 	public void tick()
 	{
 		
-		if(buttons.size() == 0)
+		if(lastWidth != game.getWidth() || lastHeight != game.getHeight())
 		{
+			lastWidth = game.getWidth();
+			lastHeight = game.getHeight();
+			//XXX: Why am I using two button arrays?
+			buttons.clear();
+			clearButtons();
 			System.out.println("Registering buttons...");
-			buttons.put(new Rectangle(431, 452, 300, 52), -1);
-			addButton("modeLevels", new Rectangle(32,540,100,32));
-			addButton("modeCustom", new Rectangle(232,540,100,32));
+			buttons.put(new Rectangle(431, game.getHeight()-130, 300, 52), -1);
+			addButton("modeLevels", new Rectangle(32,game.getHeight()-50,100,32));
+			addButton("modeCustom", new Rectangle(232,game.getHeight()-50,100,32));
 			String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
 			int j = 0;
 			for (String s : files) {
@@ -85,7 +91,7 @@ public class ScreenLoadMap extends Screen {
 		
 	
 
-
+		//FIXME: NO MAPS UI BUG
 		if ((maps.size() == 0 && !showingLevels) || (levels.size() == 0 && showingLevels)) {
 			game.getFontRenderer().drawString(showingLevels ? "Level \nloading \nerror!\nRedownload\nGame." : "No maps", 122, 255, 2,
 					new Color(155, 5, 5));
