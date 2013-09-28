@@ -45,7 +45,7 @@ public class EntityBullet extends Entity {
 		if (rotation == Player.WEST)
 			this.x -= speed;
 
-		if (x <= 0  || y <= 0 || x >= 800 || y >= 600) {
+		if (x <= 0  || y <= 0 || x >= game.game.getWidth() || y >= game.game.getHeight()) {
 			this.forRemoval = true;
 			return;
 		}
@@ -54,28 +54,28 @@ public class EntityBullet extends Entity {
 			if (t instanceof TileWall) {
 				switch (t.sprite) {
 				case TileWall.TOP_CORNER_LEFT:
-					game.setTileAt(x, y, 19);
+					game.setTileAtEnt(x, y, 19);
 					break;
 				case TileWall.TOP_CORNER_RIGHT:
-					game.setTileAt(x, y, 20);
+					game.setTileAtEnt(x, y, 20);
 					break;
 				case TileWall.WALL_VERTICAL:
-					game.setTileAt(x, y, 3);
+					game.setTileAtEnt(x, y, 3);
 					break;
 				case TileWall.WALL_VERTICAL_TOP:
-					game.setTileAt(x, y, 17);
+					game.setTileAtEnt(x, y, 17);
 					break;
 				case TileWall.WALL_VERTICAL_BOTTOM:
-					game.setTileAt(x, y, 18);
+					game.setTileAtEnt(x, y, 18);
 					break;
 				case TileWall.BOTTOM_CORNER_LEFT:
-					game.setTileAt(x, y, 21);
+					game.setTileAtEnt(x, y, 21);
 					break;
 				case TileWall.BOTTOM_CORNER_RIGHT:
-					game.setTileAt(x, y, 22);
+					game.setTileAtEnt(x, y, 22);
 					break;
 				default:
-					game.setTileAt(x, y, 3);
+					game.setTileAtEnt(x, y, 3);
 					break;
 				}
 

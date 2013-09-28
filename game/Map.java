@@ -53,29 +53,40 @@ public class Map implements Serializable {
 	 * @return null if no tile
 	 */
 	public static Tile getTileAt(Map map, int x, int y) {
-		return map.tiles[x][y];
+	
+		return getTileAt(map.tiles, x, y);
 	}
 	
 	public static Tile getTileAt(Tile[][] tiles, int x, int y) {
+		if(x >= Game.XTILES || y >= Game.YTILES)
+			return Tile.tiles[0];
 		return tiles[x][y];
 	}
 	
 	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, int tile) {
+		if(x >= Game.XTILES || y >= Game.YTILES)
+			return tiles;
 		tiles[x][y] = Tile.tiles[tile];
 		return tiles;
 	}
 
 	public static Map setTileAt(Map map, int x, int y, int tile) {
+		if(x >= Game.XTILES || y >= Game.YTILES)
+			return map;
 		map.tiles[x][y] = Tile.tiles[tile];
 		return map;
 	}
 	
 	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, Tile tile) {
+		if(x >= Game.XTILES || y >= Game.YTILES)
+			return tiles;
 		tiles[x][y] = tile;
 		return tiles;
 	}
 
 	public static Map setTileAt(Map map, int x, int y, Tile tile) {
+		if(x >= Game.XTILES || y >= Game.YTILES)
+			return map;
 		map.tiles[x][y] = tile;
 		return map;
 	}

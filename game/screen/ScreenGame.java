@@ -34,6 +34,7 @@ public class ScreenGame extends Screen
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
+	public boolean drawDebugBoxes = true;
 
 	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile)
 	{
@@ -102,6 +103,17 @@ public class ScreenGame extends Screen
 	{
 		return Map.getTileAt(map, x /(800/25),y /(514/16));
 	}
+	
+	/**
+	 * Converts from entity coordinates to tile coordinates.
+	 * @param x
+	 * @param y
+	 * @param tile
+	 */
+	public void setTileAtEnt(int x, int y, int tile)
+	{
+		map = Map.setTileAt(map, x/(800/25), y/(514/16), tile);
+	}
 
 	public void setTileAt(int x, int y, int tile)
 	{
@@ -144,7 +156,13 @@ public class ScreenGame extends Screen
 			{
 				Tile t = map.tiles[x][y];
 				t.tick();
-				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * (32 + (game.getWidth()/35))) - xScroll, (y * (32 + (game.getWidth()/67))) - yScroll, 32 + (game.getWidth()/35) , 32 + (game.getWidth()/67), game);
+				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * 32) - xScroll, (y * 32) - yScroll, 32, 32, game);
+				if(drawDebugBoxes)
+				{
+					g.setColor(t.isPassable() ? Color.GREEN : Color.RED);
+					g.drawRect(x * 32, y * 32, 32, 32);
+				}
+
 			}
 		}
 		if(triggers != null)
@@ -167,6 +185,9 @@ public class ScreenGame extends Screen
 				entities.remove(i);
 			e.tick();
 			e.render(g);
+			g.setColor(Color.RED);
+			if(drawDebugBoxes)
+			g.drawRect(e.x , e.y, 32, 32);
 		}
 		if (game.settings.getSetting("Debug").equals("ON") && player != null) {
 			game.getFontRenderer().drawString(
