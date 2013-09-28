@@ -179,10 +179,10 @@ public class ScreenMapEditor extends Screen {
 			if (showGrid)
 			{
 				g.drawRect(x * 32, y * 32, 32, 32);
-				if(new Rectangle(x, y, 32, 32).contains(mx, my))
+				if(new Rectangle(x * 32 , y* 32, 32, 32).contains(mx, my))
 				{
 					g.setColor(new Color(255,255,255,155));
-					g.fillRect(x, y, 32, 32);
+					g.fillRect(x * 32 , y * 32, 32, 32);
 				}
 				}
 			}
