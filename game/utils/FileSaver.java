@@ -114,9 +114,20 @@ public class FileSaver {
 					String args[] = line.split(" ");
 					if(readMode == 0)
 					{
-						if(args[0].equals("NAME"))map.name = args[1];
+						if(args[0].equals("NAME"))
+						{
+							map.name = args[1];
+							for(int i = 2; i < args.length; i++)
+								map.name = map.name+" "+args[i];
+								
+						}
 						if(args[0].equals("VERSION"))map.version = args[1];
-						if(args[0].equals("DESC"))map.desc = args[1];
+						if(args[0].equals("DESC"))
+						{
+							map.desc = args[1];
+							for(int i = 2; i < args.length; i++)
+								map.desc = map.desc+" "+args[i];
+						}
 						if(args[0].equals("LOCKED"))map.isLocked = Boolean.getBoolean(args[1]);
 						if(args[0].equals("LEVEL"))map.isLevel = Boolean.getBoolean(args[1]);
 						if(args[0].equals("TILES"))readMode = 1;
