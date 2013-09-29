@@ -18,7 +18,7 @@ public class Trigger implements Serializable{
 	public int lx = 0;
 	public int ly = 0;
 	public Game game;
-	protected ScreenGame sg;
+	public ScreenGame sg;
 	public Trigger linkedTrigger;
 	
 	
@@ -37,6 +37,10 @@ public class Trigger implements Serializable{
 	{
 		
 	}
+	
+
+	
+	
 	
 	public void link(Trigger t)
 	{

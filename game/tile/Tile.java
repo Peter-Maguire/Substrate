@@ -31,7 +31,11 @@ public class Tile implements Serializable {
 			new TileCarpet(0),
 			new TileCarpet(1),
 			new TileCarpet(2),
-			new TileSky()};
+			new TileSky(),
+			new TileDoor(true, true),
+			new TileDoor(false, true),
+			new TileDoor(true, false),
+			new TileDoor(false, false)};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;

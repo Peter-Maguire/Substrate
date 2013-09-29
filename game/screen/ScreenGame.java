@@ -34,7 +34,7 @@ public class ScreenGame extends Screen
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
-	public boolean drawDebugBoxes = true;
+	public boolean drawDebugBoxes = false;
 
 	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile)
 	{
@@ -72,6 +72,12 @@ public class ScreenGame extends Screen
 			}
 		}
 		 triggers = mapfile.triggers;
+		 
+		 for(Trigger t: triggers)
+		 {
+			 if(t.sg == null)
+				 t.sg = this;	 
+		 }
 	}
 
 	public void spawnEntity(Entity entity)

@@ -28,6 +28,7 @@ public class TriggerPlate extends Trigger implements Serializable{
 	{
 		if(!triggered)
 		{
+			System.out.println("Triggering target "+lx+" ,"+ly);
 			trigger();
 			triggered = true;
 		}

@@ -23,7 +23,7 @@ public class TriggerGameWin extends Trigger{
 			swm.wave++;
 		}else
 		{
-			game.setScreen(new ScreenWin(800,600,null,-9001));
+			sg.game.setScreen(new ScreenWin(800,600,sg.game.sheet,-9001));
 		}
 	}
 }

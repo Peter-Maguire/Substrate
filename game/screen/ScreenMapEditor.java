@@ -186,6 +186,7 @@ public class ScreenMapEditor extends Screen {
 				}
 				}
 			}
+			
 				
 		}
 		try{
@@ -195,6 +196,17 @@ public class ScreenMapEditor extends Screen {
 			if(showTriggers && !(t.x == 0 && t.y == 0)){
 			g.setColor(Color.cyan);
 			g.drawLine(t.x, t.y, t.lx, t.ly);
+			}
+			
+			if(mode == MODE_TRIGGER)
+			{
+				if(new Rectangle(mx, my, 32,32).contains(t.x, t.y))
+				{
+					g.setColor(new Color(100,255,100,100));
+				}
+				g.fillRect(mx,my,32,32);
+			
+					
 			}
 		}
 		}catch(Exception e){}
@@ -269,6 +281,11 @@ public class ScreenMapEditor extends Screen {
 		
 		g.setColor(new Color(0, 0, 0, 135));
 		g.fillRect(685, 520, 33, 32);
+		
+		if(mode == MODE_TRIGGER)
+		{
+			
+		}
 	
 		
 		
