@@ -103,16 +103,32 @@ public class ScreenLoadMap extends Screen {
 			game.getFontRenderer().drawString(mapVersion, 712, game.getHeight()-270, 1);
 			game.getFontRenderer().drawString(mapDesc, 422, game.getHeight()-240, 2);
 			int i = 1;
-			for (Map m : maps) {
-				ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
-				if(m.isLocked)
-				{
-					g.setColor(new Color(0, 0, 0, 155));
-					g.fillRect(40, 3 + (60 * i), 282, 51);
-					g.drawImage(game.sheetUI.getImage(8), 155, 10+(60*i),32,32,game);
+			if(showingLevels)
+			{
+				for (Map m : levels) {
+					ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
+					if(m.isLocked)
+					{
+						g.setColor(new Color(0, 0, 0, 155));
+						g.fillRect(40, 3 + (60 * i), 282, 51);
+						g.drawImage(game.sheetUI.getImage(8), 155, 10+(60*i),32,32,game);
+					}
+					i++;
 				}
-				i++;
+			}else
+			{
+				for (Map m : maps) {
+					ScreenTools.drawButton(40, 4+(60*i), 280, 49, m.name.length() > 17 ? m.name.substring(0, 15)+"..." : m.name, g, game, new Color(255,255,255,155), selectedMap == i ? Color.orange : Color.white);
+					if(m.isLocked)
+					{
+						g.setColor(new Color(0, 0, 0, 155));
+						g.fillRect(40, 3 + (60 * i), 282, 51);
+						g.drawImage(game.sheetUI.getImage(8), 155, 10+(60*i),32,32,game);
+					}
+					i++;
+				}
 			}
+			
 			mapName = maps.get(selectedMap - 1).name;
 			mapDesc = maps.get(selectedMap - 1).desc;
 			mapVersion = maps.get(selectedMap - 1).version;
@@ -144,10 +160,12 @@ public class ScreenLoadMap extends Screen {
 				j++;
 				Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
 						+ "\\maps\\" + s);
+				
 				if(m.isLevel)
 				{
-					// levels.add(m);
-					maps.add(m);
+
+					levels.add(m);
+					//maps.add(m);
 				}
 				else
 				{
@@ -166,7 +184,6 @@ public class ScreenLoadMap extends Screen {
 			Rectangle rec = (Rectangle) buttons.keySet().toArray()[i];
 			if (rec.contains(m)) {
 				if (buttons.get(rec) == -1) {
-					System.out.println("[LOADMAP] mousePressed is loading map "+maps.get(selectedMap-1));
 					game.setScreen(showingLevels ? new ScreenWaveMode(w,h,sheet,levels.get(selectedMap-1)) : new ScreenGame(w, h, sheet, maps
 							.get(selectedMap - 1)));
 				} else {
@@ -180,7 +197,15 @@ public class ScreenLoadMap extends Screen {
 	@Override
 	public void postAction(String action)
 	{
-		if(action.equals("modeLevels"))showingLevels = true;
-		if(action.equals("modeCustom"))showingLevels = false;
+		if(action.equals("modeLevels"))
+		{
+			lastWidth = 0;
+			showingLevels = true;
+		}
+		if(action.equals("modeCustom"))
+		{	
+			lastWidth = 0;
+			showingLevels = false;
+		}
 	}
 }

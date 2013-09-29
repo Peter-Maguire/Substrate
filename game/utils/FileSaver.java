@@ -128,8 +128,8 @@ public class FileSaver {
 							for(int i = 2; i < args.length; i++)
 								map.desc = map.desc+" "+args[i];
 						}
-						if(args[0].equals("LOCKED"))map.isLocked = Boolean.getBoolean(args[1]);
-						if(args[0].equals("LEVEL"))map.isLevel = Boolean.getBoolean(args[1]);
+						if(args[0].equals("LOCKED"))map.isLocked = args[1].equals("true");
+						if(args[0].equals("LEVEL"))map.isLevel = args[1].equals("true");
 						if(args[0].equals("TILES"))readMode = 1;
 						if(args[0].equals("ENTITIES"))readMode = 2;
 						if(args[0].equals("TRIGGERS"))readMode = 3;

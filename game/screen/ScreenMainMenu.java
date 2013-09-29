@@ -35,7 +35,7 @@ public class ScreenMainMenu extends Screen {
 		g.drawImage(game.logo, (game.getWidth()/2)-164, 36, 328, 66, game);
 		ScreenTools.drawButton((game.getWidth()/2)-116, 116, 232, 25, "Singleplayer", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton((game.getWidth()/2)-116, 148, 232, 25, "Wave mode", g, game,
+		ScreenTools.drawButton((game.getWidth()/2)-116, 148, 232, 25, "??????", g, game,
 				new Color(255, 255, 255, 155), Color.white);
 		ScreenTools.drawButton((game.getWidth()/2)-116, 180, 232, 25, "Map Editor", g, game,
 				new Color(255, 255, 255, 155), Color.white);

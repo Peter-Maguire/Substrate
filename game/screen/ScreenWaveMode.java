@@ -25,7 +25,6 @@ public class ScreenWaveMode extends ScreenGame {
 
 	}
 
-	@Override
 	public void render(Graphics g) {
 		super.render(g);
 		if (game.settings.getSetting("Debug").equals("ON")) {
@@ -33,18 +32,14 @@ public class ScreenWaveMode extends ScreenGame {
 			game.getFontRenderer().drawString("NOTICE:" + noticetimer, 609, 10,
 					1);
 		}
-
 		if (noticetimer > 0) {
 			g.fillRect(0, 100, Game.WIDTH, 50);
 			game.getFontRenderer().drawCenteredString("LEVEL " + wave, 113, 3);
 
 		}
-
+	}
 	
 
-	}
-
-	@Override
 	public void tick() {
 		super.tick();
 		if (wave != lastwave) {
@@ -63,11 +58,10 @@ public class ScreenWaveMode extends ScreenGame {
 		deinit();
 		
 		File f = new File(FileSaver.getCleanPath()+"\\maps\\Level_"+nwave+".smf");
-		System.out.println(f.getAbsolutePath());
 		if(f.exists())
 		{
-			initMap((Map) FileSaver.load(FileSaver.getCleanPath() + "\\maps\\Level_"+nwave+".smf"));
-			//wave++;
+			initMap(FileSaver.loadMapFile(FileSaver.getCleanPath() + "\\maps\\Level_"+nwave+".smf"));
+		//	wave++;
 		}else
 		{
 			System.out.println("Unable to load level "+nwave+" wave "+wave);
