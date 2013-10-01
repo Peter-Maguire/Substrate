@@ -35,7 +35,7 @@ public class ScreenMainMenu extends Screen {
 		g.drawImage(game.logo, (game.getWidth()/2)-164, 36, 328, 66, game);
 		ScreenTools.drawButton((game.getWidth()/2)-116, 116, 232, 25, "Singleplayer", g, game,
 				new Color(255, 255, 255, 155), Color.white);
-		ScreenTools.drawButton((game.getWidth()/2)-116, 148, 232, 25, "??????", g, game,
+		ScreenTools.drawButton((game.getWidth()/2)-116, 148, 232, 25, "TEST BUTTON", g, game,
 				new Color(255, 255, 255, 155), Color.white);
 		ScreenTools.drawButton((game.getWidth()/2)-116, 180, 232, 25, "Map Editor", g, game,
 				new Color(255, 255, 255, 155), Color.white);
@@ -73,8 +73,7 @@ public class ScreenMainMenu extends Screen {
 			game.setScreen(new ScreenIntro(w, h, sheet));
 			break;
 		case "Wave mode":
-			game.setScreen(new ScreenWaveMode(w, h, sheet, (Map) FileSaver
-					.load(FileSaver.getCleanPath() + "//maps//Level_1.smf")));
+			game.setScreen(new ScreenHighscore(w, h, sheet));
 			break;
 		case "Map editor":
 			game.setScreen(new ScreenMapEditor(w, h, sheet));
