@@ -7,6 +7,9 @@ import java.awt.Graphics;
 
 public class ScreenHighscore extends Screen
 {
+	
+	public String[] names;
+	public int[] scores;
 
 	public ScreenHighscore(int width, int height, SpriteSheet sheet)
 	{
@@ -22,6 +25,11 @@ public class ScreenHighscore extends Screen
 		ScreenTools.drawButton(150, 100, 500, 400, " ", g, game);
 		ScreenTools.drawButton(150, 520, 400, 40, " ", g, game);
 		ScreenTools.drawButton(553, 521, 100, 40, "SUBMIT", g, game, new Color(255, 0, 0, 100), Color.red);
+	}
+	
+	public void getHighscores()
+	{
+		
 	}
 
 }
