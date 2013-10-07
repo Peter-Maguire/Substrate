@@ -41,10 +41,6 @@ public class ScreenWaveMode extends ScreenGame {
 	
 
 	public void tick() {
-		if (player == null)
-		{
-		System.out.println("PLAY NULL");
-		}
 		super.tick();
 		if (wave != lastwave) {
 			noticetimer = 256;

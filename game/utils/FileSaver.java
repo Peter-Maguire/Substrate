@@ -15,13 +15,16 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
-import java.nio.ByteBuffer;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -169,6 +172,21 @@ public class FileSaver {
 		}
 		return map;
 	}
+	
+	public static String getURL(String URL) throws MalformedURLException, UnsupportedEncodingException, IOException
+	{	
+		HttpURLConnection con = (HttpURLConnection) new URL(URL).openConnection();
+		InputStreamReader isr = new InputStreamReader(con.getInputStream());
+		BufferedReader br = new BufferedReader(isr);
+		String line;
+		String full = "";
+		while((line = br.readLine()) != null)
+		{
+			full = full+"\n"+line;
+		}
+		return full;
+	}
+	
 	
 	/**
 	 * Used for map loading to retrieve entity instances from the map file.

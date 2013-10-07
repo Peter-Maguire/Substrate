@@ -23,6 +23,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -278,26 +279,18 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		log("Trying to send statistics...");
 		if (SETTINGS.get("GatherStats").equals("ON")) {
-			try {
-				HttpURLConnection statcon = (HttpURLConnection) new URL(
-						URLEncoder.encode(
-								"http://assets.fightthetoast.co.uk/stats.php?OS="
-										+ System.getProperty("os.name") + "_"
-										+ System.getProperty("os.version")
-										+ "&GameVersion=" + Game.VERSION
-										+ "&JavaVersion="
-										+ System.getProperty("java.version"),
-								"UTF-8")).openConnection();
-				if (statcon.getContent().toString().contains("OK")) {
-					log("Stats sent, all is well!"
-							+ statcon.getContent().toString());
-				} else {
-					log("Stat sending failed: "
-							+ statcon.getContent().toString());
-				}
-			} catch (MalformedURLException e) {
-			} catch (IOException e) {
-				log("Unable to send stats.");
+			try
+			{
+//				FileSaver.getURL("http://assets.fightthetoast.co.uk/stats.php?OS="
+//										+ System.getProperty("os.name") + "_"
+//										+ System.getProperty("os.version")
+//										+ "&GameVersion=" + Game.VERSION
+//										+ "&JavaVersion="
+//										+ System.getProperty("java.version"));
+				log("Stats sending disabled");
+			} catch (Exception e)
+			{
+				log("Unable to send statistics...");
 				e.printStackTrace();
 			}
 		} else {
