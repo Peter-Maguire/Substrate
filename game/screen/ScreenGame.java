@@ -258,8 +258,6 @@ public class ScreenGame extends Screen
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		// triggers.add(e.getButton() == 1 ? new TriggerPlate(e.getX(),
-		// e.getY(), game) : new TriggerWire(e.getX(), e.getY(), game));
 	}
 
 	@Override
