@@ -128,7 +128,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		} catch (InterruptedException e) {
 		}
 		System.exit(0);
-
 	}
 
 	public Font getFontRenderer() {
@@ -138,12 +137,10 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 	@SuppressWarnings("unchecked")
 	public void init() {
 
-	
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
 
 		log("Loading...");
-
 		try {
 			loadingScreen = ImageIO.read(Game.class
 					.getResource("/res/loading.png"));
@@ -152,7 +149,6 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load loading.png.");
 		}
-
 		File f = new File(FileSaver.getCleanPath() + "\\settings.txt");
 		if (!f.exists()) {
 			log("Settings file does not exist!");
@@ -185,7 +181,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		}
 
 		settings = new Options(SETTINGS);
-
+		
 		setScreen(new ScreenLoading(Game.WIDTH, Game.HEIGHT, sheet));
 		render();
 
@@ -262,8 +258,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		}
 		
 		try {
-			font = new Font(ImageIO.read(Game.class
-					.getResource("/res/font.png")), strategy.getDrawGraphics(),
+			font = new Font(ImageIO.read(Game.class.getResource("/res/font.png")), strategy.getDrawGraphics(),
 					this);
 		} catch (IOException e1) {
 			log("Unable to load font.");
