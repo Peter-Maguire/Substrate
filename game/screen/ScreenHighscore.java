@@ -41,12 +41,16 @@ public class ScreenHighscore extends Screen
 		ScreenTools.drawButton(553, 521, 100, 40, "SUBMIT", g, game, new Color(255, 0, 0, 100), Color.red);
 		
 		game.getFontRenderer().drawString("Name                        Time taken to complete game", 185, 110, 1);
-		
-		for(int i = 0; i < scores.length; i++)
+		if(scores != null)
 		{
-			game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2);
-			game.getFontRenderer().drawString("-", 430,140 + 32 * i, 2);
-			game.getFontRenderer().drawString(scores[i]+"", 500,140 + 32 * i, 2);
+			for(int i = 0; i < 11; i++)
+			{
+				game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2);
+				game.getFontRenderer().drawString("-", 430,140 + 32 * i, 2);
+				game.getFontRenderer().drawString(scores[i]+"", 500,140 + 32 * i, 2);
+			}
+			if(scores.length > 11)
+				game.getFontRenderer().drawString("... and "+(scores.length-11)+" more.", 530,489, 1);
 		}
 		
 		
