@@ -34,7 +34,7 @@ public class ScreenGame extends Screen
 	public int xScroll = 0;
 	public int yScroll = 0;
 	int mapSize = 0;
-	public boolean drawDebugBoxes = false;
+	public boolean drawDebugBoxes = true;
 
 	public ScreenGame(int width, int height, SpriteSheet sheet, Map mapfile)
 	{

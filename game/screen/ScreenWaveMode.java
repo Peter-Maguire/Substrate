@@ -3,6 +3,7 @@ package game.screen;
 import game.Game;
 import game.Map;
 import game.entity.EntitySoldier;
+import game.entity.Player;
 import game.pathfinding.grid.GridMap;
 import game.tile.Tile;
 import game.utils.FileSaver;
@@ -17,14 +18,44 @@ import java.io.File;
 public class ScreenWaveMode extends ScreenGame {
 
 	public int wave = 1, lastwave = 0, 
-			noticetimer = 0;
-	public GridMap map;
+			noticetimer = 0, timetaken = 0;
+
 
 	public ScreenWaveMode(int width, int height, SpriteSheet sheet, Map mapfile) {
 		super(width, height, sheet, mapfile);
 
 	}
 
+
+	
+	@Override
+	public void tick() {
+	
+		if (player == null)
+		{
+			System.out.println("Adding new player");
+			player = new Player(this);
+			player.setPos(px, py);
+			entities.add(player);
+		}
+	
+	
+		player.tryMoveEntity(velx, vely);
+	
+		if (wave != lastwave) {
+			noticetimer = 256;
+			lastwave = wave;
+			initwave(wave);
+		}
+		
+		timetaken++;
+
+		if (noticetimer > 0) {
+			noticetimer--;
+		}
+	}
+	
+	@Override
 	public void render(Graphics g) {
 		super.render(g);
 		if (game.settings.getSetting("Debug").equals("ON")) {
@@ -38,25 +69,13 @@ public class ScreenWaveMode extends ScreenGame {
 
 		}
 	}
-	
-
-	public void tick() {
-		super.tick();
-		if (wave != lastwave) {
-			noticetimer = 256;
-			lastwave = wave;
-			initwave(wave);
-		}
-
-		if (noticetimer > 0) {
-			noticetimer--;
-		}
-	}
 
 	private void initwave(int nwave) {
 		//MAP LOAD
 		deinit();
-		
+		if(nwave == 1)
+			timetaken = 0;
+			
 		File f = new File(FileSaver.getCleanPath()+"\\maps\\Level_"+nwave+".smf");
 		if(f.exists())
 		{
@@ -66,8 +85,9 @@ public class ScreenWaveMode extends ScreenGame {
 		{
 			System.out.println("Unable to load level "+nwave+" wave "+wave);
 			Game.log("Game won.");
-			 game.setScreen(new ScreenWin(w,h,sheet, 0));
+			 game.setScreen(new ScreenWin(w,h,sheet, timetaken/60));
 		}
+		player = null;
 
 	}
 	
