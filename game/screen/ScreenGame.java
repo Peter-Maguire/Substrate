@@ -8,7 +8,6 @@ import game.entity.Player;
 import game.tile.Tile;
 import game.triggers.Trigger;
 import game.triggers.TriggerPlate;
-import game.triggers.TriggerWire;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
