@@ -282,10 +282,10 @@ public class ScreenMapEditor extends Screen {
 		g.setColor(new Color(0, 0, 0, 135));
 		g.fillRect(685, 520, 33, 32);
 		
-		if(mode == MODE_TRIGGER)
+	/*	if(mode == MODE_TRIGGER)
 		{
 			
-		}
+		}*/ //FIXME: What is this doing here?
 	
 		
 		

@@ -90,7 +90,7 @@ public class FileSaver {
 			out.println("TRIGGERS");
 			for(Trigger t : map.triggers)
 			{
-				out.println(t.x+" "+t.y+" "+t.getClass().getCanonicalName()+" "+t.lx+" "+t.ly);
+				out.println(t.x+" "+t.y+" "+t.getClass().getCanonicalName()+t.lx+" "+t.ly);
 			}
 			out.println("END");
 			
@@ -150,16 +150,17 @@ public class FileSaver {
 						if(readMode == 3)
 						{
 							try{
+							System.out.println(args[2]);
 							Trigger t = (Trigger) Class.forName(args[2]).newInstance();
-							System.out.println("[FILESAVER] Adding trigger");
+							
 							t.x = Integer.parseInt(args[0]);
 							t.y = Integer.parseInt(args[1]);
 							t.lx = Integer.parseInt(args[3]);
 							t.ly = Integer.parseInt(args[4]);
-							System.out.println("[FILESAVER] "+t.x+" "+t.y+" "+t.lx+" "+t.ly);
 							map.triggers.add(t);
 							}catch(Exception e)
 							{
+								
 								e.printStackTrace();
 							}
 						}

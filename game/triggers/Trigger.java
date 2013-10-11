@@ -13,7 +13,7 @@ public class Trigger implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1219419139996693191L;
-	private boolean shown = false, shouldBeShown = false;
+	public boolean drawnInPlay = true;
 	public int x = 0,y = 0, sprite = 0;
 	public int lx = 0;
 	public int ly = 0;
@@ -22,12 +22,10 @@ public class Trigger implements Serializable{
 	public Trigger linkedTrigger;
 	
 	
-	public Trigger(int x, int y, int sprite,boolean shown, Game game)
+	public Trigger(int x, int y, int sprite, Game game)
 	{
 		this.x = x;
 		this.y = y;
-		this.shown = shown;
-		this.shouldBeShown = shown;
 		this.sprite = sprite;
 		this.game = game;
 		sg = (ScreenGame)game.currentScreen;
