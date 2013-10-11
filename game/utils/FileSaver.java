@@ -90,7 +90,7 @@ public class FileSaver {
 			out.println("TRIGGERS");
 			for(Trigger t : map.triggers)
 			{
-				out.println(t.x+" "+t.y+" "+t.getClass().getCanonicalName()+t.lx+" "+t.ly);
+				out.println(t.x+" "+t.y+" "+t.getClass().getCanonicalName()+" "+t.lx+" "+t.ly);
 			}
 			out.println("END");
 			

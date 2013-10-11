@@ -15,6 +15,7 @@ import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
 import game.triggers.Trigger;
+import game.triggers.TriggerDoorToggle;
 import game.triggers.TriggerGameWin;
 import game.triggers.TriggerPlate;
 import game.utils.FileSaver;
@@ -94,6 +95,7 @@ public class ScreenMapEditor extends Screen {
 		entityRegistry.add(new EntityCloud());
 		triggerRegistry.add(new TriggerPlate());
 		triggerRegistry.add(new TriggerGameWin());
+		triggerRegistry.add(new TriggerDoorToggle());
 
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
@@ -651,7 +653,8 @@ public class ScreenMapEditor extends Screen {
 		}
 		if(openMenu == MENU_TRIGGER)
 		{
-			currentEntity = entityRegistry.get(Integer.parseInt(name));
+			System.out.println("SETTING TRIGGER "+name);
+			currentTrigger = triggerRegistry.get(Integer.parseInt(name));
 			for (Trigger t : triggerRegistry) {
 				removeButton(new Rectangle(112 + (42 * i), 434, 32, 32));
 				i++;
