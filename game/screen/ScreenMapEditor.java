@@ -193,7 +193,7 @@ public class ScreenMapEditor extends Screen {
 		for(Trigger t : triggers)
 		{
 			g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y,32,32, game);
-			if(showTriggers && !(t.x == 0 && t.y == 0)){
+			if(showTriggers && t.lx != 0 && t.ly != 0){
 			g.setColor(Color.cyan);
 			g.drawLine(t.x, t.y, t.lx, t.ly);
 			}
