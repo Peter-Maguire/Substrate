@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 
 import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
 
@@ -15,20 +16,21 @@ public class ScreenHighscore extends Screen
 {
 	
 	private String[] names;
-	private int[] scores;
-	private int score;
+	private float[] scores;
+	private float score;
 	private String name;
 	private String typedText = "";
 	private boolean isTextFocused = false;
 	private boolean hasSubmittedScore = false;
 	private boolean scoreFailed = false;
+	private DecimalFormat df = new DecimalFormat("#.##");
 
-	public ScreenHighscore(int width, int height, SpriteSheet sheet, int score)
+	public ScreenHighscore(int width, int height, SpriteSheet sheet, float score)
 	{
 		super(width, height, sheet);
 		addButton("focusBox", new Rectangle(150, 520, 400, 40));
 		addButton("submitScore", new Rectangle(553, 521, 100, 40));
-		this.score = score;
+		this.score = Float.valueOf(df.format(score));
 	}
 	
 	@Override
@@ -51,7 +53,7 @@ public class ScreenHighscore extends Screen
 		ScreenTools.drawButton(150, 520, 400, 40, " ", g, game, new Color(0,0,0,155), isTextFocused ? new Color(255, 100, 100)  : new Color(255,255,255));
 		if(!hasSubmittedScore)
 		{
-			game.getFontRenderer().drawString(" -   "+score, 416, 528, 2);
+			game.getFontRenderer().drawString(" - "+score, 406, 528, 2);
 			game.getFontRenderer().drawString(typedText, 156, 528, 2);
 		}
 		ScreenTools.drawButton(553, 521, 100, 40, "SUBMIT", g, game, new Color(255, 0, 0, 100), Color.red);
@@ -66,13 +68,14 @@ public class ScreenHighscore extends Screen
 				{
 					game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2, new Color(255,255,0));
 					game.getFontRenderer().drawString("-", 430,140 + 32 * i, 2, new Color(255,255,0));
-					game.getFontRenderer().drawString(scores[i]+"", 500,140 + 32 * i, 2, new Color(255,255,0));
+					game.getFontRenderer().drawString(scores[i]+" mins", 500,140 + 32 * i, 2, new Color(255,255,0));
+					//game.getFontRenderer().drawString("mins", 540,145 + 32 * i, 1, new Color(255,255,0));
 				}else
 				{
 					game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2);
 					game.getFontRenderer().drawString("-", 430,140 + 32 * i, 2);
-					game.getFontRenderer().drawString(scores[i]+"", 500,140 + 32 * i, 2);
-					game.getFontRenderer().drawString("seconds", 540,145 + 32 * i, 1);
+					game.getFontRenderer().drawString(scores[i]+" mins", 500,140 + 32 * i, 2);
+					//game.getFontRenderer().drawString("mins", 540,145 + 32 * i, );
 				}
 				
 			}
@@ -93,12 +96,12 @@ public class ScreenHighscore extends Screen
 		Game.log("Connection successful");
 		String[] hsUnparsed = hsRaw.replace("\n","").split("<br>");
 		names = new String[hsUnparsed.length];
-		scores = new int[hsUnparsed.length];
+		scores = new float[hsUnparsed.length];
 		for(int i = 0; i < hsUnparsed.length; i++)
 		{
 			String[] score = hsUnparsed[i].split(" ");
 			names[i] = score[0];
-			scores[i] = Integer.parseInt(score[1]);
+			scores[i] = Float.valueOf(score[1]);
 		}
 		Game.log("Parsed "+names.length+" highscores");
 		
@@ -111,7 +114,7 @@ public class ScreenHighscore extends Screen
 		}
 	}
 	
-	public boolean submitHighscore(String name, int score)
+	public boolean submitHighscore(String name, float score)
 	{
 		String scoreResponse = "";
 		try
