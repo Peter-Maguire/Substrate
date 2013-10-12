@@ -90,8 +90,6 @@ public class ScreenLoadMap extends Screen {
 		ScreenTools.drawButton(379,game.getHeight()-300,401,97," ",g,game);
 		
 	
-
-		//FIXME: NO MAPS UI BUG
 		if ((maps.size() == 0 && !showingLevels) || (levels.size() == 0 && showingLevels)) {
 			game.getFontRenderer().drawString(showingLevels ? "Level \nloading \nerror!\nRedownload\nGame." : "No maps", 122, 255, 2,
 					new Color(155, 5, 5));
@@ -128,16 +126,18 @@ public class ScreenLoadMap extends Screen {
 					i++;
 				}
 			}
-			
-			mapName = maps.get(selectedMap - 1).name;
-			mapDesc = maps.get(selectedMap - 1).desc;
-			mapVersion = maps.get(selectedMap - 1).version;
-			/*for (int d = 0; d < tiles.keySet().size(); d++) {
-				Rectangle rec = (Rectangle) tiles.keySet().toArray()[d];
-				Tile tile = tiles.get(rec);
-				g.drawImage(game.sheetTiles.getImage(tile.sprite),
-						380 + rec.x / 2, 32 + rec.y / 2, 16, 16, game);
-			}*/
+			try{
+			if(showingLevels)
+			{
+				mapName = levels.get(selectedMap - 1).name;
+				mapDesc = levels.get(selectedMap - 1).desc;
+				mapVersion = levels.get(selectedMap - 1).version;
+			}else
+			{
+				mapName = maps.get(selectedMap - 1).name;
+				mapDesc = maps.get(selectedMap - 1).desc;
+				mapVersion = maps.get(selectedMap - 1).version;
+			}
 			Tile[][] tiles = maps.get(selectedMap - 1).tiles;
 			for(int x = 0; x < tiles.length; x++)
 			{
@@ -146,6 +146,20 @@ public class ScreenLoadMap extends Screen {
 					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * (16 * game.getWidth()/578), 32 + y * (16 * game.getHeight()/420), 16 * game.getWidth()/578,16 * game.getHeight()/420, game);
 				}
 			}
+			}catch(Exception e)
+			{
+				mapName = "Map load error";
+				mapDesc = "Map load error";
+				mapVersion = "Map load error";
+			}
+			
+			/*for (int d = 0; d < tiles.keySet().size(); d++) {
+				Rectangle rec = (Rectangle) tiles.keySet().toArray()[d];
+				Tile tile = tiles.get(rec);
+				g.drawImage(game.sheetTiles.getImage(tile.sprite),
+						380 + rec.x / 2, 32 + rec.y / 2, 16, 16, game);
+			}*/
+		
 		}
 		if (!hasLoadedMap)
 			getMaps();
@@ -187,6 +201,7 @@ public class ScreenLoadMap extends Screen {
 					game.setScreen(showingLevels ? new ScreenWaveMode(w,h,sheet,levels.get(selectedMap-1)) : new ScreenGame(w, h, sheet, maps
 							.get(selectedMap - 1)));
 				} else {
+					if((buttons.get(rec) < maps.size() && !showingLevels) || (buttons.get(rec) < levels.size() && showingLevels))
 					selectedMap = buttons.get(rec);
 				}
 				break;
