@@ -30,21 +30,20 @@ public class TriggerDoorToggle extends Trigger
 	{
 		//Is it an open door?
 		
-		System.out.println(sg.getTileAt(lx, ly).toString());
 		if(sg.getTileAt(lx, ly) == Tile.tiles[28] || sg.getTileAt(lx, ly) == Tile.tiles[30])
 		{
 			//Is it a vertical door?
-			if(sg.getTileAt(lx, ly) == Tile.tiles[28])
-				sg.setTileAtEnt(lx, ly, 29);
+			if(sg.getTileAt(lx, ly) == Tile.tiles[29])
+				sg.setTileAtEnt(lx, ly, 30);
 			else
-				sg.setTileAtEnt(lx, ly, 31);
+				sg.setTileAtEnt(lx, ly, 29);
 		}else //It must be a closed door
 		{
 			
 			if(sg.getTileAt(lx, ly) == Tile.tiles[29])
-				sg.setTileAtEnt(lx, ly, 28);
-			else
 				sg.setTileAtEnt(lx, ly, 30);
+			else
+				sg.setTileAtEnt(lx, ly, 29);
 		}
 		
 		
