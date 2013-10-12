@@ -73,7 +73,7 @@ public class ScreenMainMenu extends Screen {
 			game.setScreen(new ScreenIntro(w, h, sheet));
 			break;
 		case "Wave mode":
-			game.setScreen(new ScreenHighscore(w, h, sheet, -1));
+			game.setScreen(new ScreenHighscore(w, h, sheet, -1F));
 			break;
 		case "Map editor":
 			game.setScreen(new ScreenMapEditor(w, h, sheet));
