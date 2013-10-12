@@ -121,11 +121,12 @@ public class ScreenHighscore extends Screen
 		String scoreResponse = "";
 		try
 		{
-			String stats = "";
-			for(int i = 0; i < levelTimes.size(); i++)
+			String stats = levelTimes.get(0)/60+"";
+			for(int i = 1; i < levelTimes.size(); i++)
 			{
 				stats = stats+":"+levelTimes.get(i)/60;
 			}
+			System.out.println(stats);
 			scoreResponse = FileSaver.getURL("http://fightthetoast.co.uk/assets/scoreboard.php?type=UPDATE&name="+name+"&score="+score+"&stat="+stats);
 		} catch (Exception e)
 		{
