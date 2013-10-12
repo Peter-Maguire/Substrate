@@ -16,7 +16,7 @@ public class Player extends Entity {
 	private static final long serialVersionUID = -2248392686500480941L;
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 	private int orientation = 0, health = 20;
-	private int ammo = 5;
+	private int ammo = 0;
 	private ScreenGame game2;
 	public int ammocooldown = 0;
 
