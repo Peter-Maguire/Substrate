@@ -22,11 +22,14 @@ public class TileDoor extends Tile
 		if(active)
 		{
 			animStage++;
-			if(animStage == 4)
-				animStage = 0;
-			sprite = startSprite +(16 * animStage);
+			if(animStage >= 224)
+			{
+				sprite = 34;
+			}else
+			sprite = startSprite +(16 * (animStage/16));
+		}else
+		{
+			animStage = 0;
 		}
 	}
-
-
 }
