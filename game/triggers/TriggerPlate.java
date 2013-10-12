@@ -36,10 +36,24 @@ public class TriggerPlate extends Trigger implements Serializable{
 	
 		sprite = 1; 
 	}else	{
+		if(triggered)
+		{
+			onTriggerRelease(this);
+			triggered = false;
+		}
 		
-		triggered = false;
 		sprite = 0;
 	}
+	}
+
+	@Override
+	public void onTriggerRelease(Trigger trigger)
+	{
+	}
+
+	@Override
+	public void onTrigger(Trigger trigger)
+	{
 	}
 
 }

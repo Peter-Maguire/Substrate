@@ -35,4 +35,9 @@ public class TriggerGameWin extends Trigger{
 			sg.game.setScreen(new ScreenWin(800,600,sg.game.sheet,-9001));
 		}
 	}
+
+	@Override
+	public void onTriggerRelease(Trigger trigger)
+	{
+	}
 }

@@ -48,6 +48,11 @@ public class TriggerDoorToggle extends Trigger
 		
 		
 	}
+
+	@Override
+	public void onTriggerRelease(Trigger trigger)
+	{
+	}
 	
 
 }

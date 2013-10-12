@@ -6,7 +6,7 @@ import game.screen.ScreenGame;
 import java.awt.Graphics;
 import java.io.Serializable;
 
-public class Trigger implements Serializable{
+public abstract class Trigger implements Serializable{
 
 	
 	/**
@@ -35,11 +35,7 @@ public class Trigger implements Serializable{
 	{
 		
 	}
-	
 
-	
-	
-	
 	public void link(Trigger t)
 	{
 		linkedTrigger = t;
@@ -61,8 +57,6 @@ public class Trigger implements Serializable{
 	
 	public void render(Graphics g)
 	{
-		
-		
 	}
 	
 	public void trigger(int x, int y)
@@ -87,6 +81,8 @@ public class Trigger implements Serializable{
 		}
 	}
 	
-	public void onTrigger(Trigger trigger)
-	{}
+	
+	public abstract void onTriggerRelease(Trigger trigger);
+	public abstract void onTrigger(Trigger trigger);
+
 }

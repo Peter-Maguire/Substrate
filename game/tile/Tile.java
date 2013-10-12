@@ -58,12 +58,6 @@ public class Tile implements Serializable {
 		}
 		return 0; //No possible tile?
 	}
-	
-
-
-	
-
-	
 
 	public boolean isPassable() {
 		return canPassThrough;
