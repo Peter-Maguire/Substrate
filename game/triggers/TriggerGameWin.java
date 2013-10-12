@@ -30,10 +30,7 @@ public class TriggerGameWin extends Trigger{
 		{
 			ScreenWaveMode swm = (ScreenWaveMode)sg;
 			swm.wave++;
-		}else
-		{
-			sg.game.setScreen(new ScreenWin(800,600,sg.game.sheet,-9001));
-		}
+		}//TODO: This needs to work with other things
 	}
 
 	@Override

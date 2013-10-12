@@ -2,23 +2,20 @@ package game.screen;
 
 import game.Game;
 import game.Map;
-import game.entity.EntitySoldier;
 import game.entity.Player;
-import game.pathfinding.grid.GridMap;
-import game.tile.Tile;
 import game.utils.FileSaver;
 import game.utils.SpriteSheet;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 
 public class ScreenWaveMode extends ScreenGame {
 
 	public int wave = 1, lastwave = 0, 
 			noticetimer = 0, timetaken = 0;
+	private ArrayList<Integer> levelTimes = new ArrayList<Integer>();
 
 
 	public ScreenWaveMode(int width, int height, SpriteSheet sheet, Map mapfile) {
@@ -75,6 +72,8 @@ public class ScreenWaveMode extends ScreenGame {
 		deinit();
 		if(nwave == 1)
 			timetaken = 0;
+		else
+			levelTimes.add(timetaken);
 			
 		File f = new File(FileSaver.getCleanPath()+"\\maps\\Level_"+nwave+".smf");
 		if(f.exists())
@@ -85,7 +84,7 @@ public class ScreenWaveMode extends ScreenGame {
 		{
 			System.out.println("Unable to load level "+nwave+" wave "+wave);
 			Game.log("Game won.");
-			 game.setScreen(new ScreenWin(w,h,sheet, timetaken/60));
+			 game.setScreen(new ScreenWin(w,h,sheet, timetaken/60, levelTimes));
 		}
 		player = null;
 

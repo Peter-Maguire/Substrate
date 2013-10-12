@@ -5,16 +5,19 @@ import game.utils.SpriteSheet;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 public class ScreenWin extends Screen{
 
 	
 	private float timeTaken = 0.0F;
+	private ArrayList<Integer> levelTimes;
 	
-	public ScreenWin(int width, int height, SpriteSheet sheet, int timeTaken) {
+	public ScreenWin(int width, int height, SpriteSheet sheet, int timeTaken, ArrayList<Integer> levelTimes) {
 		super(width, height, sheet);
 		System.out.println(timeTaken);
 		this.timeTaken = timeTaken/60f;
+		this.levelTimes = levelTimes;
 		addButton("highscore", new Rectangle(550, 520, 200, 50));
 	}
 	
@@ -26,6 +29,13 @@ public class ScreenWin extends Screen{
 		game.getFontRenderer().drawString("and it only took you\n     "+timeTaken+" minutes!", 475, 470, 2);
 		
 		ScreenTools.drawButton(550, 520, 200, 50, "Submit Time", g, game);
+		
+		for(int i = 0; i < levelTimes.size(); i++)
+		{
+			int j = levelTimes.get(i);
+			game.getFontRenderer().drawString("Level "+i+":"+j/60+" seconds.", 475, 20+(32*i), 2);
+			
+		}
 	}
 	
 	@Override
@@ -33,7 +43,7 @@ public class ScreenWin extends Screen{
 	{
 		if(name == "highscore")
 		{
-			game.setScreen(new ScreenHighscore(w, h, sheet, timeTaken));
+			game.setScreen(new ScreenHighscore(w, h, sheet, timeTaken, levelTimes));
 		}
 	}
 

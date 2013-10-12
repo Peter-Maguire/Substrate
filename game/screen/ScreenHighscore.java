@@ -9,8 +9,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
-
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardDownRightHandler;
+import java.util.ArrayList;
 
 public class ScreenHighscore extends Screen
 {
@@ -24,13 +23,16 @@ public class ScreenHighscore extends Screen
 	private boolean hasSubmittedScore = false;
 	private boolean scoreFailed = false;
 	private DecimalFormat df = new DecimalFormat("#.##");
+	private ArrayList<Integer> levelTimes;
 
-	public ScreenHighscore(int width, int height, SpriteSheet sheet, float score)
+	public ScreenHighscore(int width, int height, SpriteSheet sheet, float score, ArrayList<Integer> levelTimes)
 	{
 		super(width, height, sheet);
+		this.score = Float.valueOf(df.format(score));
+		this.levelTimes = levelTimes;
+		
 		addButton("focusBox", new Rectangle(150, 520, 400, 40));
 		addButton("submitScore", new Rectangle(553, 521, 100, 40));
-		this.score = Float.valueOf(df.format(score));
 	}
 	
 	@Override
@@ -119,7 +121,12 @@ public class ScreenHighscore extends Screen
 		String scoreResponse = "";
 		try
 		{
-			scoreResponse = FileSaver.getURL("http://fightthetoast.co.uk/assets/scoreboard.php?type=UPDATE&name="+name+"&score="+score);
+			String stats = "";
+			for(int i = 0; i < levelTimes.size(); i++)
+			{
+				stats = stats+":"+levelTimes.get(i)/60;
+			}
+			scoreResponse = FileSaver.getURL("http://fightthetoast.co.uk/assets/scoreboard.php?type=UPDATE&name="+name+"&score="+score+"&stat="+stats);
 		} catch (Exception e)
 		{
 			e.printStackTrace();
