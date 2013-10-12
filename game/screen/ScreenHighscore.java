@@ -72,6 +72,7 @@ public class ScreenHighscore extends Screen
 					game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2);
 					game.getFontRenderer().drawString("-", 430,140 + 32 * i, 2);
 					game.getFontRenderer().drawString(scores[i]+"", 500,140 + 32 * i, 2);
+					game.getFontRenderer().drawString("seconds", 540,145 + 32 * i, 1);
 				}
 				
 			}
@@ -134,6 +135,12 @@ public class ScreenHighscore extends Screen
 		
 		if(action.equals("submitScore"))
 		{
+			if(typedText.length() == 0)
+			{
+				isTextFocused = !isTextFocused;
+				return;
+			}
+				
 			name = typedText;
 			if(submitHighscore(name, score))
 			{
