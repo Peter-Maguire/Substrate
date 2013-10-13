@@ -17,6 +17,7 @@ public class Player extends Entity {
 	public static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 	private int orientation = 0, health = 20;
 	private int ammo = 0;
+	public int hurtTimer = 0;
 	private ScreenGame game2;
 	public int ammocooldown = 0;
 
@@ -105,7 +106,16 @@ public class Player extends Entity {
 		if (ammocooldown > 256) {
 			ammocooldown = 0;
 		}
+		if(hurtTimer > 0)
+			hurtTimer--;
 
+	}
+	
+	public void hurt(int amount)
+	{
+		if(hurtTimer != 0)return;
+		hurtTimer = 10 * amount;
+		health -= amount;
 	}
 
 	public void keyPressed(KeyEvent e) {

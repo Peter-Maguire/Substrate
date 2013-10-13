@@ -30,7 +30,7 @@ public class TriggerGameWin extends Trigger{
 		{
 			ScreenWaveMode swm = (ScreenWaveMode)sg;
 			swm.wave++;
-		}//TODO: This needs to work with other things
+		}//TODO: This needs to work outside of level mode
 	}
 
 	@Override

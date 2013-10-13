@@ -195,6 +195,7 @@ public class ScreenGame extends Screen
 			if(drawDebugBoxes)
 			g.drawRect(e.x , e.y, 32, 32);
 		}
+		
 		if (game.settings.getSetting("Debug").equals("ON") && player != null) {
 			game.getFontRenderer().drawString(
 					"DX:" + velx + " DY:" + vely + " SX:" + xScroll + " SY:"
@@ -228,6 +229,13 @@ public class ScreenGame extends Screen
 				game.getFontRenderer().drawString("" + player.ammocooldown / 60,32 + (32 * player.getAmmo()), game.getHeight() - 30, 1);
 			}
 		}
+		
+		if(player.hurtTimer > 0)
+		{
+			g.setColor(new Color(255,0,0,40+player.hurtTimer));
+			g.fillRect(0, 0, 800, 600);
+		}
+		
 	}
 
 	@Override
