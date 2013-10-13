@@ -21,6 +21,7 @@ import game.triggers.TriggerBullet;
 import game.triggers.TriggerDoorToggle;
 import game.triggers.TriggerGameWin;
 import game.triggers.TriggerPlate;
+import game.triggers.TriggerTimer;
 import game.utils.FileSaver;
 import game.utils.MathHelper;
 import game.utils.SpriteSheet;
@@ -33,7 +34,6 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -102,6 +102,7 @@ public class ScreenMapEditor extends Screen {
 		triggerRegistry.add(new TriggerDoorToggle());
 		triggerRegistry.add(new TriggerBullet());
 		triggerRegistry.add(new TriggerAND());
+		triggerRegistry.add(new TriggerTimer());
 
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
@@ -602,8 +603,7 @@ public class ScreenMapEditor extends Screen {
 				openMenu = MENU_TRIGGER;
 				int i = 0;
 				for (Trigger t : triggerRegistry) {
-					addButton("" + i,
-							new Rectangle(112 + (42 * i), 434, 32, 32));
+					addButton("" + i,new Rectangle(112 + (42 * i), 434, 32, 32));
 					i++;
 				}
 			}
