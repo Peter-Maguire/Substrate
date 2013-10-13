@@ -14,6 +14,7 @@ public class TileDoor extends Tile
 		startSprite = sprite + 16;
 		this.active = active;
 		this.vertical = vertical;
+		this.canPassThrough = active;
 
 	}
 
@@ -21,15 +22,15 @@ public class TileDoor extends Tile
 	public void tick() {
 		if(active)
 		{
-			animStage++;
-			if(animStage >= 224)
+			System.out.println(animStage);
+			if(animStage >= 220)
 			{
 				sprite = 34;
 			}else
-			sprite = startSprite +(16 * (animStage/16));
-		}else
-		{
-			animStage = 0;
+			{
+				animStage++;
+				sprite = startSprite + (16 * (animStage/16));
+			}
 		}
 	}
 }
