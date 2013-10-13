@@ -7,6 +7,7 @@ import game.entity.EntityAmmo;
 import game.entity.EntityBox;
 import game.entity.EntityCloud;
 import game.entity.EntityExplosion;
+import game.entity.EntityMetalBox;
 import game.entity.EntitySign;
 import game.entity.Player;
 import game.mapeditor.tools.Tool;
@@ -15,6 +16,8 @@ import game.mapeditor.tools.ToolPencil;
 import game.mapeditor.tools.ToolReplace;
 import game.tile.Tile;
 import game.triggers.Trigger;
+import game.triggers.TriggerAND;
+import game.triggers.TriggerBullet;
 import game.triggers.TriggerDoorToggle;
 import game.triggers.TriggerGameWin;
 import game.triggers.TriggerPlate;
@@ -88,6 +91,7 @@ public class ScreenMapEditor extends Screen {
 		toolRegistry.add(new ToolReplace("Replacer", 0));
 		toolRegistry.add(new ToolBox("Rectangle", 6));
 		entityRegistry.add(new EntityBox());
+		entityRegistry.add(new EntityMetalBox());
 		entityRegistry.add(new EntityAmmo());
 		entityRegistry.add(new EntityExplosion());
 		entityRegistry.add(new EntitySign());
@@ -96,6 +100,8 @@ public class ScreenMapEditor extends Screen {
 		triggerRegistry.add(new TriggerPlate());
 		triggerRegistry.add(new TriggerGameWin());
 		triggerRegistry.add(new TriggerDoorToggle());
+		triggerRegistry.add(new TriggerBullet());
+		triggerRegistry.add(new TriggerAND());
 
 		addButton("selectTile", new Rectangle(10, 520, 64, 64));
 		addButton("selectTool", new Rectangle(104, 520, 64, 64));
