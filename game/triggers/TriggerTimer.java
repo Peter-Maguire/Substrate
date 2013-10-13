@@ -20,7 +20,7 @@ public class TriggerTimer extends Trigger
 	@Override
 	public void tick()
 	{
-		if(timer > 60)
+		if(timer > 240)
 		{
 			timer = 0;
 			trigger();
