@@ -92,6 +92,7 @@ public class EntityBullet extends Entity {
 		}
 		if (e instanceof EntityBox) { 
 			this.forRemoval = true;
+			if(!(e instanceof EntityMetalBox))
 			e.forRemoval = true;
 			game.spawnEntity(new EntityExplosion(game, x - 4, y - 2, 2));
 		}
