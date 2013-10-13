@@ -596,15 +596,16 @@ public class ScreenMapEditor extends Screen {
 				openMenu = MENU_NONE;
 				int i = 0;
 				for (Trigger t : triggerRegistry) {
-					removeButton(new Rectangle(112 + (42 * i), 434, 32, 32));
+					removeButton(new Rectangle(308 + (42 * i), 436, 32, 32));
 					i++;
 				}
 			} else {
 				openMenu = MENU_TRIGGER;
 				int i = 0;
 				for (Trigger t : triggerRegistry) {
-					addButton("" + i,new Rectangle(112 + (42 * i), 434, 32, 32));
+					addButton("" + i,new Rectangle(308 + (42 * i), 436, 32, 32));
 					i++;
+					
 				}
 			}
 
@@ -659,7 +660,6 @@ public class ScreenMapEditor extends Screen {
 		}
 		if(openMenu == MENU_TRIGGER)
 		{
-			System.out.println("SETTING TRIGGER "+name);
 			currentTrigger = triggerRegistry.get(Integer.parseInt(name));
 			for (Trigger t : triggerRegistry) {
 				removeButton(new Rectangle(112 + (42 * i), 434, 32, 32));
