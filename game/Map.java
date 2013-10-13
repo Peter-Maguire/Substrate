@@ -53,7 +53,6 @@ public class Map implements Serializable {
 	 * @return null if no tile
 	 */
 	public static Tile getTileAt(Map map, int x, int y) {
-	
 		return getTileAt(map.tiles, x, y);
 	}
 	
