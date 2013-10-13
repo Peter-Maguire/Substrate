@@ -40,7 +40,15 @@ public class Tile implements Serializable {
 			new TileDoor(true, true),
 			new TileDoor(false, true),
 			new TileDoor(true, false),
-			new TileDoor(false, false)};
+			new TileDoor(false, false),
+			new TileDispenser(0, false),
+			new TileDispenser(0, true),
+			new TileDispenser(1, false),
+			new TileDispenser(1, true),
+			new TileDispenser(2, false),
+			new TileDispenser(2, true),
+			new TileDispenser(3, false),
+			new TileDispenser(3, true)};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;
