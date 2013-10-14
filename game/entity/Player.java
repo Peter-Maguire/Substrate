@@ -35,7 +35,7 @@ public class Player extends Entity {
 	@Override
 	public boolean tryMoveEntity(int x, int y) {
 
-		if (x == 1) // Player is moving forwards
+/*		if (x == 1) // Player is moving forwards
 		{
 			ArrayList<Entity> eib = game2
 					.getEntitiesInBox(new Rectangle(this.x + x - 10, this.y + y
@@ -49,6 +49,8 @@ public class Player extends Entity {
 				}
 			}
 		}
+		
+		
 		if (x == -1) // Player is moving backwards
 		{
 			ArrayList<Entity> eib = game2
@@ -90,7 +92,17 @@ public class Player extends Entity {
 					}
 				}
 			}
-		}
+		}*/
+		
+		ArrayList<Entity> eib = game2.getEntitiesInBox(new Rectangle(x == 1 ? this.x + - 9 : this.x - 24, y == 1 ?  this.y -4 : this.y - 24, Game.SIZE, Game.SIZE));
+			for (Entity e : eib) {
+				if (!(e instanceof Player)) {
+					e.onCollideWithPlayer(x, 0, this);
+					return false;
+				}
+			}
+
+		
 		super.tryMoveEntity(x, y);
 		return false;
 	}
