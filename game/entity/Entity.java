@@ -60,83 +60,13 @@ public class Entity implements Serializable {
 		if ((this.x + x) - Game.SCALE == Game.WIDTH
 				|| (this.y + y) - Game.SCALE == Game.HEIGHT)
 			return false;
-
-		Tile tile;
-		if (x == -1) { // If entity is moving backwards
-
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y);
-
-			if (tile == null)
-				return false;
-
-			if (tile.isPassable()) {
-
-				setPos(x + this.x, y + this.y);
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-
-		if (x == 1) // If entity is moving forwards
-		{
-
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y);
-
-			if (tile == null)
-				return false;
-
-			if (tile.isPassable()) {
-
-				setPos(x + this.x, y + this.y);
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-		if (y == -1) { // If entity is moving up
-
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y );
-
-			if (tile == null)
-				return false;
-
-			if (tile.isPassable()) {
-
-				setPos(x + this.x, y + this.y);
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-
-		if (y == 1) // If entity is moving down
-		{
-
-			tile = ((ScreenGame) game.currentScreen).getTileAt(this.x + x,
-					this.y );
-
-			if (tile == null)
-				return false;
-
-			if (tile.isPassable()) {
-
-				setPos(x + this.x, y + this.y);
-				return true;
-			} else {
-
-				return false;
-			}
-		}
-
-		return false;
-
+		Tile tile = ((ScreenGame) game.currentScreen).getTileAt(x == 1 ? this.x + 32 : this.x, y == 1 ?  this.y + 32 : this.y);
+		
+		if (tile != null && tile.isPassable()) {
+			setPos(x + this.x, y + this.y);
+			return true;
+		} else
+			return false;
 	}
 
 	public void onCollideWithPlayer(int x, int y, Player p) {
