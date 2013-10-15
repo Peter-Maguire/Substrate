@@ -57,8 +57,7 @@ public class Entity implements Serializable {
 
 		if (x == 0 && y == 0)
 			return false;
-		if ((this.x + x) - Game.SCALE == Game.WIDTH
-				|| (this.y + y) - Game.SCALE == Game.HEIGHT)
+		if ((this.x + x) - Game.SCALE == Game.WIDTH || (this.y + y) - Game.SCALE == Game.HEIGHT)
 			return false;
 		Tile tile = ((ScreenGame) game.currentScreen).getTileAt(x == 1 ? this.x + 32 : this.x, y == 1 ?  this.y + 32 : this.y);
 		
