@@ -60,10 +60,10 @@ public class ScreenOptions extends Screen {
 		debug = settings.get("Debug");
 		volume = Integer.parseInt(settings.get("Volume"));
 		gatherStats = settings.get("GatherStats");
-		mpMapPrev = settings.get("MapPreviews");
+		mpMapPrev = settings.get("SubmitTimes");
 		showTutorial = settings.get("HasDoneIntro");
 		showConsole = settings.get("Cheats");
-		advTilePlacement = settings.get("UseAdvancedTilePlacement");
+		advTilePlacement = settings.get("ExtendedDebug");
 		fontRecolouring = settings.get("UseFontRecolouring");
 	}
 
@@ -125,10 +125,9 @@ public class ScreenOptions extends Screen {
 			game.settings.setSetting("Volume", volume + "");
 			game.settings.setSetting("Sound", sound);
 			game.settings.setSetting("GatherStats", gatherStats);
-			game.settings.setSetting("MapPreviews", mpMapPrev);
+			game.settings.setSetting("SubmitTimes", mpMapPrev);
 			game.settings.setSetting("Cheats", showConsole);
-			game.settings.setSetting("UseAdvancedTilePlacement",
-					advTilePlacement);
+			game.settings.setSetting("ExtendedDebug",advTilePlacement);
 			game.settings.setSetting("UseFontRecolouring", fontRecolouring);
 			FileSaver.savePropertiesFile(game.settings.getSettings(),
 					FileSaver.getCleanPath() + "\\settings.txt");
@@ -169,10 +168,10 @@ public class ScreenOptions extends Screen {
 		ScreenTools.drawOnOffButton(550, 287, 90, 30, gatherStats, g, game);
 		ScreenTools.drawButton(642, 287, 25, 28, "? ", g, game);
 
-		game.getFontRenderer().drawString("Map previews", 100, 327, 2);
-		game.getFontRenderer().drawString("Multiplayer map previews", 300, 327,
+		game.getFontRenderer().drawString("Submit times", 100, 327, 2);
+		game.getFontRenderer().drawString("Should the game show", 300, 327,
 				1);
-		game.getFontRenderer().drawString("at the cost of RAM usage.", 300,
+		game.getFontRenderer().drawString("the highscore screen at all?", 300,
 				337, 1);
 		ScreenTools.drawOnOffButton(550, 327, 90, 30, mpMapPrev, g, game);
 
@@ -190,10 +189,10 @@ public class ScreenOptions extends Screen {
 				1);
 		ScreenTools.drawOnOffButton(550, 407, 90, 30, showConsole, g, game);
 
-		game.getFontRenderer().drawString("Adv Tile math", 100, 447, 2);
-		game.getFontRenderer().drawString("Use advanced tile placement,", 310,
+		game.getFontRenderer().drawString("Extended debug", 100, 447, 2);
+		game.getFontRenderer().drawString("More debug info but", 330,
 				447, 1);
-		game.getFontRenderer().drawString("more accurate but slower.", 310,
+		game.getFontRenderer().drawString("more intrusive.", 330,
 				457, 1);
 		ScreenTools
 				.drawOnOffButton(550, 447, 90, 30, advTilePlacement, g, game);

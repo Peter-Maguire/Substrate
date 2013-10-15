@@ -101,6 +101,7 @@ public class ScreenGame extends Screen
 	public void init(Game game)
 	{
 		Game.log("Initializing");
+		drawDebugBoxes = game.settings.getSetting("ExtendedDebug").equals("ON");
 		super.init(game);
 	}
 
@@ -234,6 +235,11 @@ public class ScreenGame extends Screen
 		{
 			g.setColor(new Color(255,0,0,40+player.hurtTimer));
 			g.fillRect(0, 0, 800, 600);
+		}
+		if(drawDebugBoxes)
+		{
+			game.getFontRenderer().drawString("PlYR", player.x, player.y, 1);
+			game.getFontRenderer().drawString("HEALTH: "+player.getHealth()+"\nAMMO: "+player.getAmmo(), 200, 540, 1);
 		}
 		
 	}
