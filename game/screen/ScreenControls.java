@@ -12,7 +12,6 @@ public class ScreenControls extends Screen {
 
 	public ScreenControls(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

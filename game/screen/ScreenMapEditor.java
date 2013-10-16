@@ -274,14 +274,10 @@ public class ScreenMapEditor extends Screen {
 		drawTriggerSelection(298,520,currentTrigger.sprite, "Trigger", g);
 		g.drawImage(game.sheetUI.getImage(2), 760, 515, 32, 32, game);
 		g.drawImage(game.sheetUI.getImage(3), 760, 547, 32, 32, game);
-		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,
-				game);
-		g.drawImage(game.sheetUI.getImage(snapToGrid ? 21 : 22), 685, 579, 32, 32,
-				game);
-		g.drawImage(game.sheetUI.getImage(linkmode == 0 ? showTriggers ? 23 : 24 : 25), 723, 579, 32, 32,
-				game);
+		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,game);
+		g.drawImage(game.sheetUI.getImage(snapToGrid ? 21 : 22), 685, 579, 32, 32,game);
+		g.drawImage(game.sheetUI.getImage(linkmode == 0 ? showTriggers ? 23 : 24 : 25), 723, 579, 32, 32,game);
 		
-	
 		g.setColor(Color.BLACK);
 		g.drawRect(685, 520, 32, 32);
 		g.drawRect(685, 579, 32, 32);
@@ -291,15 +287,7 @@ public class ScreenMapEditor extends Screen {
 		g.setColor(new Color(0, 0, 0, 135));
 		g.fillRect(685, 520, 33, 32);
 		
-	/*	if(mode == MODE_TRIGGER)
-		{
-			
-		}*/ //FIXME: What is this doing here?
-	
-		
-		
-		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : "TRIG", 685,
-				527, 1);
+		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : "TRIG", 685,527, 1);
 		game.getFontRenderer().drawString("MODE", 685, 537, 1);
 		if (openMenu == MENU_TILE) {
 			drawMenuBox(10, 320, 400, 200, g);
@@ -310,8 +298,7 @@ public class ScreenMapEditor extends Screen {
 				g.drawRect(13 + (42 * x), 225 + (42 * y), 33, 34);
 				g.setColor(new Color(0, 0, 0, 135));
 				g.fillRect(13 + (42 * x), 225 + (42 * y), 33, 34);
-				g.drawImage(game.sheetTiles.getImage(t.sprite), 14 + (42 * x),
-						227 + (42 * y), 32, 32, game);
+				g.drawImage(game.sheetTiles.getImage(t.sprite), 14 + (42 * x),227 + (42 * y), 32, 32, game);
 				x++;
 				if (45 * x > 400) {
 					y++;
@@ -605,7 +592,6 @@ public class ScreenMapEditor extends Screen {
 				for (Trigger t : triggerRegistry) {
 					addButton("" + i,new Rectangle(308 + (42 * i), 436, 32, 32));
 					i++;
-					
 				}
 			}
 
@@ -702,18 +688,14 @@ public class ScreenMapEditor extends Screen {
 	}
 
 	private void saveMap() {
-		JFileChooser fileChooser = new JFileChooser(new File(
-				FileSaver.getCleanPath() + "/maps/"));
+		JFileChooser fileChooser = new JFileChooser(new File(FileSaver.getCleanPath() + "/maps/"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Substrate Map File", "smf");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Substrate Map File", "smf");
 		fileChooser.setFileFilter(filter);
 		if (fileChooser.showSaveDialog(new JFrame("Save")) == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
 
-			Map savedMap = new Map(file.getName().replace("_", " ")
-					.replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,
-					FileSaver.entityToSerial(entities), triggers);
+			Map savedMap = new Map(file.getName().replace("_", " ").replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,FileSaver.entityToSerial(entities), triggers);
 			savedMap.isLevel = true;
 			savedMap.isLocked = false;
 

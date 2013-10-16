@@ -9,7 +9,6 @@ public class ScreenLoading extends Screen {
 
 	public ScreenLoading(int width, int height, SpriteSheet sheet) {
 		super(width, height, sheet);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

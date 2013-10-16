@@ -67,13 +67,13 @@ public class ScreenIntro extends Screen {
 				game.getFontRenderer().drawString(
 						"There are a number of bugs in this game!", 10, 30, 2);
 				game.getFontRenderer().drawString(
-						"Collision detection is not yet working on the +x", 10,
+						"If you find any please send the stacktrace", 10,
 						50, 2);
 				game.getFontRenderer().drawString(
-						"and -y directions! If you find any others, let me ",
+						"from the screen or the console to",
 						10, 70, 2);
 				game.getFontRenderer().drawString(
-						"know! NOTE: This game should run at 60 FPS.", 10, 90,
+						"/u/UnacceptableUse or on github.", 10, 90,
 						2);
 			}
 

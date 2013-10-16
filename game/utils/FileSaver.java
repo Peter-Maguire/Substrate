@@ -400,6 +400,7 @@ public class FileSaver {
 	 * @return Working directory
 	 */
 	public static String getCleanPath() { 
+		//return System.getenv("APPDATA")+"/Substrate/";
 		return new File(FileSaver.class.getProtectionDomain().getCodeSource()
 				.getLocation().getPath()).getAbsolutePath();
 	}

@@ -160,16 +160,13 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("Cheats", "OFF");
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
-			SETTINGS.put("MapPreviews", "ON");
-			SETTINGS.put("UseAdvancedTilePlacement", "ON");
+			SETTINGS.put("SubmitTimes", "ON");
+			SETTINGS.put("ExtendedDebug", "ON");
 			SETTINGS.put("UseFontRecolouring", "ON");
-			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()
-					+ "\\settings.txt");
+			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+ "\\settings.txt");
 		} else {
 			log("Found settings.dat, loading...");
-			SETTINGS = FileSaver
-					.readPropertiesFile(FileSaver.getCleanPath()
-							+ "\\settings.txt");
+			SETTINGS = FileSaver.readPropertiesFile(FileSaver.getCleanPath()+ "\\settings.txt");
 			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
 				String setting = (String) SETTINGS.keySet().toArray()[i];
 				String value = SETTINGS.get(setting);
@@ -281,12 +278,12 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		if (SETTINGS.get("GatherStats").equals("ON")) {
 			try
 			{
-//				FileSaver.getURL("http://assets.fightthetoast.co.uk/stats.php?OS="
-//										+ System.getProperty("os.name") + "_"
-//										+ System.getProperty("os.version")
-//										+ "&GameVersion=" + Game.VERSION
-//										+ "&JavaVersion="
-//										+ System.getProperty("java.version"));
+				FileSaver.getURL("http://fightthetoast.co.uk/assets/stats.php?os="
+										+ URLEncoder.encode(System.getProperty("os.name"), "UTF-8") + "_"
+										+ System.getProperty("os.version")
+										+ "&game=" + Game.VERSION
+										+ "&java="
+										+ System.getProperty("java.version"));
 				log("Stats sending disabled");
 			} catch (Exception e)
 			{

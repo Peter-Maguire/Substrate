@@ -21,7 +21,7 @@ public class ScreenLoadMap extends Screen {
 	private ArrayList<Map> maps = new ArrayList<Map>(), levels = new ArrayList<Map>();
 	private HashMap<Rectangle, Integer> buttons = new HashMap<Rectangle, Integer>();
 	private int selectedMap = 1;
-	private boolean hasLoadedMap = false, showingLevels = false;
+	private boolean hasLoadedMap = false, showingLevels = true;
 	private int lastWidth = 0, lastHeight = 0;
 	
 
@@ -37,7 +37,7 @@ public class ScreenLoadMap extends Screen {
 		{
 			lastWidth = game.getWidth();
 			lastHeight = game.getHeight();
-			//XXX: Why am I using two button arrays?
+			//FIXME: Why am I using two button arrays?
 			buttons.clear();
 			clearButtons();
 			System.out.println("Registering buttons...");
