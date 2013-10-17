@@ -41,19 +41,20 @@ public class ScreenLoadMap extends Screen {
 			//FIXME: Why am I using two button arrays?
 			buttons.clear();
 			clearButtons();
-			System.out.println("Registering buttons...");
+			Game.log("Registering buttons...");
 			buttons.put(new Rectangle(431, game.getHeight()-130, 300, 52), -1);
 			addButton("modeLevels", new Rectangle(32,game.getHeight()-50,100,32));
 			addButton("modeCustom", new Rectangle(232,game.getHeight()-50,100,32));
+			Game.log("Loading maps...");
 			try{
-			String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
+			String[] files = new File(FileSaver.getCleanPath() + "/maps/").list();
 			int j = 0;
 			for (String s : files) {
 				File tf = new File(s);
 				if (tf.getName().contains(".smf")) {
 					j++;
 					Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
-							+ "\\maps\\" + s);
+							+ "/maps/" + s);
 					if(m.name.startsWith("Level_") && showingLevels)
 					{
 						buttons.put(new Rectangle(41, 4 + (60 * j), 280, 49), j);
@@ -179,19 +180,16 @@ public class ScreenLoadMap extends Screen {
 
 	private void getMaps() {
 		try{
-		String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
+		String[] files = new File(FileSaver.getCleanPath() + "/maps/").list();
 		for (String s : files) {
 			File tf = new File(s);
 			if (tf.getName().contains(".smf")) {
 				j++;
-				Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
-						+ "\\maps\\" + s);
+				Map m = FileSaver.loadMapFile(FileSaver.getCleanPath()+ "/maps/" + s);
 				
 				if(m.isLevel)
 				{
-
 					levels.add(m);
-					//maps.add(m);
 				}
 				else
 				{

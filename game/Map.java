@@ -16,7 +16,7 @@ public class Map implements Serializable {
 	 */
 	private static final long serialVersionUID = 6213525753733162443L;
 
-	public String name = "Untitled", desc = "Untitled Map", version = "v0.0.0";
+	public String name = "Corrupted map", desc = "This map is corrupted", version = "v0.0.0";
 	public boolean isLocked = true, isLevel = false;
 
 	//public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
