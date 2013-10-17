@@ -401,8 +401,9 @@ public class FileSaver {
 	 */
 	public static String getCleanPath() { 
 		//return System.getenv("APPDATA")+"/Substrate/";
-		return new File(FileSaver.class.getProtectionDomain().getCodeSource()
-				.getLocation().getPath()).getAbsolutePath();
+		/*return new File(FileSaver.class.getProtectionDomain().getCodeSource()
+				.getLocation().getPath()).getAbsolutePath();*/
+		return "./";
 	}
 
 }

@@ -23,6 +23,7 @@ public class ScreenLoadMap extends Screen {
 	private int selectedMap = 1;
 	private boolean hasLoadedMap = false, showingLevels = true;
 	private int lastWidth = 0, lastHeight = 0;
+	private String failed;
 	
 
 	public ScreenLoadMap(int width, int height, SpriteSheet sheet) {
@@ -44,6 +45,7 @@ public class ScreenLoadMap extends Screen {
 			buttons.put(new Rectangle(431, game.getHeight()-130, 300, 52), -1);
 			addButton("modeLevels", new Rectangle(32,game.getHeight()-50,100,32));
 			addButton("modeCustom", new Rectangle(232,game.getHeight()-50,100,32));
+			try{
 			String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
 			int j = 0;
 			for (String s : files) {
@@ -62,6 +64,11 @@ public class ScreenLoadMap extends Screen {
 					}
 				}
 			}
+			}catch(Exception e)
+			{
+				failed = FileSaver.getStackTrace(e);
+			}
+			
 			
 		}
 		
@@ -161,13 +168,18 @@ public class ScreenLoadMap extends Screen {
 			}*/
 		
 		}
+		if(failed != null)
+		{
+			ScreenTools.drawButton(100, 200, 600, 300, "FATAL ERROR LOADING MAPS. STACKTRACE: \n "+failed+"\n Can substrate access folder?", g, game, new Color(155,0,0), new Color(255,255,255,255));
+		}
+		
 		if (!hasLoadedMap)
 			getMaps();
 	}
 
 	private void getMaps() {
+		try{
 		String[] files = new File(FileSaver.getCleanPath() + "\\maps\\").list();
-		int j = 0;
 		for (String s : files) {
 			File tf = new File(s);
 			if (tf.getName().contains(".smf")) {
@@ -188,6 +200,10 @@ public class ScreenLoadMap extends Screen {
 			}
 		}
 		hasLoadedMap = true;
+		}catch(Exception e)
+		{
+			failed = FileSaver.getStackTrace(e);
+		}
 	}
 
 	@Override
