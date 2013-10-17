@@ -163,10 +163,10 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("SubmitTimes", "ON");
 			SETTINGS.put("ExtendedDebug", "ON");
 			SETTINGS.put("UseFontRecolouring", "ON");
-			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+ "\\settings.txt");
+			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+ "/settings.txt");
 		} else {
 			log("Found settings.dat, loading...");
-			SETTINGS = FileSaver.readPropertiesFile(FileSaver.getCleanPath()+ "\\settings.txt");
+			SETTINGS = FileSaver.readPropertiesFile(FileSaver.getCleanPath()+ "/settings.txt");
 			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
 				String setting = (String) SETTINGS.keySet().toArray()[i];
 				String value = SETTINGS.get(setting);
@@ -187,7 +187,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			console = new ConsoleWindow(this);
 		}
 
-		f = new File(FileSaver.getCleanPath() + "\\maps\\");
+		f = new File(FileSaver.getCleanPath() + "/maps/");
 		if (!f.exists()) {
 			log("Creating directory " + f.getAbsolutePath());
 			f.mkdirs();
@@ -284,7 +284,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 										+ "&game=" + Game.VERSION
 										+ "&java="
 										+ System.getProperty("java.version"));
-				log("Stats sending disabled");
+				log("Stat sending successful!");
 			} catch (Exception e)
 			{
 				log("Unable to send statistics...");
