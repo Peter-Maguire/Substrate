@@ -2,7 +2,6 @@ package game.console.command;
 
 import game.Game;
 import game.entity.Entity;
-import game.entity.EntitySoldier;
 import game.screen.ScreenWaveMode;
 
 public class CommandWave extends Command {
@@ -39,19 +38,7 @@ public class CommandWave extends Command {
 				return;
 			}
 			
-			if (args[1].contains("speed")) {
-				int newvalue = Integer.parseInt(args[2]);
-				for(Entity e : ((ScreenWaveMode)game.currentScreen).entities)
-				{
-					if(e instanceof EntitySoldier)
-					{
-						((EntitySoldier) e).speed = newvalue;
-					}
-				}
-				Game.log("Done");
-				return;
-
-			}
+			
 			Game.log("Invalid command");
 
 		}
