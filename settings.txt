@@ -6,6 +6,7 @@ SubmitTimes: ON
 Volume: 100
 Music: OFF
 Sound: OFF
+ExperimentalFont: OFF
 Debug: ON
 ExtendedDebug: ON
 HasDoneIntro: ON

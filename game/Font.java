@@ -13,15 +13,14 @@ public class Font {
 	String font = 
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
   + "0123456789!?/\\\"()#><|{}%"
-  + "+-.,:";
+  + "+-.,:abcdefghijklmnopqrstu"
+  + "vwxyz";
 
 	/*String font = 
-			" !\"#$%&'()*+,-./0123456789:;<=>?"
-		  + "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
-		  + "'abcdefghijklmnopqrstuvwxyz{|}~~";*/
+			  "ABCDEFGHIJKLMNOPQR\\TUVWXYZ[\\]^_'abcdefghxjklmnopqSstuvwxyz(|)";*/
+
 
 	private BufferedImage fontsheet;
-	private BufferedImage[] chars;
 	private Graphics g;
 	private Game game;
 	private int charWidth = 8, charHeight = 8;
@@ -32,23 +31,22 @@ public class Font {
 		this.g = g;
 		this.setFontsheet(fontsheet);
 
-		chars = new BufferedImage[fontsheet.getHeight() * fontsheet.getWidth()];
-
 		int rows = fontsheet.getWidth() / charWidth;
 		int cols = fontsheet.getHeight() / charHeight;
 
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
+		for (int i = 0; i <= rows; i++) {
+			for (int j = 0; j <= cols; j++) {
 				int loc = (i * cols) +  j;
-				//chars[loc] = fontsheet.getSubimage(j * 8, i * 8, 6, 8);
 				if (loc + 1 <= font.length()) {
 					try{
-						
 					chars2.put(String.valueOf(font.charAt(loc)),
 							fontsheet.getSubimage(j * charWidth, i * charHeight, charWidth, charHeight));
+					
 					}catch(RasterFormatException e)
 					{
-						System.err.println("RASTA FORMAT EXCEPTION");
+						System.out.println(rows+"x"+cols);
+						System.out.println(j+" : "+i+" ("+j*charWidth+","+i*charHeight+")");
+					//	e.printStackTrace();
 					}
 				}
 
@@ -75,6 +73,7 @@ public class Font {
 	}
 
 	public void drawString(String text, int x, int y, int size, Color colour) {
+		if(game.settings.getSetting("ExperimentalFont").equals("ON"))
 		text = text.toUpperCase();
 		int cy = y, ci = 0;
 		for (int i = 0; i < text.length(); i++) {

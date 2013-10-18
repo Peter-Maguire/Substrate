@@ -160,7 +160,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("Cheats", "OFF");
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
-			SETTINGS.put("SubmitTimes", "ON");
+			SETTINGS.put("ExperimentalFont", "ON");
 			SETTINGS.put("ExtendedDebug", "ON");
 			SETTINGS.put("UseFontRecolouring", "ON");
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+ "/settings.txt");
@@ -256,7 +256,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		}
 		
 		try {
-			font = new Font(ImageIO.read(Game.class.getResource("/res/font.png")), strategy.getDrawGraphics(),
+			font = new Font(ImageIO.read(Game.class.getResource("/res/simple_6x8.png")), strategy.getDrawGraphics(),
 					this);
 		} catch (IOException e1) {
 			log("Unable to load font.");

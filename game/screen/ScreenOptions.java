@@ -35,14 +35,15 @@ public class ScreenOptions extends Screen {
 
 		addButton("launchStats", new Rectangle(642, 287, 25, 28));
 
-		addButton("save", new Rectangle(292, 547, 95, 28));
+		addButton("saveExit", new Rectangle(292, 547, 95, 28));
 		addButton("cancel", new Rectangle(392, 547, 120, 28));
 
 	}
 
 	@Override
 	public void tick() {
-
+			game.settings.setSetting("Debug", debug);
+			game.settings.setSetting("ExperimentalFont", mpMapPrev);
 	}
 
 	@Override
@@ -60,7 +61,7 @@ public class ScreenOptions extends Screen {
 		debug = settings.get("Debug");
 		volume = Integer.parseInt(settings.get("Volume"));
 		gatherStats = settings.get("GatherStats");
-		mpMapPrev = settings.get("SubmitTimes");
+		mpMapPrev = settings.get("ExperimentalFont");
 		showTutorial = settings.get("HasDoneIntro");
 		showConsole = settings.get("Cheats");
 		advTilePlacement = settings.get("ExtendedDebug");
@@ -125,14 +126,18 @@ public class ScreenOptions extends Screen {
 			game.settings.setSetting("Volume", volume + "");
 			game.settings.setSetting("Sound", sound);
 			game.settings.setSetting("GatherStats", gatherStats);
-			game.settings.setSetting("SubmitTimes", mpMapPrev);
+			game.settings.setSetting("ExperimentalFont", mpMapPrev);
 			game.settings.setSetting("Cheats", showConsole);
 			game.settings.setSetting("ExtendedDebug",advTilePlacement);
 			game.settings.setSetting("UseFontRecolouring", fontRecolouring);
-			FileSaver.savePropertiesFile(game.settings.getSettings(),
-					FileSaver.getCleanPath() + "\\settings.txt");
-			game.setScreen(new ScreenMainMenu(w, h, sheet));
+			FileSaver.savePropertiesFile(game.settings.getSettings(),FileSaver.getCleanPath() + "settings.txt");
 
+		}
+		
+		if(action.equals("saveExit"))
+		{
+			postAction("save");
+			game.setScreen(new ScreenMainMenu(w, h, sheet));
 		}
 		if (action.equals("cancel")) {
 			game.setScreen(new ScreenMainMenu(w, h, sheet));
@@ -162,25 +167,23 @@ public class ScreenOptions extends Screen {
 		ScreenTools.drawButton(702, 238, 25, 30, "> ", g, game);
 
 		game.getFontRenderer().drawString("Gather stats", 100, 287, 2);
-		game.getFontRenderer()
-				.drawString("Should the game gather", 300, 287, 1);
+		game.getFontRenderer().drawString("Should the game gather", 300, 287, 1);
 		game.getFontRenderer().drawString("anonymous statistics?", 300, 297, 1);
 		ScreenTools.drawOnOffButton(550, 287, 90, 30, gatherStats, g, game);
 		ScreenTools.drawButton(642, 287, 25, 28, "? ", g, game);
 
-		game.getFontRenderer().drawString("Submit times", 100, 327, 2);
-		game.getFontRenderer().drawString("Should the game show", 300, 327,
+		game.getFontRenderer().drawString("Experimental Font", 100, 327, 2);
+		game.getFontRenderer().drawString("Weird looking font", 380, 327,
 				1);
-		game.getFontRenderer().drawString("the highscore screen at all?", 300,
+		game.getFontRenderer().drawString("that is not finished?", 380,
 				337, 1);
-		ScreenTools.drawOnOffButton(550, 327, 90, 30, mpMapPrev, g, game);
+		ScreenTools.drawOnOffButton(550, 327, 90, 30, mpMapPrev.equals("OFF") ? "ON" : "OFF", g, game);
 
 		game.getFontRenderer().drawString("Show tutorial", 100, 367, 2);
 		game.getFontRenderer().drawString("Watch the tutorial again", 310, 367,
 				1);
-		game.getFontRenderer()
-				.drawString("turns off after 1 use.", 310, 377, 1);
-		ScreenTools.drawOnOffButton(550, 367, 90, 30, showTutorial, g, game);
+		game.getFontRenderer().drawString("turns off after 1 use.", 310, 377, 1);
+		ScreenTools.drawOnOffButton(550, 367, 90, 30, showTutorial.equals("OFF") ? "ON" : "OFF", g, game);
 
 		game.getFontRenderer().drawString("Show console", 100, 407, 2);
 		game.getFontRenderer().drawString("Display developer console", 310,
