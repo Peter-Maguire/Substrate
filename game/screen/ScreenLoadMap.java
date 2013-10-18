@@ -69,8 +69,6 @@ public class ScreenLoadMap extends Screen {
 			{
 				failed = FileSaver.getStackTrace(e);
 			}
-			
-			
 		}
 		
 	}

@@ -33,30 +33,6 @@ public class FileSaver {
 
 	
 	
-	
-/*	public static ByteBuffer loadPNGTexture(String path)
-	{
-		try{
-		ByteBuffer buf = null;
-		int tWidth = 0,
-			tHeight = 0;
-		InputStream in = new FileInputStream(FileSaver.getCleanPath()+"//res//tiles.png");
-		PNGDecoder decoder = new PNGDecoder(in);
-		
-		tWidth = decoder.getWidth();
-		tHeight = decoder.getHeight();
-		buf = ByteBuffer.allocateDirect(4 * decoder.getWidth() * decoder.getHeight());
-		decoder.decode(buf, decoder.getWidth() * 4, Format.RGBA);
-		buf.flip();
-		in.close();
-		return buf;
-		}catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-	}*/
-	
 	public static void saveMapFile(Map map, String path)
 	{
 		PrintWriter out;
