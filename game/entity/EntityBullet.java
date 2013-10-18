@@ -85,13 +85,6 @@ public class EntityBullet extends Entity {
 			return;
 		}
 		Entity e = game.getEntityInBox(new Rectangle(x, y, 32, 32));
-		if(e instanceof EntitySoldier)
-		{
-			//TODO: make the guy look like he dies
-			e.forRemoval = true;
-			this.forRemoval = true;
-			return;
-		}
 		if(e instanceof Player && type != 0)
 		{
 			((Player)e).hurt(10);
