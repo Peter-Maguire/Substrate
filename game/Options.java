@@ -12,7 +12,15 @@ public class Options {
 	}
 
 	public String getSetting(String setting) {
+		
+		if(settings.get(setting) != null)
 		return settings.get(setting);
+		else{
+		Game.log("[OPTIONS] CRITICAL ERROR! Could not retreive setting "+setting+"!");
+		setSetting(setting, "OFF");
+		return "OFF";
+		}
+		
 	}
 
 	public void setSetting(String setting, String value) {
