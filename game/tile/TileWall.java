@@ -20,6 +20,12 @@ public class TileWall extends Tile {
 	public static final int WALL_VERTICAL_TOP = 0;
 	public static final int WALL_VERTICAL = 16;
 	public static final int WALL_VERTICAL_BOTTOM = 32;
+	
+	public static final int WALL_TJUNC_RIGHT = 52;
+	public static final int WALL_TJUNC_DOWN = 53;
+	public static final int WALL_XJUNC = 54;
+	public static final int WALL_TJUNC_UP = 68;
+	public static final int WALL_TJUNC_LEFT = 69;
 	public String tileName = "Wall "+sprite;
 	public TileWall(int typ) {
 		sprite = typ;
