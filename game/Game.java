@@ -59,6 +59,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 	public Controls controls = new Controls();
 	private int tps = 0, fps = 0;
+	public String startError;
 
 	public boolean gameRunning = true;
 
@@ -122,8 +123,8 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FileSaver.save(SETTINGS, "settings.dat");
 		FileSaver.save(controls.keyMap, "keymap.dat");
 		g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
-		log("Copyright UnacceptableUse 2013");
-		log("Shutting down game, peace.");
+		log("[INIT] Copyright UnacceptableUse 2013");
+		log("[INIT] Shutting down game, peace.");
 		try {
 			Thread.sleep(1000L);
 		} catch (InterruptedException e) {
@@ -141,18 +142,23 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		createBufferStrategy(2);
 		strategy = getBufferStrategy();
 
-		log("Loading...");
+		log("[INIT] Loading...");
 		try {
 			loadingScreen = ImageIO.read(Game.class
 					.getResource("/res/loading.png"));
 		} catch (IOException e1) {
-			log("Unable to load loading screen.");
+			log("[INIT] %red% Unable to load loading screen.");
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load loading.png.");
 		}
 		File f = new File(FileSaver.getCleanPath() + "\\settings.txt");
+		if(!f.canRead() || !f.canWrite())
+		{
+			log("[INIT] %red% Game cannot access settings.txt!");	
+			startError = "Cannot read or write to \\settings.txt!";
+		}
 		if (!f.exists()) {
-			log("Settings file does not exist!");
+			log("[INIT] Settings file does not exist!");
 			SETTINGS.put("Sound", "OFF");
 			SETTINGS.put("Debug", "ON");
 			SETTINGS.put("Music", "OFF");
@@ -165,7 +171,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("UseFontRecolouring", "ON");
 			FileSaver.savePropertiesFile(SETTINGS, FileSaver.getCleanPath()+ "/settings.txt");
 		} else {
-			log("Found settings.dat, loading...");
+			log("[INIT] Found settings.dat, loading...");
 			SETTINGS = FileSaver.readPropertiesFile(FileSaver.getCleanPath()+ "/settings.txt");
 			for (int i = 0; i < SETTINGS.keySet().size(); i++) {
 				String setting = (String) SETTINGS.keySet().toArray()[i];
@@ -189,23 +195,23 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 
 		f = new File(FileSaver.getCleanPath() + "/maps/");
 		if (!f.exists()) {
-			log("Creating directory " + f.getAbsolutePath());
+			log("[INIT] Creating directory " + f.getAbsolutePath());
 			f.mkdirs();
 		}
 
-		log("Loading spritesheets...");
+		log("[INIT] Loading spritesheets...");
 		try {
 			sheet = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/icons.png")), 16);
 		} catch (Exception e) {
-			log("Sheet icon.png failed to load");
+			log("[INIT] %red% Sheet icon.png failed to load");
 			throw new RuntimeException("Sheet loading failed!");
 		}
 		try {
 			sheetUI = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/ui.png")), 32);
 		} catch (Exception e) {
-			log("Sheet ui.png failed to load");
+			log("[INIT] %red% Sheet ui.png failed to load");
 			throw new RuntimeException("Sheet ui.png failed to load "
 					+ e.getMessage());
 		}
@@ -213,35 +219,34 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			sheetTiles = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/tiles.png")), 32);
 		} catch (Exception e) {
-			log("Sheet tiles.png failed to load");
+			log("[INIT] %red% Sheet tiles.png failed to load");
 			throw new RuntimeException("Sheet tiles.png failed to load");
 		}
 		try {
 			sheetEntities = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/objects.png")), 32);
 		} catch (Exception e) {
-			log("Sheet object.png failed to load");
+			log("[INIT] %red% Sheet object.png failed to load");
 			throw new RuntimeException("Sheet object.png failed to load");
 		}
 		try {
 			sheetExplosions = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/explosion.png")), 32);
 		} catch (Exception e) {
-			log("Sheet explosion.png failed to load");
+			log("[INIT] %red% Sheet explosion.png failed to load");
 			throw new RuntimeException("Sheet explosion.png failed to load");
 		}
 		try {
 			sheetTriggers = new SpriteSheet(ImageIO.read(Game.class
 					.getResource("/res/puzzle.png")), 32);
 		} catch (Exception e) {
-			log("Sheet puuzle.png failed to load");
+			log("[INIT] %red% Sheet puuzle.png failed to load");
 			throw new RuntimeException("Sheet puzzle.png failed to load");
 		}
 		try {
-			winScreen = ImageIO.read(Game.class
-					.getResource("/res/win.png"));
+			winScreen = ImageIO.read(Game.class.getResource("/res/win.png"));
 		} catch (IOException e1) {
-			log("Unable to load win screen.");
+			log("[INIT] %red% Unable to load win screen.");
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load win.png");
 		}
@@ -250,31 +255,35 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			logo = ImageIO.read(Game.class
 					.getResource("/res/logo.png"));
 		} catch (IOException e1) {
-			log("Unable to load logo");
+			log("[INIT] %red% Unable to load logo");
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load logo.png");
 		}
 		
 		try {
-			font = new Font(ImageIO.read(Game.class.getResource("/res/simple_6x8.png")), strategy.getDrawGraphics(),
+			font = new Font(ImageIO.read(Game.class.getResource("/res/font.png")), strategy.getDrawGraphics(),
 					this);
 		} catch (IOException e1) {
-			log("Unable to load font.");
+			log("[INIT] %red% Unable to load font.");
 			e1.printStackTrace();
 			throw new RuntimeException("Unable to load font sheet.");
 		}
 	
 		f = new File("keymap.dat");
+		if(!f.canRead() || !f.canWrite())
+		{
+			log("[INIT] %red% Game cannot access keymap.dat!");
+			startError = "Cannot read or write to \\keymap.dat!";
+		}
 		if (!f.exists()) {
 			FileSaver.save(controls.keyMap, "keymap.dat");
 		} else {
-			controls.keyMap = (HashMap<Integer, Integer>) FileSaver
-					.load("keymap.dat");
+			controls.keyMap = (HashMap<Integer, Integer>) FileSaver.load("keymap.dat");
 		}
 
 		soundman = new SoundManager(this);
 
-		log("Trying to send statistics...");
+		log("[INIT] Trying to send statistics...");
 		if (SETTINGS.get("GatherStats").equals("ON")) {
 			try
 			{
@@ -284,14 +293,14 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 										+ "&game=" + Game.VERSION
 										+ "&java="
 										+ System.getProperty("java.version"));
-				log("Stat sending successful!");
+				log("[INIT] Stat sending successful!");
 			} catch (Exception e)
 			{
-				log("Unable to send statistics...");
+				log("[INIT] Unable to send statistics...");
 				e.printStackTrace();
 			}
 		} else {
-			log("Not sending stats, opted out");
+			log("[INIT] Not sending stats, opted out");
 			System.out.println(SETTINGS.get("GatherStats"));
 		}
 		try {

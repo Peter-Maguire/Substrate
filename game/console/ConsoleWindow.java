@@ -11,6 +11,7 @@ import game.console.command.CommandSetSetting;
 import game.console.command.CommandWave;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,13 +20,15 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
 
 public class ConsoleWindow extends JFrame implements KeyListener {
 
 	private JScrollPane cScroll;
-	private JTextArea console;
+	private JTextPane console;
 	private JTextField cmdbar;
 	private JButton cmdSubmit;
 	private Game game;
@@ -40,7 +43,7 @@ public class ConsoleWindow extends JFrame implements KeyListener {
 		this.setResizable(true);
 		this.setFocusable(true);
 
-		console = new JTextArea();
+		console = new JTextPane();
 		console.setEditable(false);
 		setSize(300, 400);
 
@@ -92,7 +95,7 @@ public class ConsoleWindow extends JFrame implements KeyListener {
 	}
 
 	public void log(String s) {
-		console.setText(console.getText() + "\n" + s);
+		console.setText(console.getText() + "\n" + s.replace("%red%", "[CRITICAL]"));
 	}
 
 	public void command(String[] cmd) {
