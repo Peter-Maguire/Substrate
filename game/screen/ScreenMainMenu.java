@@ -46,8 +46,10 @@ public class ScreenMainMenu extends Screen {
 
 		game.getFontRenderer().drawString(
 				String.format("%s version %s", Game.TITLE, Game.VERSION), 0,
-				game.getHeight(), 1);
+				game.getHeight()-9, 1);
 
+		if(game.startError != null)
+			ScreenTools.drawButton(100, 300, 600, 200, "Substrate experianced the following\nerror whilst starting:\n "+game.startError+"\n\nThe game may not work correctly!", g, game, new Color(155,0,0), new Color(255,255,255,255));
 	}
 
 	@Override

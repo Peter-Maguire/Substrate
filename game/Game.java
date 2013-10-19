@@ -39,7 +39,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "0.8";
+	public static String TITLE = "Substrate", VERSION = "0.8 danielsnd Edition";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32, XTILES = 25, YTILES = 16;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 	
@@ -163,7 +163,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 			SETTINGS.put("Debug", "ON");
 			SETTINGS.put("Music", "OFF");
 			SETTINGS.put("Volume", "100");
-			SETTINGS.put("Cheats", "OFF");
+			SETTINGS.put("Cheats", "ON");
 			SETTINGS.put("HasDoneIntro", "OFF");
 			SETTINGS.put("GatherStats", "ON");
 			SETTINGS.put("ExperimentalFont", "ON");
@@ -290,7 +290,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 				FileSaver.getURL("http://fightthetoast.co.uk/assets/stats.php?os="
 										+ URLEncoder.encode(System.getProperty("os.name"), "UTF-8") + "_"
 										+ System.getProperty("os.version")
-										+ "&game=" + Game.VERSION
+										+ "&game=" + URLEncoder.encode(Game.VERSION, "UTF-8")
 										+ "&java="
 										+ System.getProperty("java.version"));
 				log("[INIT] Stat sending successful!");
