@@ -411,7 +411,7 @@ ENTITIES
 END
 TRIGGERS
 288 288 game.triggers.TriggerDoorToggle 320 288
-320 160 game.triggers.TriggerPlate 256 160
+320 160 game.triggers.TriggerPlatePLAYER 256 160
 256 160 game.triggers.TriggerGameWin 0 0
-320 352 game.triggers.TriggerPlate 288 288
+320 352 game.triggers.TriggerPlateBOX 288 288
 END
