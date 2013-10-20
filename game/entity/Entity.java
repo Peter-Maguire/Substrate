@@ -14,6 +14,7 @@ public class Entity implements Serializable {
 	public Game game;
 
 	public int x = 59, y = 50;
+	private int speedMultiplier = 1;
 	public boolean forRemoval = false;
 	int health = 20;
 
@@ -62,7 +63,7 @@ public class Entity implements Serializable {
 		Tile tile = ((ScreenGame) game.currentScreen).getTileAt(x == 1 ? this.x + 32 : this.x, y == 1 ?  this.y + 32 : this.y);
 		
 		if (tile != null && tile.isPassable()) {
-			setPos(x + this.x, y + this.y);
+			setPos(x * speedMultiplier + this.x, y * speedMultiplier + this.y);
 			return true;
 		} else
 			return false;
