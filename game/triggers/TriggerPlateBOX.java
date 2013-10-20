@@ -34,7 +34,7 @@ public class TriggerPlateBOX extends Trigger implements Serializable{
 			triggered = true;
 		}
 	
-		sprite = 1; 
+		sprite = 33; 
 	}else	{
 		if(triggered)
 		{
@@ -42,7 +42,7 @@ public class TriggerPlateBOX extends Trigger implements Serializable{
 			triggered = false;
 		}
 		
-		sprite = 0;
+		sprite = 32;
 	}
 	}
 
