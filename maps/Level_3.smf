@@ -3,6 +3,7 @@ VERSION 8
 DESC NYI
 LOCKED false
 LEVEL true
+HINT Move_the_box_onto_the_pressure_plate_to_open_the_door 26 26 1
 TILES
 0 0 13
 0 1 13

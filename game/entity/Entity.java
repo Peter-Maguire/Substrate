@@ -14,7 +14,7 @@ public class Entity implements Serializable {
 	public Game game;
 
 	public int x = 59, y = 50;
-	private int speedMultiplier = 1;
+	private int speedMultiplier = 2;
 	public boolean forRemoval = false;
 	int health = 20;
 

@@ -236,6 +236,8 @@ public class ScreenGame extends Screen
 			g.setColor(new Color(255,0,0,40+player.hurtTimer));
 			g.fillRect(0, 0, 800, 600);
 		}
+		if(map.hint != null)
+		game.getFontRenderer().drawString(map.hint, map.tx, map.ty, map.ts);
 		if(drawDebugBoxes)
 		{
 			game.getFontRenderer().drawString("PlYR", player.x, player.y, 1);

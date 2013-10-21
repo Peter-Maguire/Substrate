@@ -18,6 +18,9 @@ public class Map implements Serializable {
 
 	public String name = "Corrupted map", desc = "This map is corrupted", version = "v0.0.0";
 	public boolean isLocked = true, isLevel = false;
+	public int tx, ty, ts;
+	public String hint;
+	
 
 	//public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
 	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];

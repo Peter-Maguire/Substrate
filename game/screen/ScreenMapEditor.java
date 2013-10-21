@@ -50,6 +50,7 @@ public class ScreenMapEditor extends Screen {
 	private static final int MODE_TILE = 0;
 	private static final int MODE_ENTITY = 1;
 	private static final int MODE_TRIGGER = 2;
+	private static final int MODE_HINT = 3;
 
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
 	private ArrayList<Entity> entityRegistry = new ArrayList<Entity>();
@@ -112,6 +113,7 @@ public class ScreenMapEditor extends Screen {
 		addButton("toggleMode", new Rectangle(685, 520, 33, 32));
 		addButton("toggleSnap",new Rectangle(685, 579, 32, 32));
 		addButton("toggleTriggers", new Rectangle(723, 579, 32, 32));
+		addButton("addHint", new Rectangle(723, 519, 32, 32));
 		
 		addButton("save", new Rectangle(760, 515, 32, 32));
 		addButton("open", new Rectangle(760, 547, 32, 32));
@@ -179,8 +181,7 @@ public class ScreenMapEditor extends Screen {
 		for(int x = 0; x < tiles.length; x++)
 		{
 			for(int y = 0; y < tiles[x].length; y++)
-			{
-				
+			{	
 			Tile t = tiles[x][y];
 			t.tick();
 			g.drawImage(game.sheetTiles.getImage(t.sprite), x * 32, y * 32 ,32, 32, game);
@@ -195,8 +196,6 @@ public class ScreenMapEditor extends Screen {
 				}
 				}
 			}
-			
-				
 		}
 		try{
 		for(Trigger t : triggers)
@@ -206,23 +205,19 @@ public class ScreenMapEditor extends Screen {
 			g.setColor(Color.cyan);
 			g.drawLine(t.x, t.y, t.lx, t.ly);
 			}
-			
 			if(mode == MODE_TRIGGER)
 			{
 				if(new Rectangle(mx, my, 32,32).contains(t.x, t.y))
 				{
 					g.setColor(new Color(100,255,100,100));
 				}
-				g.fillRect(mx,my,32,32);
-			
-					
+				g.fillRect(mx,my,32,32);	
 			}
 		}
 		}catch(Exception e){}
 		for (Entity e : entities) {
 			e.render(g);
 		}
-
 	}
 	
 	@Override
@@ -272,22 +267,23 @@ public class ScreenMapEditor extends Screen {
 		drawToolSelection(104, 520, currentTool.getSprite(), "Tool", g);
 		drawEntitySelection(194, 520, currentEntity.sprite, "Entity", g);
 		drawTriggerSelection(298,520,currentTrigger.sprite, "Trigger", g);
-		g.drawImage(game.sheetUI.getImage(2), 760, 515, 32, 32, game);
-		g.drawImage(game.sheetUI.getImage(3), 760, 547, 32, 32, game);
-		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,game);
-		g.drawImage(game.sheetUI.getImage(snapToGrid ? 21 : 22), 685, 579, 32, 32,game);
-		g.drawImage(game.sheetUI.getImage(linkmode == 0 ? showTriggers ? 23 : 24 : 25), 723, 579, 32, 32,game);
+		g.drawImage(game.sheetUI.getImage(2), 760, 515, 32, 32, game); // Save icon
+		g.drawImage(game.sheetUI.getImage(3), 760, 547, 32, 32, game); //Open icon
+		g.drawImage(game.sheetUI.getImage(showGrid ? 5 : 4), 760, 579, 32, 32,game); //Show grid icon
+		g.drawImage(game.sheetUI.getImage(snapToGrid ? 21 : 22), 685, 579, 32, 32,game); //Snap to grid icon
+		g.drawImage(game.sheetUI.getImage(linkmode == 0 ? showTriggers ? 23 : 24 : 25), 723, 579, 32, 32,game); //Trigger show link icon
+		g.drawImage(game.sheetUI.getImage(mode == MODE_HINT ? 10 : 9), 723, 519, 32, 32,game); //Hint mode icon
 		
 		g.setColor(Color.BLACK);
-		g.drawRect(685, 520, 32, 32);
-		g.drawRect(685, 579, 32, 32);
-		g.drawRect(760, 579, 32, 32);
-		g.drawRect(723, 579, 32, 32);
+		g.drawRect(685, 520, 32, 32); //Mode square
+		g.drawRect(685, 579, 32, 32); //Snap to grid square
+		g.drawRect(760, 579, 32, 32); //Show grid square
+		g.drawRect(723, 579, 32, 32); //Trigger show link square
 		
 		g.setColor(new Color(0, 0, 0, 135));
-		g.fillRect(685, 520, 33, 32);
+		g.fillRect(685, 520, 33, 32); //Mode shaded square
 		
-		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : "TRIG", 685,527, 1);
+		game.getFontRenderer().drawString(mode == MODE_ENTITY ? "ENT" : mode == MODE_TILE ? "TILE" : mode == MODE_HINT ? "HINT" : "TRIG", 685,527, 1);
 		game.getFontRenderer().drawString("MODE", 685, 537, 1);
 		if (openMenu == MENU_TILE) {
 			drawMenuBox(10, 320, 400, 200, g);
@@ -361,6 +357,8 @@ public class ScreenMapEditor extends Screen {
 				break;
 			}
 		}
+		if(mode == MODE_HINT)
+			g.drawImage(game.sheetUI.getImage(11), mx, my, 32, 32,game);
 	}
 
 	@Override
@@ -616,6 +614,10 @@ public class ScreenMapEditor extends Screen {
 			if(mode > MODE_TRIGGER)
 				mode = MODE_TILE;
 			return;
+		}
+		if(name.equals("addHint"))
+		{
+			mode = mode == MODE_HINT ? MODE_TILE : MODE_HINT;
 		}
 		if (openMenu == MENU_TOOL) {
 			currentTool = toolRegistry.get(Integer.parseInt(name));

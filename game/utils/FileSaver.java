@@ -45,6 +45,8 @@ public class FileSaver {
 			out.println("DESC "+map.desc);
 			out.println("LOCKED "+map.isLocked);
 			out.println("LEVEL "+map.isLevel);
+			if(map.hint != null)
+				out.println("HINT "+map.hint+" "+map.tx+" "+map.ty+" "+map.ts);
 			
 			
 			//SAVE TILES
@@ -109,6 +111,13 @@ public class FileSaver {
 						}
 						if(args[0].equals("LOCKED"))map.isLocked = args[1].equals("true");
 						if(args[0].equals("LEVEL"))map.isLevel = args[1].equals("true");
+						if(args[0].equals("HINT"))
+						{
+							map.hint = args[1].replace("_", " ");
+							map.tx = Integer.parseInt(args[2]);
+							map.ty = Integer.parseInt(args[3]);
+							map.ts = Integer.parseInt(args[4]);
+						}
 						if(args[0].equals("TILES"))readMode = 1;
 						if(args[0].equals("ENTITIES"))readMode = 2;
 						if(args[0].equals("TRIGGERS"))readMode = 3;

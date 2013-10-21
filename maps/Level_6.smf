@@ -3,6 +3,7 @@ VERSION 5
 DESC NYI
 LOCKED false
 LEVEL true
+HINT This_is_a_shit_level_I_must_remove_it... 1 20 2
 TILES
 0 0 1
 0 1 1
