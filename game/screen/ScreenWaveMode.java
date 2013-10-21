@@ -75,10 +75,10 @@ public class ScreenWaveMode extends ScreenGame {
 		else
 			levelTimes.add(timetaken);
 			
-		File f = new File(FileSaver.getCleanPath()+"\\maps\\Level_"+nwave+".smf");
+		File f = new File(FileSaver.getCleanPath()+"/maps/Level_"+nwave+".smf");
 		if(f.exists())
 		{
-			initMap(FileSaver.loadMapFile(FileSaver.getCleanPath() + "\\maps\\Level_"+nwave+".smf"));
+			initMap(FileSaver.loadMapFile(FileSaver.getCleanPath() + "/maps/Level_"+nwave+".smf"));
 		//	wave++;
 		}else
 		{

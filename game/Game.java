@@ -39,7 +39,7 @@ public class Game extends Canvas implements KeyListener, MouseListener,
 		FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	public static String TITLE = "Substrate", VERSION = "0.8";
+	public static String TITLE = "Substrate", VERSION = "0.8.1";
 	public static int WIDTH = 800, HEIGHT = 600, SCALE = 2, SIZE = SCALE * 32, XTILES = 25, YTILES = 16;
 	public HashMap<String, String> SETTINGS = new HashMap<String, String>();
 	
