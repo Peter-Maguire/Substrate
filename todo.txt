@@ -1,2 +1,8 @@
 - Add signs
 - Achievements 
+- Fix door animation
+- Add animations for certain tiles and entities
+- Add box scrape effect
+- Add sounds
+- Add music
+- Add konami easter egg
