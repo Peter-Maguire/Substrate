@@ -130,7 +130,7 @@ public class ScreenGame extends Screen
 	{
 		for (Entity ent : entities)
 		{
-			if (rec.contains(new Point(ent.x, ent.y)))
+			if (rec.contains(ent.x, ent.y, 32, 32))
 			{
 				return ent;
 			}
@@ -143,7 +143,7 @@ public class ScreenGame extends Screen
 		ArrayList<Entity> ents = new ArrayList<Entity>();
 		for (Entity ent : entities)
 		{
-			if (rec.contains(new Rectangle(ent.x, ent.y, 32, 32)))
+			if (rec.contains(ent.x+5, ent.y+5, 20, 20))
 			{
 				ents.add(ent);
 			}
