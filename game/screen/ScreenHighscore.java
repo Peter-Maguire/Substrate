@@ -65,7 +65,7 @@ public class ScreenHighscore extends Screen
 		{
 			for(int i = 0; i < scores.length; i++)
 			{
-				if(i > 11)break;
+				if(i > 10)break;
 				if(hasSubmittedScore && names[i].equals(name) && scores[i] == score)
 				{
 					game.getFontRenderer().drawString(names[i], 160,140 + 32 * i, 2, new Color(255,255,0));
