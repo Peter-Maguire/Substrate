@@ -130,7 +130,7 @@ public class ScreenGame extends Screen
 	{
 		for (Entity ent : entities)
 		{
-			if (rec.contains(ent.x, ent.y, 32, 32))
+			if (rec.contains(ent.x, ent.y))
 			{
 				return ent;
 			}
