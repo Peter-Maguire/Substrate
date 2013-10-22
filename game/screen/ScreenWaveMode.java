@@ -22,6 +22,11 @@ public class ScreenWaveMode extends ScreenGame {
 		super(width, height, sheet, mapfile);
 
 	}
+	public ScreenWaveMode(int width, int height, SpriteSheet sheet, Map mapfile, int timetaken) {
+		super(width, height, sheet, mapfile);
+		this.timetaken = timetaken;
+
+	}
 
 
 	

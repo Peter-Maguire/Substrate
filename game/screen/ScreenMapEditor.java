@@ -698,7 +698,7 @@ public class ScreenMapEditor extends Screen {
 			File file = fileChooser.getSelectedFile();
 
 			Map savedMap = new Map(file.getName().replace("_", " ").replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,FileSaver.entityToSerial(entities), triggers);
-			savedMap.isLevel = true;
+			savedMap.isLevel = false;
 			savedMap.isLocked = false;
 
 			FileSaver.saveMapFile(savedMap,!file.getAbsolutePath().contains(".smf") ? file.getAbsolutePath() + ".smf" : file.getAbsolutePath());
