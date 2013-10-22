@@ -17,6 +17,7 @@ public class Entity implements Serializable {
 	public int x = 59, y = 50;
 	private int speedMultiplier = 2;
 	public boolean forRemoval = false;
+	public boolean renderFirst = false;
 	int health = 20;
 
 	public Entity(ScreenGame game) {

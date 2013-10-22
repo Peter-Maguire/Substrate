@@ -37,7 +37,7 @@ public class Player extends Entity {
 	public boolean tryMoveEntity(int x, int y) {	
 		ArrayList<Entity> eib = game2.getEntitiesInBox(new Rectangle(x == 1 ? this.x + - 9 : this.x - 24, y == 1 ?  this.y - 4 : this.y - 24, Game.SIZE, Game.SIZE));
 			for (Entity e : eib) {
-				if (!(e instanceof Player)) {
+				if (!(e instanceof Player) && !(e instanceof EntityGroundScrape)) {
 					e.onCollideWithPlayer(x, y, this);
 					return false;
 				}

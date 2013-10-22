@@ -4,22 +4,19 @@ import game.Controls;
 import game.Game;
 import game.Map;
 import game.entity.Entity;
+import game.entity.EntityGroundScrape;
 import game.entity.Player;
 import game.tile.Tile;
 import game.triggers.Trigger;
-import game.triggers.TriggerPlate;
 import game.utils.FileSaver;
-import game.utils.MathHelper;
 import game.utils.SpriteSheet;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class ScreenGame extends Screen
 {
@@ -82,6 +79,10 @@ public class ScreenGame extends Screen
 	public void spawnEntity(Entity entity)
 	{
 		entities.add(entity);
+		if(entity.renderFirst)
+		{
+			entities.add(0, entity);
+		}
 	}
 
 	@Override

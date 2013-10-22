@@ -36,12 +36,14 @@ public class EntityBox extends Entity {
 
 		ArrayList<Entity> eib = ((ScreenGame)game.currentScreen).getEntitiesInBox(new Rectangle(x == 1 ? this.x + - 9 : this.x - 24, y == 1 ?  this.y - 4 : this.y - 24, Game.SIZE, Game.SIZE));
 		for (Entity e : eib) {
-			if (!(e instanceof EntityBox)) {
+			if (!(e instanceof EntityBox) && !(e instanceof EntityGroundScrape)) {
 				return false;
 			}
 		}
-			super.tryMoveEntity(x, y);
-				return false;
+		if(rand.nextInt(100) == 1)
+			((ScreenGame)game.currentScreen).spawnEntity(new EntityGroundScrape(this.x, this.y));
+		super.tryMoveEntity(x, y);
+		return false;
 		
 		
 		
