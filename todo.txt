@@ -1,0 +1,5 @@
+- Make Pressure plates different sprites for different types
+- Improve entity collision for pressure plates
+- Add onscreen text
+- Add signs
+- Make the last level impossible to cheat at
