@@ -87,7 +87,7 @@ public class EntityBullet extends Entity {
 		Entity e = game.getEntityInBox(new Rectangle(x, y, 32, 32));
 		if(e instanceof Player && type != 0)
 		{
-			((Player)e).hurt(10);
+			((Player)e).hurt(20);
 			game.spawnEntity(new EntityExplosion(game, x - 4, y - 2, 2));
 			this.forRemoval = true;
 			return;

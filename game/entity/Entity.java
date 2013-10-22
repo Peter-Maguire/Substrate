@@ -1,6 +1,7 @@
 package game.entity;
 
 import game.Game;
+import game.screen.ScreenDeath;
 import game.screen.ScreenGame;
 import game.tile.Tile;
 

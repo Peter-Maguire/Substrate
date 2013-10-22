@@ -2,6 +2,7 @@ package game.entity;
 
 import game.Controls;
 import game.Game;
+import game.screen.ScreenDeath;
 import game.screen.ScreenGame;
 
 import java.awt.Rectangle;
@@ -47,6 +48,8 @@ public class Player extends Entity {
 
 	@Override
 	public void tick() {
+		if (health <= 0)
+			onDeath();
 		if (ammocooldown != 0) {
 			ammocooldown--;
 		}
@@ -125,6 +128,11 @@ public class Player extends Entity {
 
 	public void setAmmo(int am) {
 		this.ammo = am;
+	}
+	
+	public void onDeath()
+	{
+		game.setScreen(new ScreenDeath(game.getWidth(), game.getHeight(), game.sheet));
 	}
 
 }
