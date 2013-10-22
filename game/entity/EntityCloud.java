@@ -26,9 +26,10 @@ public class EntityCloud extends Entity
 	@Override
 	public void tick() {
 
-		
+		if(this.x <= 0)
+			this.forRemoval = true;
 		if(rand.nextInt(200) == 1)
-		this.x -= 1;
+		x--;
 			
 		
 	}
