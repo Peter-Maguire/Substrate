@@ -1,6 +1,7 @@
 package game.console.command;
 
-import game.Game;nWaveMode;
+import game.Game;
+import game.screen.ScreenWaveMode;
 
 public class CommandWave extends Command {
 
