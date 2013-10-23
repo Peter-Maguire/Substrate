@@ -114,7 +114,7 @@ public class ScreenLoadMap extends Screen {
 					if(m.isLocked)
 					{
 						g.setColor(new Color(0, 0, 0, 155));
-						g.fillRect(40, 3 + (60 * i), 282, 51);
+						g.fillRect(39, 3 + (60 * i), 282, 51);
 						g.drawImage(game.sheetUI.getImage(8), 155, 10+(60*i),32,32,game);
 					}
 					i++;
