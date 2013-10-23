@@ -34,6 +34,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -55,11 +56,30 @@ public class ScreenMapEditor extends Screen {
 	private ArrayList<Tool> toolRegistry = new ArrayList<Tool>();
 	private ArrayList<Entity> entityRegistry = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggerRegistry = new ArrayList<Trigger>();
+	
+	
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	private ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
-	private int openMenu = 0, mapVersion = 1, mode = 0, mx, my, pmx = 0, pmy = 0, linkmode = 0;
-	private boolean isPlacingTile = true, showGrid = true, snapToGrid = true, showTriggers = false, triggerMode = false;
+	private String hint;
+	private int tx;
+	private int ty;
+	private int ts;
+
+	private int openMenu = 0;
+	private int mapVersion = 1;
+	private int mode = 0;
+	private int mx = 0;
+	private int my = 0;
+	private int pmx = 0;
+	private int pmy = 0;
+	private int linkmode = 0;
+	
+	private boolean isPlacingTile = true;
+	private boolean showGrid = true;
+	private boolean snapToGrid = true;
+	private boolean showTriggers = false;
+	private boolean triggerMode = false;
 
 	private Tool currentTool = null;
 	public Tile currentTile = null;
@@ -218,6 +238,8 @@ public class ScreenMapEditor extends Screen {
 		for (Entity e : entities) {
 			e.render(g);
 		}
+		if(hint != null)
+			game.getFontRenderer().drawString(hint, tx, ty, ts);
 	}
 	
 	@Override
@@ -344,19 +366,26 @@ public class ScreenMapEditor extends Screen {
 				i++;
 			}
 		}	
-		for (int i = 0; i < getButtons().keySet().size(); i++) {
-			Rectangle rec = (Rectangle)  getButtons().keySet().toArray()[i];
-			if (rec.contains(mx, my)) {
-				try{
-				if(openMenu == MENU_TOOL)
-					game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
-				}catch(NumberFormatException e)
-				{
+		try{
+			for (int i = 0; i < getButtons().keySet().size(); i++) {
+				Rectangle rec = (Rectangle)  getButtons().keySet().toArray()[i];
+				if (rec.contains(mx, my)) {
+					try{
+					if(openMenu == MENU_TOOL)
+						game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
+					}catch(NumberFormatException e)
+					{
+						break;
+					}
 					break;
 				}
-				break;
+			
 			}
+		}catch(ConcurrentModificationException e)
+		{
+				e.printStackTrace();
 		}
+		
 		if(mode == MODE_HINT)
 			g.drawImage(game.sheetUI.getImage(11), mx, my, 32, 32,game);
 	}
@@ -683,8 +712,11 @@ public class ScreenMapEditor extends Screen {
 				System.out.println("Trigger: "+t+" at "+t.x+","+t.y);
 			}
 			this.triggers = loadedMap.triggers;
+			this.hint = loadedMap.hint;
+			this.tx = loadedMap.tx;
+			this.ty = loadedMap.ty;
+			this.ts = loadedMap.ts;
 			this.mapVersion = Integer.parseInt(loadedMap.version);
-			
 		}
 
 	}
@@ -700,6 +732,10 @@ public class ScreenMapEditor extends Screen {
 			Map savedMap = new Map(file.getName().replace("_", " ").replace(".smf", ""), "NYI", (mapVersion + 1) + "", tiles,FileSaver.entityToSerial(entities), triggers);
 			savedMap.isLevel = false;
 			savedMap.isLocked = false;
+			savedMap.ts = ts;
+			savedMap.tx = tx;
+			savedMap.ty = ty;
+			savedMap.hint = hint;
 
 			FileSaver.saveMapFile(savedMap,!file.getAbsolutePath().contains(".smf") ? file.getAbsolutePath() + ".smf" : file.getAbsolutePath());
 
