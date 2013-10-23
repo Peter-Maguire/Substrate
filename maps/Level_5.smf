@@ -1,7 +1,7 @@
 NAME Level 5
 VERSION 3
 DESC NYI
-LOCKED false
+LOCKED true
 LEVEL true
 HINT Some_pressure_plates_can_be_activated_by_bullets_too 130 230 1
 TILES
