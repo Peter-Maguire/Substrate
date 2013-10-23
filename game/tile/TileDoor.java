@@ -1,7 +1,7 @@
 package game.tile;
 
-import game.entity.Player;
-import game.screen.ScreenGame;
+
+
 
 public class TileDoor extends Tile
 {

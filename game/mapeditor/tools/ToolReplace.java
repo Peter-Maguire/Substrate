@@ -1,6 +1,6 @@
 package game.mapeditor.tools;
 
-import java.awt.Rectangle;
+
 
 import game.screen.ScreenMapEditor;
 import game.tile.Tile;

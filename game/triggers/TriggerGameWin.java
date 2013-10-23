@@ -2,7 +2,7 @@ package game.triggers;
 
 import game.Game;
 import game.screen.ScreenWaveMode;
-import game.screen.ScreenWin;
+
 
 public class TriggerGameWin extends Trigger{
 

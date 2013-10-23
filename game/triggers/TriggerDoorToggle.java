@@ -1,7 +1,7 @@
 package game.triggers;
 
 import game.Game;
-import game.screen.ScreenGame;
+
 import game.tile.Tile;
 
 public class TriggerDoorToggle extends Trigger

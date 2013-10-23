@@ -2,7 +2,7 @@ package game.entity;
 
 import game.screen.ScreenGame;
 
-import java.awt.Graphics;
+
 import java.util.Random;
 
 public class EntityCloud extends Entity

@@ -1,6 +1,6 @@
 package game.tile;
 
-import game.Game;
+
 import java.io.Serializable;
 
 public class Tile implements Serializable {

@@ -4,10 +4,10 @@ import game.entity.SerialEntity;
 import game.tile.Tile;
 import game.triggers.Trigger;
 
-import java.awt.Rectangle;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class Map implements Serializable {
 

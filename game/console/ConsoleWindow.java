@@ -11,7 +11,7 @@ import game.console.command.CommandSetSetting;
 import game.console.command.CommandWave;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -22,8 +22,8 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.text.Style;
-import javax.swing.text.StyleConstants;
+
+
 
 public class ConsoleWindow extends JFrame implements KeyListener {
 

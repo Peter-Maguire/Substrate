@@ -2,8 +2,8 @@ package game.screen;
 
 import game.Game;
 import game.Map;
-import game.entity.Entity;
-import game.entity.SerialEntity;
+
+
 import game.tile.Tile;
 import game.triggers.Trigger;
 import game.utils.FileSaver;
@@ -56,7 +56,7 @@ public class ScreenLoadMap extends Screen {
 				File tf = new File(s);
 				if (tf.getName().contains(".smf")) {
 					j++;
-					Map m = (Map) FileSaver.loadMapFile(FileSaver.getCleanPath()
+					Map m = FileSaver.loadMapFile(FileSaver.getCleanPath()
 							+ "/maps/" + s);
 					if(m.name.startsWith("Level_") && showingLevels)
 					{

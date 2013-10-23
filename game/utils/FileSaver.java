@@ -5,7 +5,7 @@ import game.Map;
 import game.entity.Entity;
 import game.entity.SerialEntity;
 import game.tile.Tile;
-import game.triggers.SerialTrigger;
+
 import game.triggers.Trigger;
 
 import java.io.BufferedReader;

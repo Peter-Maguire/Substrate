@@ -4,7 +4,7 @@ import game.Controls;
 import game.Game;
 import game.Map;
 import game.entity.Entity;
-import game.entity.EntityGroundScrape;
+
 import game.entity.Player;
 import game.tile.Tile;
 import game.triggers.Trigger;

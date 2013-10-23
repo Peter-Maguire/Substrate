@@ -41,7 +41,7 @@ public class ScreenWin extends Screen{
 	@Override
 	public void postAction(String name)
 	{
-		if(name == "highscore")
+		if(name.equals("highscore"))
 		{
 			game.setScreen(new ScreenHighscore(w, h, sheet, timeTaken, levelTimes));
 		}
