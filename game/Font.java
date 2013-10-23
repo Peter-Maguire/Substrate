@@ -46,7 +46,7 @@ public class Font {
 					{
 						System.out.println(rows+"x"+cols);
 						System.out.println(j+" : "+i+" ("+j*charWidth+","+i*charHeight+")");
-					//	e.printStackTrace();
+						e.printStackTrace();
 					}
 				}
 

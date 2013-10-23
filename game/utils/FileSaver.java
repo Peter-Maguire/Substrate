@@ -32,7 +32,11 @@ import java.util.HashMap;
 public class FileSaver {
 
 	
-	
+	/**
+	 * Saves a text-based map file
+	 * @param map The map instance to save
+	 * @param path Where to save it to
+	 */
 	public static void saveMapFile(Map map, String path)
 	{
 		PrintWriter out;
@@ -82,6 +86,11 @@ public class FileSaver {
 
 	}
 	
+	/**
+	 *  Loads a text based map file
+	 * @param path Where to load from
+	 * @return The map instance
+	 */
 	public static Map loadMapFile(String path)
 	{
 		int readMode = 0;
@@ -135,17 +144,16 @@ public class FileSaver {
 						if(readMode == 3)
 						{
 							try{
-							System.out.println(args[2]);
-							Trigger t = (Trigger) Class.forName(args[2]).newInstance();
-							
-							t.x = Integer.parseInt(args[0]);
-							t.y = Integer.parseInt(args[1]);
-							t.lx = Integer.parseInt(args[3]);
-							t.ly = Integer.parseInt(args[4]);
-							map.triggers.add(t);
+								System.out.println(args[2]);
+								Trigger t = (Trigger) Class.forName(args[2]).newInstance();
+								
+								t.x = Integer.parseInt(args[0]);
+								t.y = Integer.parseInt(args[1]);
+								t.lx = Integer.parseInt(args[3]);
+								t.ly = Integer.parseInt(args[4]);
+								map.triggers.add(t);
 							}catch(Exception e)
 							{
-								
 								e.printStackTrace();
 							}
 						}
@@ -159,6 +167,14 @@ public class FileSaver {
 		return map;
 	}
 	
+	/**
+	 * Connects to the URL
+	 * @param URL
+	 * @return The server's response
+	 * @throws MalformedURLException
+	 * @throws UnsupportedEncodingException
+	 * @throws IOException
+	 */
 	public static String getURL(String URL) throws MalformedURLException, UnsupportedEncodingException, IOException
 	{	
 		HttpURLConnection con = (HttpURLConnection) new URL(URL).openConnection();
@@ -183,9 +199,7 @@ public class FileSaver {
 	 * @throws InstantiationException If entity list is invalid
 	 * @throws IllegalAccessException If entity list is invalid
 	 */
-	public static ArrayList<Entity> serialToEntity(
-			ArrayList<SerialEntity> entlist, Game game)
-			throws ClassNotFoundException, InstantiationException,
+	public static ArrayList<Entity> serialToEntity(ArrayList<SerialEntity> entlist, Game game)throws ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 		Game.log("[FILESAVER] Deserializing entity array...");
 		System.out.println(entlist.size() + " entities to deserialize.");

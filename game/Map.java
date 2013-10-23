@@ -59,12 +59,27 @@ public class Map implements Serializable {
 		return getTileAt(map.tiles, x, y);
 	}
 	
+	/**
+	 * Returns the tile at position
+	 * @param tiles The arraylist of tiles
+	 * @param x 
+	 * @param y
+	 * @return null if no tile
+	 */
 	public static Tile getTileAt(Tile[][] tiles, int x, int y) {
 		if(x >= Game.XTILES || y >= Game.YTILES)
 			return Tile.tiles[0];
 		return tiles[x][y];
 	}
 	
+	/**
+	 * Sets the tile at the position
+	 * @param tiles The tile array to modify
+	 * @param x
+	 * @param y
+	 * @param tile The tile as a tile ID
+	 * @return The modified array of tiles
+	 */
 	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, int tile) {
 		if(x >= Game.XTILES || y >= Game.YTILES)
 			return tiles;
@@ -72,6 +87,15 @@ public class Map implements Serializable {
 		return tiles;
 	}
 
+	/**
+	 * Sets the tile at the position
+	 * Should be used as <code>m = setTileAt(m, x, y, t);</code>
+	 * @param map The map to get the tile array from
+	 * @param x
+	 * @param y
+	 * @param tile The tile as a tile ID
+	 * @return The modified array of tiles
+	 */
 	public static Map setTileAt(Map map, int x, int y, int tile) {
 		if(x >= Game.XTILES || y >= Game.YTILES)
 			return map;
@@ -79,6 +103,14 @@ public class Map implements Serializable {
 		return map;
 	}
 	
+	/**
+	 * Sets the tile at the position
+	 * @param tiles The tile array to use
+	 * @param x
+	 * @param y
+	 * @param tile The tile as a tile instance
+	 * @return The modified tile array
+	 */
 	public static Tile[][] setTileAt(Tile[][] tiles, int x, int y, Tile tile) {
 		if(x >= Game.XTILES || y >= Game.YTILES)
 			return tiles;
@@ -86,6 +118,15 @@ public class Map implements Serializable {
 		return tiles;
 	}
 
+	/**
+	 * Sets the tile at the position
+	 * Should be used as <code>m = setTileAt(m, x, y, t);</code>
+	 * @param map The map to get the tile array from
+	 * @param x
+	 * @param y
+	 * @param tile The tile as a tile instance
+	 * @return The modified map
+	 */
 	public static Map setTileAt(Map map, int x, int y, Tile tile) {
 		if(x >= Game.XTILES || y >= Game.YTILES)
 			return map;
