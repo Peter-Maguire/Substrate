@@ -1,7 +1,7 @@
 NAME Level 3
 VERSION 8
 DESC NYI
-LOCKED false
+LOCKED true
 LEVEL true
 HINT Move_the_box_onto_the_pressure_plate_to_open_the_door 26 26 1
 TILES

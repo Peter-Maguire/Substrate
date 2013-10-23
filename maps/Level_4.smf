@@ -1,7 +1,7 @@
 NAME Level 4
 VERSION 9
 DESC AND Gate
-LOCKED false
+LOCKED true
 LEVEL true
 HINT This_level_requires_both_pressure_plates_to_be_activated_to_open_the_door 54 260 1
 TILES

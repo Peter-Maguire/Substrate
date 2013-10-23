@@ -1,7 +1,7 @@
 NAME Level 7
 VERSION 9
 DESC NYI
-LOCKED false
+LOCKED true
 LEVEL true
 TILES
 0 0 1
