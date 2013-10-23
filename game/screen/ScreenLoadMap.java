@@ -2,7 +2,10 @@ package game.screen;
 
 import game.Game;
 import game.Map;
+import game.entity.Entity;
+import game.entity.SerialEntity;
 import game.tile.Tile;
+import game.triggers.Trigger;
 import game.utils.FileSaver;
 import game.utils.SpriteSheet;
 
@@ -144,14 +147,21 @@ public class ScreenLoadMap extends Screen {
 				mapDesc = maps.get(selectedMap - 1).desc;
 				mapVersion = maps.get(selectedMap - 1).version;
 			}
-			Tile[][] tiles = maps.get(selectedMap - 1).tiles;
+			Tile[][] tiles = showingLevels ? levels.get(selectedMap - 1).tiles : maps.get(selectedMap - 1).tiles;
 			for(int x = 0; x < tiles.length; x++)
 			{
 				for(int y = 0; y < tiles[x].length; y++)
 				{
-					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * (16 * game.getWidth()/578), 32 + y * (16 * game.getHeight()/420), 16 * game.getWidth()/578,16 * game.getHeight()/420, game);
+					g.drawImage(game.sheetTiles.getImage(tiles[x][y].sprite), 380 + x * 16, 32 + y * 16, 16, 16, game);
 				}
 			}
+			ArrayList<Trigger> triggers = showingLevels ? levels.get(selectedMap - 1).triggers: maps.get(selectedMap - 1).triggers;
+			for(Trigger t : triggers)
+			{
+				if(t.drawnInPlay)
+					g.drawImage(game.sheetTriggers.getImage(t.sprite), 380 + t.x * 16, 32 + t.y * 16, 16, 16, game);
+			}
+
 			}catch(Exception e)
 			{
 				mapName = "Map load error";
