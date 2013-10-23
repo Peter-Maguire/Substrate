@@ -1,6 +1,6 @@
 NAME Level 2
 VERSION 3
-DESC Get onto the pressure plate...
+DESC Pressure plates
 LOCKED true
 LEVEL true
 HINT Collect_an_ammo_box_and_hit_space_to_fire_a_bullet_and_destroy_the_wall 216 232 1
