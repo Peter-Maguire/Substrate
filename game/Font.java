@@ -49,10 +49,8 @@ public class Font {
 						e.printStackTrace();
 					}
 				}
-
 			}
 		}
-
 	}
 
 	public void updateDrawGraphics(Graphics g) {
@@ -82,12 +80,10 @@ public class Font {
 				cy += charHeight * size+3;
 			}
 			if (chars2.get(String.valueOf(text.charAt(i))) != null)
-				g.drawImage(
-						game.settings.getSetting("UseFontRecolouring").equals("ON") ? ScreenTools
-								.recolourImage(chars2.get(String.valueOf(text
-										.charAt(i))), colour) : chars2
-								.get(String.valueOf(text.charAt(i))), x
-								+ (ci * size * charHeight), cy, charWidth * size, charHeight * size, game);
+				g.drawImage(game.settings.getSetting("UseFontRecolouring").equals("ON") ? 
+						ScreenTools.recolourImage(chars2.get(String.valueOf(text.charAt(i))), colour) :
+						chars2.get(String.valueOf(text.charAt(i))), x+ (ci * size * charHeight), 
+						cy, charWidth * size, charHeight * size, game);
 			ci++;
 		}
 	}
