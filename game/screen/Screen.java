@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Random;
 
-public class Screen {
+public abstract class Screen {
 
 	int w, h;
 	SpriteSheet sheet;
@@ -36,11 +36,9 @@ public class Screen {
 
 		for (int x = 0; x < game.getWidth() / 32; x++) {
 			for (int y = 0; y < game.getHeight() / 32; y++) {
-				game.g.drawImage(game.sheetTiles.getImage(7), x * 40, y * 40,
-						40, 40, game);
+				game.g.drawImage(game.sheetTiles.getImage(7), x * 40, y * 40,40, 40, game);
 				game.g.setColor(new Color(x + y > 255 ? 255 : x + y, y*j/60 > 255 ? 255 : y * j / 60, x*i/60 > 255 ? 255 : x * i / 60, 155));
 				game.g.fillRect(x * 40, y * 40, 40, 40);
-
 			}
 		}
 
@@ -71,8 +69,7 @@ public class Screen {
 		bttn.put(bounds, action);
 	}
 	
-	public void clearButtons()
-	{
+	public void clearButtons(){
 		bttn.clear();
 	}
 
@@ -82,13 +79,6 @@ public class Screen {
 
 	public HashMap<Rectangle, String> getButtons() {
 		return bttn;
-	}
-
-	public void tick() {
-		
-	}
-
-	public void render(Graphics g) {
 	}
 
 	public void init(Game game) {
@@ -109,13 +99,14 @@ public class Screen {
 		}
 	}
 
-	public void postAction(String action) {
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-
-	}
+	public abstract void tick();
+	public abstract void render(Graphics g);
+	public void deinit(){}
+	public void postAction(String action) {}
+	public void keyReleased(KeyEvent arg0) {}
+	public void focusGained(FocusEvent arg0) {}
+	public void focusLost(FocusEvent arg0) {}
+	public void mouseReleased(MouseEvent e) {}
 
 	public void keyPressed(KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
@@ -123,27 +114,12 @@ public class Screen {
 			deinit();
 			quit();
 		}
-			
+	}
 
-	}
-	public void deinit()
-	{
-	}
 	public void quit()
 	{
 		game.setScreen(new ScreenMainMenu(w, h, sheet));
 		game.gameRunning = true;
-	}
-
-	public void keyReleased(KeyEvent arg0) {
-	}
-
-	public void focusGained(FocusEvent arg0) {
-
-	}
-
-	public void focusLost(FocusEvent arg0) {
-
 	}
 
 }
