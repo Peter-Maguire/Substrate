@@ -31,6 +31,7 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -65,7 +66,10 @@ public class ScreenMapEditor extends Screen {
 	private int tx;
 	private int ty;
 	private int ts;
-
+	
+	private int xScroll = 0;
+	private int yScroll = 0;
+	
 	private int openMenu = 0;
 	private int mapVersion = 1;
 	private int mode = 0;
@@ -145,8 +149,7 @@ public class ScreenMapEditor extends Screen {
 
 	}
 
-	private void drawTileSelection(int x, int y, int texpos, String text,
-			Graphics g) {
+	private void drawTileSelection(int x, int y, int texpos, String text,Graphics g) {
 		g.drawImage(game.sheetTiles.getImage(texpos), x, y, 64, 64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x + 32, y, 32, 32, game);
@@ -156,8 +159,7 @@ public class ScreenMapEditor extends Screen {
 
 	}
 
-	private void drawToolSelection(int x, int y, int texpos, String text,
-			Graphics g) {
+	private void drawToolSelection(int x, int y, int texpos, String text,Graphics g) {
 		g.drawImage(game.sheetUI.getImage(texpos), x, y, 64, 64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x + 32, y, 32, 32, game);
@@ -167,8 +169,7 @@ public class ScreenMapEditor extends Screen {
 
 	}
 
-	private void drawEntitySelection(int x, int y, int texpos, String text,
-			Graphics g) {
+	private void drawEntitySelection(int x, int y, int texpos, String text,Graphics g) {
 		g.drawImage(
 				currentEntity instanceof EntityExplosion ? game.sheetExplosions
 						.getImage(texpos) : game.sheetEntities.getImage(texpos),
@@ -180,8 +181,7 @@ public class ScreenMapEditor extends Screen {
 		game.getFontRenderer().drawString(text, x + 15, y + 65, 1);
 
 	}
-	private void drawTriggerSelection(int x, int y, int texpos, String text,
-			Graphics g) {
+	private void drawTriggerSelection(int x, int y, int texpos, String text,Graphics g) {
 		g.drawImage(this.game.sheetTriggers.getImage(texpos), x, y, 64, 64, game);
 		g.drawImage(sheet.getImage(14), x, y, 32, 32, game);
 		g.drawImage(sheet.getImage(15), x + 32, y, 32, 32, game);
@@ -202,32 +202,32 @@ public class ScreenMapEditor extends Screen {
 		{
 			for(int y = 0; y < tiles[x].length; y++)
 			{	
-			Tile t = tiles[x][y];
-			t.tick();
-			g.drawImage(game.sheetTiles.getImage(t.sprite), x * 32, y * 32 ,32, 32, game);
-			g.setColor(Color.white);
-			if (showGrid)
-			{
-				g.drawRect(x * 32, y * 32, 32, 32);
-				if(new Rectangle(x * 32 , y* 32, 32, 32).contains(mx, my))
+				Tile t = tiles[x][y];
+				t.tick();
+				g.drawImage(game.sheetTiles.getImage(t.sprite), (x * 32) + xScroll, (y * 32)+yScroll ,32, 32, game);
+				g.setColor(Color.white);
+				if (showGrid)
 				{
-					g.setColor(new Color(255,255,255,155));
-					g.fillRect(x * 32 , y * 32, 32, 32);
-				}
+					g.drawRect(x * 32 + xScroll, y * 32 + yScroll, 32, 32);
+					if(new Rectangle(x * 32 + xScroll , y * 32 + yScroll, 32, 32).contains(mx, my))
+					{
+						g.setColor(new Color(255,255,255,155));
+						g.fillRect(x * 32 + xScroll , y * 32 + yScroll, 32, 32);
+					}
 				}
 			}
 		}
 		try{
 		for(Trigger t : triggers)
 		{
-			g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x, t.y,32,32, game);
+			g.drawImage(game.sheetTriggers.getImage(t.sprite), t.x + xScroll, t.y + yScroll,32,32, game);
 			if(showTriggers && t.lx != 0 && t.ly != 0){
-			g.setColor(Color.cyan);
-			g.drawLine(t.x, t.y, t.lx, t.ly);
-			}
+				g.setColor(Color.cyan);
+				g.drawLine(t.x + xScroll, t.y + yScroll, t.lx + xScroll, t.ly + yScroll);
+				}
 			if(mode == MODE_TRIGGER)
 			{
-				if(new Rectangle(mx, my, 32,32).contains(t.x, t.y))
+				if(new Rectangle(mx, my, 32,32).contains(t.x + xScroll, t.y + yScroll))
 				{
 					g.setColor(new Color(100,255,100,100));
 				}
@@ -236,30 +236,31 @@ public class ScreenMapEditor extends Screen {
 		}
 		}catch(Exception e){}
 		for (Entity e : entities) {
-			e.render(g);
+			g.drawImage(game.sheetEntities.getImage(e.sprite), e.x+xScroll, e.y + yScroll, 16 * Game.SCALE,
+					16 * Game.SCALE, game);
 		}
 		if(hint != null)
-			game.getFontRenderer().drawString(hint, tx, ty, ts);
+			game.getFontRenderer().drawString(hint, tx + xScroll, ty + yScroll, ts);
 	}
 	
 	@Override
 	public void tick()
 	{		
 		try{
-		Container container = game.getParent();
-		Container previous = container;
-		while (container != null)
-		{
-		    previous = container;
-		    container = container.getParent();
-		}
-		
-		if (previous instanceof JFrame)
-		{
-		 Point p = ((JFrame)previous).getMousePosition();
-		  mx = (int) p.getX()-10;
-		  my = (int) p.getY()-10;
-		}
+			Container container = game.getParent();
+			Container previous = container;
+			while (container != null)
+			{
+				    previous = container;
+				    container = container.getParent();
+			}
+			
+			if (previous instanceof JFrame)
+			{
+				 Point p = ((JFrame)previous).getMousePosition();
+				  mx = (int) p.getX()-10;
+				  my = (int) p.getY()-10;
+			}
 		}
 		catch(NullPointerException e)
 		{
@@ -332,8 +333,7 @@ public class ScreenMapEditor extends Screen {
 				g.drawRect(112 + (42 * i), 434, 32, 32);
 				g.setColor(new Color(0, 0, 0, 135));
 				g.fillRect(112 + (42 * i), 434, 32, 32);
-				g.drawImage(game.sheetUI.getImage(t.getSprite()),
-						112 + (42 * i), 436, 32, 32, game);
+				g.drawImage(game.sheetUI.getImage(t.getSprite()),112 + (42 * i), 436, 32, 32, game);
 				i++;
 			}
 		}
@@ -345,11 +345,7 @@ public class ScreenMapEditor extends Screen {
 				g.drawRect(212 + (42 * i), 434, 32, 32);
 				g.setColor(new Color(0, 0, 0, 135));
 				g.fillRect(212 + (42 * i), 434, 32, 32);
-				g.drawImage(
-						e instanceof EntityExplosion ? game.sheetExplosions
-								.getImage(e.sprite) : game.sheetEntities
-								.getImage(e.sprite), 212 + (42 * i), 436, 32,
-						32, game);
+				g.drawImage(e instanceof EntityExplosion ? game.sheetExplosions.getImage(e.sprite) : game.sheetEntities.getImage(e.sprite), 212 + (42 * i), 436, 32,32, game);
 				i++;
 			}
 		}
@@ -371,8 +367,8 @@ public class ScreenMapEditor extends Screen {
 				Rectangle rec = (Rectangle)  getButtons().keySet().toArray()[i];
 				if (rec.contains(mx, my)) {
 					try{
-					if(openMenu == MENU_TOOL)
-						game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
+						if(openMenu == MENU_TOOL)
+							game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
 					}catch(NumberFormatException e)
 					{
 						break;
@@ -536,8 +532,7 @@ public class ScreenMapEditor extends Screen {
 				int x = 0;
 				int y = 0;
 				for (Tile t : Tile.tiles) {
-					removeButton(new Rectangle(14 + (42 * x), 227 + (42 * y),
-							32, 32));
+					removeButton(new Rectangle(14 + (42 * x), 227 + (42 * y),32, 32));
 					x++;
 					if (45 * x > 400) {
 						y++;
@@ -551,8 +546,7 @@ public class ScreenMapEditor extends Screen {
 				int x = 0;
 				int y = 0;
 				for (Tile t : Tile.tiles) {
-					addButton("" + i, new Rectangle(14 + (42 * x),
-							227 + (42 * y), 32, 32));
+					addButton("" + i, new Rectangle(14 + (42 * x),227 + (42 * y), 32, 32));
 					i++;
 					x++;
 					if (45 * x > 400) {
@@ -577,8 +571,7 @@ public class ScreenMapEditor extends Screen {
 				openMenu = MENU_TOOL;
 				int i = 0;
 				for (Tool t : toolRegistry) {
-					addButton("" + i,
-							new Rectangle(112 + (42 * i), 434, 32, 32));
+					addButton(String.valueOf(i),new Rectangle(112 + (42 * i), 434, 32, 32));
 					i++;
 				}
 			}
@@ -597,8 +590,7 @@ public class ScreenMapEditor extends Screen {
 				openMenu = MENU_ENTITY;
 				int i = 0;
 				for (Entity e : entityRegistry) {
-					addButton(i + "",
-							new Rectangle(212 + (42 * i), 434, 32, 32));
+					addButton(String.valueOf(i),new Rectangle(212 + (42 * i), 434, 32, 32));
 					i++;
 				}
 			}
@@ -617,7 +609,7 @@ public class ScreenMapEditor extends Screen {
 				openMenu = MENU_TRIGGER;
 				int i = 0;
 				for (Trigger t : triggerRegistry) {
-					addButton("" + i,new Rectangle(308 + (42 * i), 436, 32, 32));
+					addButton(String.valueOf(i),new Rectangle(308 + (42 * i), 436, 32, 32));
 					i++;
 				}
 			}
@@ -657,8 +649,7 @@ public class ScreenMapEditor extends Screen {
 			int x = 0, y = 0;
 			currentTile = Tile.tiles[Integer.parseInt(name)];
 			for (Tile t : Tile.tiles) {
-				removeButton(new Rectangle(14 + (42 * x), 227 + (42 * y),
-						32, 32));
+				removeButton(new Rectangle(14 + (42 * x), 227 + (42 * y),32, 32));
 				x++;
 				if (45 * x > 400) {
 					y++;
@@ -686,13 +677,31 @@ public class ScreenMapEditor extends Screen {
 		}
 
 	}
+	
+	public void keyPressed(KeyEvent arg0) {
+		if(arg0.getKeyCode() == KeyEvent.VK_RIGHT)
+		{
+			xScroll+=2;
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_LEFT)
+		{
+			xScroll-=2;
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_UP)
+		{
+			yScroll-=2;
+		}
+		if(arg0.getKeyCode() == KeyEvent.VK_DOWN)
+		{
+			yScroll+=2;
+		}
+	
+	}
 
 	private void openFile() {
-		JFileChooser fileChooser = new JFileChooser(new File(
-				FileSaver.getCleanPath() + "/maps/"));
+		JFileChooser fileChooser = new JFileChooser(new File(FileSaver.getCleanPath() + "/maps/"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
-		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"Substrate Map File", "smf");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Substrate Map File", "smf");
 		fileChooser.setFileFilter(filter);
 
 		if (fileChooser.showOpenDialog(new JFrame("Open")) == JFileChooser.APPROVE_OPTION) {
@@ -702,8 +711,7 @@ public class ScreenMapEditor extends Screen {
 			try {
 				this.entities = FileSaver.serialToEntity(loadedMap.entities,
 						game);
-			} catch (ClassNotFoundException | InstantiationException
-					| IllegalAccessException e) {
+			} catch (ClassNotFoundException | InstantiationException| IllegalAccessException e) {
 				Game.log("Could not parse entities... Invalid entity");
 				e.printStackTrace();
 			}

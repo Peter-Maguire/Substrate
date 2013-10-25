@@ -5,6 +5,7 @@ import game.tile.Tile;
 import game.triggers.Trigger;
 
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -19,11 +20,14 @@ public class Map implements Serializable {
 	public String name = "Corrupted map", desc = "This map is corrupted", version = "v0.0.0";
 	public boolean isLocked = true, isLevel = false;
 	public int tx, ty, ts;
+	public int xTiles = Game.XTILES;
+	public int yTiles = Game.YTILES;
 	public String hint;
 	
 
 	//public HashMap<Rectangle, Tile> tiles = new HashMap<Rectangle, Tile>();
-	public Tile[][] tiles = new Tile[Game.XTILES][Game.YTILES];
+	
+	public Tile[][] tiles = new Tile[xTiles][yTiles];
 	public ArrayList<SerialEntity> entities = new ArrayList<SerialEntity>();
 	public ArrayList<Trigger> triggers = new ArrayList<Trigger>();
 
