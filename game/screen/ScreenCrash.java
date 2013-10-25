@@ -33,4 +33,9 @@ public class ScreenCrash extends Screen {
 
 	}
 
+	@Override
+	public void tick()
+	{
+	}
+
 }

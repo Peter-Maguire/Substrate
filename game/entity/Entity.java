@@ -25,7 +25,6 @@ public class Entity implements Serializable {
 	}
 
 	public Entity() {
-
 	}
 
 	public void tick() {
@@ -41,10 +40,8 @@ public class Entity implements Serializable {
 		this.y = y;
 	}
 
-	public void render(Graphics g) {
-
-		g.drawImage(game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,
-				16 * Game.SCALE, game);
+	public void render(Graphics g) {	
+		g.drawImage(game.sheetEntities.getImage(sprite), x, y, 16 * Game.SCALE,16 * Game.SCALE, game);
 	}
 
 	/**
@@ -57,7 +54,6 @@ public class Entity implements Serializable {
 	 * @return If the movement is successful
 	 */
 	public boolean tryMoveEntity(int x, int y) {
-
 		if (x == 0 && y == 0)
 			return false;
 		if ((this.x + x) - Game.SCALE == Game.WIDTH || (this.y + y) - Game.SCALE == Game.HEIGHT)
@@ -72,7 +68,6 @@ public class Entity implements Serializable {
 	}
 
 	public void onCollideWithPlayer(int x, int y, Player p) {
-
 	}
 
 	public void onDeath() {

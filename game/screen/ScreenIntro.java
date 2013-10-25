@@ -101,4 +101,9 @@ public class ScreenIntro extends Screen {
 		}
 	}
 
+	@Override
+	public void tick()
+	{
+	}
+
 }

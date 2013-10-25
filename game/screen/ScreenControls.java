@@ -30,4 +30,9 @@ public class ScreenControls extends Screen {
 
 	}
 
+	@Override
+	public void tick()
+	{
+	}
+
 }

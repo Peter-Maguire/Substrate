@@ -17,4 +17,9 @@ public class ScreenLoading extends Screen {
 
 	}
 
+	@Override
+	public void tick()
+	{
+	}
+
 }

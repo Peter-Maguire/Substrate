@@ -47,6 +47,12 @@ public class ScreenWin extends Screen{
 		}
 	}
 
+
+	@Override
+	public void tick()
+	{
+	}
+
 	
 	
 	
