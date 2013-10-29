@@ -14,7 +14,7 @@ public class TileDoor extends Tile
 		this.active = active;
 		this.vertical = vertical;
 		this.canPassThrough = active;
-		tileName = "Door";
+		tileName = "Door "+(vertical ? " vertical ": " horizontal ")+(active ? "active " : "inactive ");
 
 	}
 

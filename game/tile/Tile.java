@@ -24,7 +24,7 @@ public class Tile implements Serializable {
 			new TileWall(TileWall.WALL_VERTICAL_BOTTOM),
 			new TileWall(TileWall.WALL_VERTICAL_TOP),
 			new TileWater(),
-			new TileNoTile(),
+			new TileNoTile(), //CAN BE CHANGED
 			new TileRubble(TileRubble.RUBBLE_VERTICAL_TOP),
 			new TileRubble(TileRubble.RUBBLE_VERTICAL_MIDDLE),
 			new TileRubble(TileRubble.RUBBLE_VERTICAL_BOTTOM),
@@ -63,7 +63,9 @@ public class Tile implements Serializable {
 			new TileWall(TileWall.WALL_FULL_TOP),
 			new TileWall(TileWall.WALL_FULL_LEFT_MIDDLE),
 			new TileWall(TileWall.WALL_FULL_RIGHT_MIDDLE),
-			new TileWall(TileWall.WALL_FULL_BOTTOM_MIDDLE),};
+			new TileWall(TileWall.WALL_FULL_BOTTOM_MIDDLE),
+			new TileConveyor(TileConveyor.TILE_CON_TOP, false),
+			new TileConveyor(TileConveyor.TILE_CON_TOP, true)};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;
