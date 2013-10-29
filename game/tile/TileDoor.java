@@ -7,7 +7,6 @@ public class TileDoor extends Tile
 {
 	int animStage = 0;
 	boolean active, vertical;
-	public String tileName = "Door";
 	int startSprite;
 	public TileDoor(boolean active, boolean vertical){
 		sprite = vertical ? 50 : 51;
@@ -15,6 +14,7 @@ public class TileDoor extends Tile
 		this.active = active;
 		this.vertical = vertical;
 		this.canPassThrough = active;
+		tileName = "Door";
 
 	}
 

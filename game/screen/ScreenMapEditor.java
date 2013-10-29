@@ -369,6 +369,8 @@ public class ScreenMapEditor extends Screen {
 					try{
 						if(openMenu == MENU_TOOL)
 							game.getFontRenderer().drawString(toolRegistry.get(Integer.parseInt(getButtons().get(rec))).getToolName(), mx, my, 1);
+						if(openMenu == MENU_TILE)
+							game.getFontRenderer().drawString(Tile.tiles[Integer.parseInt(getButtons().get(rec))].tileName, mx, my, 1);
 					}catch(NumberFormatException e)
 					{
 						break;

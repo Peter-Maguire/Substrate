@@ -17,7 +17,7 @@ public class TileRubble extends Tile {
 	public TileRubble(int sprite) {
 		this.sprite = sprite;
 		canPassThrough = true;
+		String tileName = "Rubble "+sprite;
 	}
-	public String tileName = "Rubble "+sprite;
 
 }
