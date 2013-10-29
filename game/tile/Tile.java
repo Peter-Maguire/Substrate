@@ -53,7 +53,17 @@ public class Tile implements Serializable {
 			new TileWall(TileWall.WALL_TJUNC_LEFT),
 			new TileWall(TileWall.WALL_TJUNC_UP),
 			new TileWall(TileWall.WALL_TJUNC_DOWN),
-			new TileWall(TileWall.WALL_XJUNC)};
+			new TileWall(TileWall.WALL_XJUNC),
+			new TileWall(TileWall.WALL_FULL_BOTTOM_LEFT),
+			new TileWall(TileWall.WALL_FULL_BOTTOM_RIGHT),
+			new TileWall(TileWall.WALL_FULL_BOTTOM_MIDDLE),
+			new TileWall(TileWall.WALL_FULL_LEFT),
+			new TileWall(TileWall.WALL_FULL_RIGHT),
+			new TileWall(TileWall.WALL_FULL_MIDDLE),
+			new TileWall(TileWall.WALL_FULL_TOP),
+			new TileWall(TileWall.WALL_FULL_LEFT_MIDDLE),
+			new TileWall(TileWall.WALL_FULL_RIGHT_MIDDLE),
+			new TileWall(TileWall.WALL_FULL_BOTTOM_MIDDLE),};
 
 	boolean canPassThrough = true;
 	public int sprite = 0;

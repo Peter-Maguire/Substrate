@@ -26,10 +26,20 @@ public class TileWall extends Tile {
 	public static final int WALL_XJUNC = 54;
 	public static final int WALL_TJUNC_UP = 68;
 	public static final int WALL_TJUNC_LEFT = 69;
-	public String tileName = "Wall "+sprite;
+	
+	public static final int WALL_FULL_LEFT = 55;
+	public static final int WALL_FULL_TOP = 56;
+	public static final int WALL_FULL_RIGHT = 57;
+	public static final int WALL_FULL_RIGHT_MIDDLE = 71;
+	public static final int WALL_FULL_MIDDLE = 72;
+	public static final int WALL_FULL_LEFT_MIDDLE = 73;
+	public static final int WALL_FULL_BOTTOM_LEFT = 86;
+	public static final int WALL_FULL_BOTTOM_MIDDLE = 87;
+	public static final int WALL_FULL_BOTTOM_RIGHT = 88;
 	public TileWall(int typ) {
 		sprite = typ;
 		canPassThrough = false;
+		tileName = "Wall "+sprite;
 
 	}
 
