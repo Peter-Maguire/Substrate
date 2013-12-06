@@ -116,7 +116,7 @@ public class ScreenOptions extends Screen {
 			return;
 		}
 		if (action.equals("launchStats")) {
-		//	game.setScreen(); FIXME: Stat screen
+			game.setScreen(new ScreenStats(w, h, sheet)); 
 			return;
 		}
 		if (action.equals("save")) {

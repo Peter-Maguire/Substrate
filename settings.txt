@@ -1,12 +1,12 @@
 #Substrate Property File. 
 UseFontRecolouring: ON
-GatherStats: ON
 Cheats: ON
+GatherStats: ON
 SubmitTimes: ON
 Volume: 100
-Music: OFF
 Sound: OFF
+Music: OFF
 ExperimentalFont: ON
 Debug: ON
-ExtendedDebug: OFF
 HasDoneIntro: ON
+ExtendedDebug: OFF
